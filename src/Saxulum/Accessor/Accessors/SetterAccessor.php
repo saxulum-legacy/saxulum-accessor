@@ -15,14 +15,14 @@ class SetterAccessor implements AccessorInterface
     }
 
     /**
-     * @param object $object
-     * @param mixed $property
-     * @param array $arguments
+     * @param  object $object
+     * @param  mixed  $property
+     * @param  array  $arguments
      * @return mixed
      */
     public function callback($object, &$property, $arguments)
     {
-        if(!isset($arguments[0]) || count($arguments) !== 1) {
+        if (!isset($arguments[0]) || count($arguments) !== 1) {
             throw new \InvalidArgumentException("Setter Accessor allows only one argument!");
         }
 

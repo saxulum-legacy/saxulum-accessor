@@ -11,9 +11,10 @@ trait AccessorTrait
 
     final public function __call($name, array $arguments = array())
     {
-        foreach($this->accessors as $accessor) {
-            if(strpos($name, $accessor->getPrefix()) === 0) {
+        foreach ($this->accessors as $accessor) {
+            if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
+
                 return $accessor->callback($this, $this->$property, $arguments);
             }
         }
@@ -22,7 +23,7 @@ trait AccessorTrait
     }
 
     /**
-     * @param AccessorInterface $accessor
+     * @param  AccessorInterface $accessor
      * @return $this
      * @throws \Exception
      */
@@ -30,7 +31,7 @@ trait AccessorTrait
     {
         $prefix = $accessor->getPrefix();
 
-        if(isset($this->accessors[$prefix])) {
+        if (isset($this->accessors[$prefix])) {
             throw new \Exception("Override Accessor is not allowed, to enhance stability!");
         }
 
