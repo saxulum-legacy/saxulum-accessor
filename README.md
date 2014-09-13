@@ -27,6 +27,14 @@ Usage
 -----
 
 ``` {.php}
+/**
+ * @method $this setName(string $name)
+ * @method string getName()
+ * @method boolean isName()
+ * @method $this setValue(string $value)
+ * @method string getValue()
+ * @method boolean isValue()
+ */
 class MyObject
 {
     use AccessorTrait;
