@@ -3,7 +3,8 @@
 namespace Saxulum\Tests\Accessor;
 
 use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
-use Saxulum\Tests\Accessor\Helpers\GetterSetterAccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\SetterAccessorHelper;
 
 class AccessorTest extends \PHPUnit_Framework_TestCase
@@ -20,6 +21,18 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
+    public function testIsAccessor()
+    {
+        $helper = new IsAccesorHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertTrue($helper->isName());
+        $this->assertTrue($helper->isValue());
+    }
+
     public function testSetterAccessor()
     {
         $helper = new SetterAccessorHelper();
@@ -34,7 +47,7 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetterSetterAccessor()
     {
-        $helper = new GetterSetterAccessorHelper();
+        $helper = new GetterSetterIsAccessorHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -42,5 +55,7 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('name', $helper->getName());
         $this->assertEquals('value', $helper->getValue());
+        $this->assertTrue($helper->isName());
+        $this->assertTrue($helper->isValue());
     }
 }

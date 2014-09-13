@@ -2,8 +2,8 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
+use Saxulum\Accessor\Accessors\SetterAccessor;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\SetterAccessor;
 
 /**
  * @method $this setName(string $name)

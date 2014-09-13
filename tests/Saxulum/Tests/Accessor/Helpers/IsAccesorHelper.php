@@ -2,14 +2,14 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\GetterAccessor;
+use Saxulum\Accessor\Accessors\IsAccessor;
 use Saxulum\Accessor\AccessorTrait;
 
 /**
- * @method string getName()
- * @method string getValue()
+ * @method bool isName()
+ * @method bool isValue()
  */
-class GetterAccesorHelper
+class IsAccesorHelper
 {
     use AccessorTrait;
 
@@ -25,7 +25,7 @@ class GetterAccesorHelper
 
     public function __construct()
     {
-        $this->addAccessor(new GetterAccessor());
+        $this->addAccessor(new IsAccessor());
     }
 
     /**

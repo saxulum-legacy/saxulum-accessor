@@ -13,10 +13,8 @@ trait AccessorTrait
     {
         foreach($this->accessors as $accessor) {
             if(strpos($name, $accessor->getPrefix()) === 0) {
-                $callback = $accessor->callback();
-                $callback->bindTo($this);
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-                return $callback($this, $this->$property, $arguments);
+                return $accessor->callback($this, $this->$property, $arguments);
             }
         }
 

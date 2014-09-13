@@ -10,7 +10,10 @@ interface AccessorInterface
     public function getPrefix();
 
     /**
-     * @return callable($object, &$property, $arguments)
+     * @param object $object
+     * @param mixed $property
+     * @param array $arguments
+     * @return mixed
      */
-    public function callback();
+    public function callback($object, &$property, $arguments);
 }
