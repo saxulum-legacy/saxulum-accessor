@@ -2,8 +2,8 @@ saxulum-accessor
 ================
 
 [![Build Status](https://api.travis-ci.org/saxulum/saxulum-accessor.png?branch=master)](https://travis-ci.org/saxulum/saxulum-accessor)
-[![Total Downloads](https://poser.pugx.org/saxulum/saxulum-accessor/downloads.png)](https://packagist.org/packages/saxulum/saxulum-accessor)
-[![Latest Stable Version](https://poser.pugx.org/saxulum/saxulum-accessor/v/stable.png)](https://packagist.org/packages/saxulum/saxulum-accessor)
+[![Total Downloads](https://poser.pugx.org/saxulum/accessor/downloads.png)](https://packagist.org/packages/saxulum/accessor)
+[![Latest Stable Version](https://poser.pugx.org/saxulum/accessor/v/stable.png)](https://packagist.org/packages/saxulum/accessor)
 
 Features
 --------
