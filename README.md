@@ -51,9 +51,11 @@ class MyObject
 
     public function __construct()
     {
-        $this->addAccessor(new GetterAccessor());
-        $this->addAccessor(new IsAccessor());
-        $this->addAccessor(new SetterAccessor());
+        $this
+            ->addAccessor(new GetterAccessor())
+            ->addAccessor(new IsAccessor())
+            ->addAccessor(new SetterAccessor())
+        ;
     }
 }
 

@@ -24,7 +24,7 @@ trait AccessorTrait
 
     /**
      * @param  AccessorInterface $accessor
-     * @return $this
+     * @return self
      * @throws \Exception
      */
     final public function addAccessor(AccessorInterface $accessor)
