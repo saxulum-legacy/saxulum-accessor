@@ -79,4 +79,12 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
         $helper->isName();
     }
+
+    public function testPropertyNotExisting()
+    {
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper::getNotExistingProperty()');
+
+        $helper = new GetterAccesorHelper();
+        $helper->getNotExistingProperty();
+    }
 }

@@ -15,6 +15,10 @@ trait AccessorTrait
             $accessor = $this->findAccessor($name);
             $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
 
+            if (! property_exists($this, $property)) {
+                throw new \Exception();
+            }
+
             return $accessor->callback($this, $this->$property, $arguments);
         } catch (\Exception $e) {
             throw new \Exception('Call to undefined method ' . __CLASS__ . '::' . $name . '()');
