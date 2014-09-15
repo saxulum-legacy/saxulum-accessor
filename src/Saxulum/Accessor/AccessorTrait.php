@@ -15,7 +15,9 @@ trait AccessorTrait
             if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
 
-                return $accessor->callback($this, $this->$property, $arguments);
+                if (property_exists(__CLASS__, $property)) {
+                    return $accessor->callback($this, $this->$property, $arguments);
+                }
             }
         }
 
