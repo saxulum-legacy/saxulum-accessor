@@ -3,6 +3,7 @@
 namespace Saxulum\Tests\Accessor;
 
 use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterAccessorHelperWithTrait;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
 use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
@@ -16,30 +17,6 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
     public function testGetterAccessor()
     {
         $helper = new GetterAccesorHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
-
-        $this->assertEquals('name', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
-
-    public function testIsAccessor()
-    {
-        $helper = new IsAccesorHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
-
-        $this->assertTrue($helper->isName());
-        $this->assertTrue($helper->isValue());
-    }
-
-    public function testSetterAccessor()
-    {
-        $helper = new SetterAccessorHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -72,6 +49,40 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals('name_override', $helper->getName());
+        $this->assertEquals('value', $helper->getValue());
+    }
+
+    public function testGetterAccessorHelperWithTrait()
+    {
+        $helper = new GetterAccessorHelperWithTrait();
+        $helper
+            ->setName('name')
+        ;
+
+        $this->assertEquals('name', $helper->getName());
+    }
+
+    public function testIsAccessor()
+    {
+        $helper = new IsAccesorHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertTrue($helper->isName());
+        $this->assertTrue($helper->isValue());
+    }
+
+    public function testSetterAccessor()
+    {
+        $helper = new SetterAccessorHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertEquals('name', $helper->getName());
         $this->assertEquals('value', $helper->getValue());
     }
 
