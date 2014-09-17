@@ -74,6 +74,18 @@ $object->isValue();
 
 ```
 
+Arguments
+---------
+
++ less code to write
++ less code to debug
++ code is clearer
+
+- no autogeneration of `@method` phpdoc
+- slower (no benchmark)
+- more complex
+
+
 Copyright
 ---------
 * Dominik Zogg <dominik.zogg@gmail.com>
