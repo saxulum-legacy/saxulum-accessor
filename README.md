@@ -128,6 +128,7 @@ Cons:
 - no autogeneration of `@method` phpdoc
 - slower (no benchmark)
 - more complex
+- `method_exists` does not work, use `is_callable` instead, which is better, cause it depends on access rights, which `method_exists` doesn't
 
 
 Copyright
