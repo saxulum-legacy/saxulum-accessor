@@ -3,9 +3,12 @@
 namespace Saxulum\Tests\Accessor;
 
 use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
 use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverridingGetterAccesorHelper;
+use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendHelper;
+use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendParentCallHelper;
 use Saxulum\Tests\Accessor\Helpers\SetterAccessorHelper;
 
 class AccessorTest extends \PHPUnit_Framework_TestCase
@@ -46,7 +49,7 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
-    public function testGetterSetterAccessor()
+    public function testGetterSetterIsAccessor()
     {
         $helper = new GetterSetterIsAccessorHelper();
         $helper
@@ -58,6 +61,42 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
         $this->assertTrue($helper->isName());
         $this->assertTrue($helper->isValue());
+    }
+
+    public function testGetterAccessorOverride()
+    {
+        $helper = new GetterAccessorOverrideHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertEquals('name_override', $helper->getName());
+        $this->assertEquals('value', $helper->getValue());
+    }
+
+    public function testSetterAccessorExtend()
+    {
+        $helper = new SetterAccessorExtendHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertEquals('name_override', $helper->getName());
+        $this->assertEquals('value', $helper->getValue());
+    }
+
+    public function testSetterAccessorExtendParentCall()
+    {
+        $helper = new SetterAccessorExtendParentCallHelper();
+        $helper
+            ->setName('name')
+            ->setValue('value')
+        ;
+
+        $this->assertEquals('name_override', $helper->getName());
+        $this->assertEquals('value', $helper->getValue());
     }
 
     public function testOverridingAccessor()
