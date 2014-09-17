@@ -77,13 +77,18 @@ $object->isValue();
 Arguments
 ---------
 
-- `+` less code to write
-- `+` less code to debug
-- `+` code is clearer
+Pros:
 
-- `-` no autogeneration of `@method` phpdoc
-- `-` slower (no benchmark)
-- `-` more complex
+- less code to write
+- less code to debug
+- clearer
+
+Cons:
+
+- no autogeneration of `@method` phpdoc
+- slower (no benchmark)
+- more complex
+
 
 Copyright
 ---------
