@@ -14,9 +14,11 @@ trait AccessorTrait
         foreach ($this->accessors as $accessor) {
             if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-
+                $allowedProperties = $accessor->getProperties();
                 if (property_exists(__CLASS__, $property)) {
-                    return $accessor->callback($this, $this->$property, $arguments);
+                    if (null === $allowedProperties || in_array($property, $allowedProperties)) {
+                        return $accessor->callback($this, $this->$property, $arguments);
+                    }
                 }
             }
         }

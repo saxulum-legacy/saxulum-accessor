@@ -2,9 +2,9 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AccessorInterface;
+use Saxulum\Accessor\AbstractAccessor;
 
-class IsAccessor implements AccessorInterface
+class IsAccessor extends AbstractAccessor
 {
     /**
      * @return string

@@ -27,6 +27,8 @@ Through [Composer](http://getcomposer.org) as [saxulum/accessor][5].
 Usage
 -----
 
+If you like to allow getter/is/setter on all properties:
+
 ``` {.php}
 /**
  * @method $this setName(string $name)
@@ -71,7 +73,45 @@ $object->getValue();
 
 $object->isName();
 $object->isValue();
+```
 
+If you like to allow getter/is/setter only on property `name`:
+
+``` {.php}
+/**
+ * @method $this setName(string $name)
+ * @method string getName()
+ * @method boolean isName()
+ */
+class MyObject
+{
+    use AccessorTrait;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $value;
+
+    public function __construct()
+    {
+        $this
+            ->addAccessor((new GetterAccessor())->setProperties(array('name')))
+            ->addAccessor((new IsAccessor())->setProperties(array('name')))
+            ->addAccessor((new SetterAccessor())->setProperties(array('name')))
+        ;
+    }
+}
+
+$object = new MyObject();
+
+$object->setName('name');
+$object->getName();
+$object->isName();
 ```
 
 Arguments

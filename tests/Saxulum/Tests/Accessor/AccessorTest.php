@@ -6,6 +6,7 @@ use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorHelperWithTrait;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper;
 use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverridingGetterAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendHelper;
@@ -60,6 +61,29 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals('name', $helper->getName());
+    }
+
+    public function testGetterSetterIsAccessorWithRestrictionHelper()
+    {
+        $helper = new GetterSetterIsAccessorWithRestrictionHelper();
+
+        $helper->setName('name');
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::setValue()');
+
+        $helper->setValue('value');
+
+        $this->assertEquals('name', $helper->getName());
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::getValue()');
+
+        $this->assertEquals('value', $helper->getValue());
+
+        $this->assertTrue($helper->isName());
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::isValue()');
+
+        $this->assertTrue($helper->isValue());
     }
 
     public function testIsAccessor()
