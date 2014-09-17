@@ -136,6 +136,12 @@ Copyright
 * Dominik Zogg <dominik.zogg@gmail.com>
 
 
+Contributors
+------------
+* Dominik Zogg
+* Patrick Landolt
+
+
 [1]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php
 [2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/GetterAccessor.php
 [3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/IsAccessor.php
