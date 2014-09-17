@@ -5,7 +5,7 @@ namespace Saxulum\Accessor;
 trait AccessorTrait
 {
     /**
-     * @var AccessorInterface[]
+     * @var AbstractAccessor[]
      */
     private $accessors = array();
 
@@ -14,11 +14,8 @@ trait AccessorTrait
         foreach ($this->accessors as $accessor) {
             if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-                $allowedProperties = $accessor->getProperties();
-                if (property_exists(__CLASS__, $property)) {
-                    if (null === $allowedProperties || in_array($property, $allowedProperties)) {
-                        return $accessor->callback($this, $this->$property, $arguments);
-                    }
+                if (property_exists(__CLASS__, $property) && $accessor->isAllowedProperty($property)) {
+                    return $accessor->callback($this, $this->$property, $arguments);
                 }
             }
         }
@@ -27,11 +24,11 @@ trait AccessorTrait
     }
 
     /**
-     * @param  AccessorInterface $accessor
+     * @param  AbstractAccessor $accessor
      * @return static
      * @throws \Exception
      */
-    final public function addAccessor(AccessorInterface $accessor)
+    final public function addAccessor(AbstractAccessor $accessor)
     {
         $prefix = $accessor->getPrefix();
 

@@ -5,8 +5,9 @@ namespace Saxulum\Tests\Accessor;
 use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorHelperWithTrait;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorBlackListHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
-use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper;
+use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWhiteListHelper;
 use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverridingGetterAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendHelper;
@@ -63,25 +64,48 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('name', $helper->getName());
     }
 
-    public function testGetterSetterIsAccessorWithRestrictionHelper()
+    public function testGetterSetterIsAccessorWhiteListHelper()
     {
-        $helper = new GetterSetterIsAccessorWithRestrictionHelper();
+        $helper = new GetterSetterIsAccessorWhiteListHelper();
 
         $helper->setName('name');
 
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::setValue()');
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWhiteListHelper::setValue()');
 
         $helper->setValue('value');
 
         $this->assertEquals('name', $helper->getName());
 
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::getValue()');
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWhiteListHelper::getValue()');
 
         $this->assertEquals('value', $helper->getValue());
 
         $this->assertTrue($helper->isName());
 
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWithRestrictionHelper::isValue()');
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorWhiteListHelper::isValue()');
+
+        $this->assertTrue($helper->isValue());
+    }
+
+    public function testGetterSetterIsAccessorBlackListHelper()
+    {
+        $helper = new GetterSetterIsAccessorBlackListHelper();
+
+        $helper->setName('name');
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorBlackListHelper::setValue()');
+
+        $helper->setValue('value');
+
+        $this->assertEquals('name', $helper->getName());
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorBlackListHelper::getValue()');
+
+        $this->assertEquals('value', $helper->getValue());
+
+        $this->assertTrue($helper->isName());
+
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorBlackListHelper::isValue()');
 
         $this->assertTrue($helper->isValue());
     }

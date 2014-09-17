@@ -12,7 +12,7 @@ use Saxulum\Accessor\AccessorTrait;
  * @method string getName()
  * @method boolean isName()
  */
-class GetterSetterIsAccessorWithRestrictionHelper
+class GetterSetterIsAccessorWhiteListHelper
 {
     use AccessorTrait;
 
@@ -29,9 +29,9 @@ class GetterSetterIsAccessorWithRestrictionHelper
     public function __construct()
     {
         $this
-            ->addAccessor((new GetterAccessor())->setProperties(array('name')))
-            ->addAccessor((new IsAccessor())->setProperties(array('name')))
-            ->addAccessor((new SetterAccessor())->setProperties(array('name')))
+            ->addAccessor((new GetterAccessor())->properties(array('name')))
+            ->addAccessor((new IsAccessor())->properties(array('name')))
+            ->addAccessor((new SetterAccessor())->properties(array('name')))
         ;
     }
 }

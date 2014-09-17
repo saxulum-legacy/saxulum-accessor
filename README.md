@@ -75,7 +75,7 @@ $object->isName();
 $object->isValue();
 ```
 
-If you like to allow getter/is/setter only on property `name`:
+If you like to whitelist getter/is/setter for property `name`:
 
 ``` {.php}
 /**
@@ -100,9 +100,57 @@ class MyObject
     public function __construct()
     {
         $this
-            ->addAccessor((new GetterAccessor())->setProperties(array('name')))
-            ->addAccessor((new IsAccessor())->setProperties(array('name')))
-            ->addAccessor((new SetterAccessor())->setProperties(array('name')))
+            ->addAccessor((new GetterAccessor())->properties(array('name')))
+            ->addAccessor((new IsAccessor())->properties(array('name')))
+            ->addAccessor((new SetterAccessor())->properties(array('name')))
+        ;
+    }
+}
+
+$object = new MyObject();
+
+$object->setName('name');
+$object->getName();
+$object->isName();
+```
+
+If you like to blacklist getter/is/setter for property `value`:
+
+``` {.php}
+/**
+ * @method $this setName(string $name)
+ * @method string getName()
+ * @method boolean isName()
+ */
+class MyObject
+{
+    use AccessorTrait;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $value;
+
+    public function __construct()
+    {
+        $this
+            ->addAccessor((new GetterAccessor())
+                ->properties(array('value'))
+                ->mode(AbstractAccessor::MODE_BLACKLIST)
+            )
+            ->addAccessor((new IsAccessor())
+                ->properties(array('value'))
+                ->mode(AbstractAccessor::MODE_BLACKLIST)
+            )
+            ->addAccessor((new SetterAccessor())
+                ->properties(array('value'))
+                ->mode(AbstractAccessor::MODE_BLACKLIST)
+            )
         ;
     }
 }
