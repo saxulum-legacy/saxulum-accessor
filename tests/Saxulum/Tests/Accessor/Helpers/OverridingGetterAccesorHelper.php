@@ -11,7 +11,9 @@ class OverridingGetterAccesorHelper
 
     public function __construct()
     {
-        $this->addAccessor(new GetterAccessor());
-        $this->addAccessor(new GetterAccessor());
+        $this
+            ->addAccessor(new GetterAccessor())
+            ->addAccessor(new GetterAccessor())
+        ;
     }
 }
