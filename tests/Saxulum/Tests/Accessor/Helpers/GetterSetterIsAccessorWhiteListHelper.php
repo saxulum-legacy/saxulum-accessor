@@ -29,9 +29,9 @@ class GetterSetterIsAccessorWhiteListHelper
     public function __construct()
     {
         $this
-            ->addAccessor((new GetterAccessor())->properties(array('name')))
-            ->addAccessor((new IsAccessor())->properties(array('name')))
-            ->addAccessor((new SetterAccessor())->properties(array('name')))
+            ->addAccessor((new GetterAccessor())->addProperty('name'))
+            ->addAccessor((new IsAccessor())->addProperty('name'))
+            ->addAccessor((new SetterAccessor())->addProperty('name'))
         ;
     }
 }

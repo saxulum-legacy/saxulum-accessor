@@ -31,15 +31,15 @@ class GetterSetterIsAccessorBlackListHelper
     {
         $this
             ->addAccessor((new GetterAccessor())
-                ->properties(array('value'))
+                ->addProperty('value')
                 ->mode(AbstractAccessor::MODE_BLACKLIST)
             )
             ->addAccessor((new IsAccessor())
-                ->properties(array('value'))
+                ->addProperty('value')
                 ->mode(AbstractAccessor::MODE_BLACKLIST)
             )
             ->addAccessor((new SetterAccessor())
-                ->properties(array('value'))
+                ->addProperty('value')
                 ->mode(AbstractAccessor::MODE_BLACKLIST)
             )
         ;

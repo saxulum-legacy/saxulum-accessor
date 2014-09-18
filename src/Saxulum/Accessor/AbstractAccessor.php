@@ -18,12 +18,20 @@ abstract class AbstractAccessor
     protected $mode = self::MODE_WHITELIST;
 
     /**
-     * @param  array|null $properties
-     * @return static
+     * @param  string $property
+     * @return $this
      */
-    public function properties(array $properties = null)
+    public function addProperty($property)
     {
-        $this->properties = $properties;
+        if (!is_string($property)) {
+            throw new \InvalidArgumentException("Property must be a string!");
+        }
+
+        if (null === $this->properties) {
+            $this->properties = array();
+        }
+
+        $this->properties[] = $property;
 
         return $this;
     }
@@ -57,9 +65,19 @@ abstract class AbstractAccessor
      */
     public function isAllowedProperty($property)
     {
-        if(null === $this->properties
-        || ($this->mode === self::MODE_BLACKLIST && !in_array($property, $this->properties))
-        || ($this->mode === self::MODE_WHITELIST && in_array($property, $this->properties))) {
+        if (!is_string($property)) {
+            throw new \InvalidArgumentException("Property must be a string!");
+        }
+
+        if (null === $this->properties) {
+            return true;
+        }
+
+        if ($this->mode === self::MODE_BLACKLIST && !in_array($property, $this->properties)) {
+            return true;
+        }
+
+        if ($this->mode === self::MODE_WHITELIST && in_array($property, $this->properties)) {
             return true;
         }
 
