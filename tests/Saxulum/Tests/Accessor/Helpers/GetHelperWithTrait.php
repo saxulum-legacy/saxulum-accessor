@@ -12,7 +12,7 @@ class GetHelperWithTrait
 {
     use GetTrait;
 
-    public function __construct()
+    protected function initializeProperties()
     {
         $this->prop((new Prop('name'))->method(Get::PREFIX));
     }

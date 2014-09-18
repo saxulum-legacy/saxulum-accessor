@@ -11,7 +11,6 @@ use Saxulum\Tests\Accessor\Helpers\GetHelperWithTrait;
 use Saxulum\Tests\Accessor\Helpers\GetOverrideHelper;
 use Saxulum\Tests\Accessor\Helpers\GetSetIsHelper;
 use Saxulum\Tests\Accessor\Helpers\IsHelper;
-use Saxulum\Tests\Accessor\Helpers\OverridingGetHelper;
 use Saxulum\Tests\Accessor\Helpers\SetExtendHelper;
 use Saxulum\Tests\Accessor\Helpers\SetExtendParentCallHelper;
 use Saxulum\Tests\Accessor\Helpers\SetHelper;
@@ -127,7 +126,7 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
 
-        new OverridingGetHelper();
+        AccessorTrait::registerAccessor(new Get());
     }
 
     public function testNoAccessorMethod()

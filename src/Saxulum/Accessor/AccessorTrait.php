@@ -10,12 +10,22 @@ trait AccessorTrait
     private static $accessors = array();
 
     /**
+     * @var bool
+     */
+    private $initializedProperties = false;
+
+    /**
      * @var Prop[]
      */
     private $properties = array();
 
     final public function __call($name, array $arguments = array())
     {
+        if (false === $this->initializedProperties) {
+            $this->initializedProperties = true;
+            $this->initializeProperties();
+        }
+
         foreach (self::$accessors as $prefix => $accessor) {
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
@@ -38,6 +48,8 @@ trait AccessorTrait
 
         throw new \Exception('Call to undefined method ' . __CLASS__ . '::' . $name . '()');
     }
+
+    abstract protected function initializeProperties();
 
     /**
      * @param  Prop       $property

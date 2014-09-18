@@ -30,7 +30,7 @@ class GetSetIsHelper
      */
     protected $value;
 
-    public function __construct()
+    protected function initializeProperties()
     {
         $this
             ->prop((new Prop('name'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))

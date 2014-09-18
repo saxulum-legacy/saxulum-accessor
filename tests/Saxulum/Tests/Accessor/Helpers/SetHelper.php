@@ -24,7 +24,7 @@ class SetHelper
      */
     protected $value;
 
-    public function __construct()
+    protected function initializeProperties()
     {
         $this
             ->prop((new Prop('name'))->method(Set::PREFIX))
