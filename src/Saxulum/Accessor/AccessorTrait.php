@@ -7,15 +7,31 @@ trait AccessorTrait
     /**
      * @var AbstractAccessor[]
      */
-    private $accessors = array();
+    private static $accessors = array();
+
+    /**
+     * @var Prop[]
+     */
+    private $properties = array();
 
     final public function __call($name, array $arguments = array())
     {
-        foreach ($this->accessors as $accessor) {
-            if (strpos($name, $accessor->getPrefix()) === 0) {
-                $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-                if (property_exists(__CLASS__, $property) && $accessor->isAllowedProperty($property)) {
-                    return $accessor->callback($this, $this->$property, $arguments);
+        foreach (self::$accessors as $prefix => $accessor) {
+            if (strpos($name, $prefix) === 0) {
+                $property = lcfirst(substr($name, strlen($prefix)));
+                if (property_exists($this, $property)) {
+                    if (isset($this->properties[$property])) {
+                        $config = $this->properties[$property];
+                        if ($config->hasMethod($prefix)) {
+                            return $accessor->callback(
+                                $this,
+                                $this->$property,
+                                $arguments,
+                                $property,
+                                $config->getHint()
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -24,20 +40,35 @@ trait AccessorTrait
     }
 
     /**
-     * @param  AbstractAccessor $accessor
+     * @param  Prop       $property
      * @return static
      * @throws \Exception
      */
-    final public function addAccessor(AbstractAccessor $accessor)
+    final public function prop(Prop $property)
+    {
+        $name = $property->getName();
+
+        if (isset($this->properties[$name])) {
+            throw new \Exception("Override Property is not allowed, to enhance stability!");
+        }
+
+        $this->properties[$name] = $property;
+
+        return $this;
+    }
+
+    /**
+     * @param  AbstractAccessor $accessor
+     * @throws \Exception
+     */
+    final public static function registerAccessor(AbstractAccessor $accessor)
     {
         $prefix = $accessor->getPrefix();
 
-        if (isset($this->accessors[$prefix])) {
+        if (isset(self::$accessors[$prefix])) {
             throw new \Exception("Override Accessor is not allowed, to enhance stability!");
         }
 
-        $this->accessors[$prefix] = $accessor;
-
-        return $this;
+        self::$accessors[$prefix] = $accessor;
     }
 }

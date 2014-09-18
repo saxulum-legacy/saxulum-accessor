@@ -2,14 +2,15 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\IsAccessor;
+use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\AccessorTrait;
+use Saxulum\Accessor\Prop;
 
 /**
  * @method bool isName()
  * @method bool isValue()
  */
-class IsAccesorHelper
+class IsHelper
 {
     use AccessorTrait;
 
@@ -25,7 +26,10 @@ class IsAccesorHelper
 
     public function __construct()
     {
-        $this->addAccessor(new IsAccessor());
+        $this
+            ->prop((new Prop('name'))->method(Is::PREFIX))
+            ->prop((new Prop('value'))->method(Is::PREFIX))
+        ;
     }
 
     /**

@@ -4,10 +4,7 @@ namespace Saxulum\Tests\Accessor\Helpers;
 
 use Saxulum\Accessor\AccessorTrait;
 
-/**
- * @method string getName()
- */
-trait GetterAccessorTrait
+trait GetTrait
 {
     use AccessorTrait;
 

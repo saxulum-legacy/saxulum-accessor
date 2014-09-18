@@ -2,14 +2,15 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\GetterAccessor;
+use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\AccessorTrait;
+use Saxulum\Accessor\Prop;
 
 /**
  * @method string getName()
  * @method string getValue()
  */
-class GetterAccesorHelper
+class GetHelper
 {
     use AccessorTrait;
 
@@ -25,7 +26,10 @@ class GetterAccesorHelper
 
     public function __construct()
     {
-        $this->addAccessor(new GetterAccessor());
+        $this
+            ->prop((new Prop('name'))->method(Get::PREFIX))
+            ->prop((new Prop('value'))->method(Get::PREFIX))
+        ;
     }
 
     /**

@@ -2,10 +2,11 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\GetterAccessor;
-use Saxulum\Accessor\Accessors\IsAccessor;
-use Saxulum\Accessor\Accessors\SetterAccessor;
+use Saxulum\Accessor\Accessors\Get;
+use Saxulum\Accessor\Accessors\Is;
+use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
+use Saxulum\Accessor\Prop;
 
 /**
  * @method $this setName(string $name)
@@ -15,7 +16,7 @@ use Saxulum\Accessor\AccessorTrait;
  * @method string getValue()
  * @method boolean isValue()
  */
-class GetterSetterIsAccessorHelper
+class GetSetIsHelper
 {
     use AccessorTrait;
 
@@ -32,9 +33,8 @@ class GetterSetterIsAccessorHelper
     public function __construct()
     {
         $this
-            ->addAccessor(new GetterAccessor())
-            ->addAccessor(new IsAccessor())
-            ->addAccessor(new SetterAccessor())
+            ->prop((new Prop('name'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
+            ->prop((new Prop('value'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
         ;
     }
 }

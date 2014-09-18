@@ -5,7 +5,7 @@ namespace Saxulum\Tests\Accessor\Helpers;
 /**
  * @method $this setValue(string $value)
  */
-class SetterAccessorExtendParentCallHelper extends SetterAccessorHelper
+class SetExtendHelper extends SetHelper
 {
     /**
      * @param  string $name
@@ -13,9 +13,7 @@ class SetterAccessorExtendParentCallHelper extends SetterAccessorHelper
      */
     public function setName($name)
     {
-        parent::setName($name);
-
-        $this->name .= '_override';
+        $this->name = $name . '_override';
 
         return $this;
     }
