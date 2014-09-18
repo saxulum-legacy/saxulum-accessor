@@ -4,7 +4,7 @@ namespace Saxulum\Tests\Accessor\Helpers;
 
 use Saxulum\Accessor\Accessors\IsAccessor;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\PropertyConfiguration;
+use Saxulum\Accessor\Property;
 
 /**
  * @method bool isName()
@@ -29,8 +29,8 @@ class IsAccesorHelper
         $isAccessor = new IsAccessor();
         $this->addAccessor($isAccessor);
         $this
-            ->addPropertyConfiguration((new PropertyConfiguration('name'))->addAccessorPrefix($isAccessor->getPrefix()))
-            ->addPropertyConfiguration((new PropertyConfiguration('value'))->addAccessorPrefix($isAccessor->getPrefix()))
+            ->addProperty((new Property('name'))->add($isAccessor->getPrefix()))
+            ->addProperty((new Property('value'))->add($isAccessor->getPrefix()))
         ;
     }
 

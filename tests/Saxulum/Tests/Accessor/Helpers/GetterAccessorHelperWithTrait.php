@@ -3,7 +3,7 @@
 namespace Saxulum\Tests\Accessor\Helpers;
 
 use Saxulum\Accessor\Accessors\GetterAccessor;
-use Saxulum\Accessor\PropertyConfiguration;
+use Saxulum\Accessor\Property;
 
 /**
  * @method string getName()
@@ -16,6 +16,6 @@ class GetterAccessorHelperWithTrait
     {
         $getterAccessor = new GetterAccessor();
         $this->addAccessor($getterAccessor);
-        $this->addPropertyConfiguration((new PropertyConfiguration('name'))->addAccessorPrefix($getterAccessor->getPrefix()));
+        $this->addProperty((new Property('name'))->add($getterAccessor->getPrefix()));
     }
 }

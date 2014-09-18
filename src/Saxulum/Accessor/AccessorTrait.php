@@ -7,21 +7,21 @@ trait AccessorTrait
     /**
      * @var AbstractAccessor[]
      */
-    private $accessors = array();
+    private static $accessors = array();
 
     /**
-     * @var PropertyConfiguration[]
+     * @var Property[]
      */
     private $propertyConfigurations = array();
 
     final public function __call($name, array $arguments = array())
     {
-        foreach ($this->accessors as $accessor) {
+        foreach (self::$accessors as $accessor) {
             if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
                 if (isset($this->propertyConfigurations[$property])) {
                     $propertyConfiguration = $this->propertyConfigurations[$property];
-                    if (property_exists(__CLASS__, $property) && $propertyConfiguration->hasAccessorPrefix($accessor->getPrefix())) {
+                    if (property_exists(__CLASS__, $property) && $propertyConfiguration->has($accessor->getPrefix())) {
                         return $accessor->callback($this, $this->$property, $arguments);
                     }
                 }
@@ -32,11 +32,11 @@ trait AccessorTrait
     }
 
     /**
-     * @param  PropertyConfiguration $propertyConfiguration
+     * @param  Property $propertyConfiguration
      * @return static
      * @throws \Exception
      */
-    final public function addPropertyConfiguration(PropertyConfiguration $propertyConfiguration)
+    final public function addProperty(Property $propertyConfiguration)
     {
         $property = $propertyConfiguration->getProperty();
 
@@ -54,16 +54,14 @@ trait AccessorTrait
      * @return static
      * @throws \Exception
      */
-    final public function addAccessor(AbstractAccessor $accessor)
+    final public static function addAccessor(AbstractAccessor $accessor)
     {
         $prefix = $accessor->getPrefix();
 
-        if (isset($this->accessors[$prefix])) {
+        if (isset(self::$accessors[$prefix])) {
             throw new \Exception("Override Accessor is not allowed, to enhance stability!");
         }
 
-        $this->accessors[$prefix] = $accessor;
-
-        return $this;
+        self::$accessors[$prefix] = $accessor;
     }
 }

@@ -6,7 +6,7 @@ use Saxulum\Accessor\Accessors\GetterAccessor;
 use Saxulum\Accessor\Accessors\IsAccessor;
 use Saxulum\Accessor\Accessors\SetterAccessor;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\PropertyConfiguration;
+use Saxulum\Accessor\Property;
 
 /**
  * @method $this setName(string $name)
@@ -32,26 +32,16 @@ class GetterSetterIsAccessorHelper
 
     public function __construct()
     {
-        $getterAccessor = new GetterAccessor();
-        $isAccessor = new IsAccessor();
-        $setterAccessor = new SetterAccessor();
-
         $this
-            ->addAccessor($getterAccessor)
-            ->addAccessor($isAccessor)
-            ->addAccessor($setterAccessor)
-        ;
-
-        $this
-            ->addPropertyConfiguration((new PropertyConfiguration('name'))
-                ->addAccessorPrefix($getterAccessor->getPrefix())
-                ->addAccessorPrefix($isAccessor->getPrefix())
-                ->addAccessorPrefix($setterAccessor->getPrefix())
+            ->addProperty((new Property('name'))
+                ->add(GetterAccessor::PREFIX)
+                ->add(IsAccessor::PREFIX)
+                ->add(SetterAccessor::PREFIX)
             )
-            ->addPropertyConfiguration((new PropertyConfiguration('value'))
-                ->addAccessorPrefix($getterAccessor->getPrefix())
-                ->addAccessorPrefix($isAccessor->getPrefix())
-                ->addAccessorPrefix($setterAccessor->getPrefix())
+            ->addProperty((new Property('value'))
+                ->add(GetterAccessor::PREFIX)
+                ->add(IsAccessor::PREFIX)
+                ->add(SetterAccessor::PREFIX)
             )
         ;
     }

@@ -2,6 +2,10 @@
 
 namespace Saxulum\Tests\Accessor;
 
+use Saxulum\Accessor\Accessors\GetterAccessor;
+use Saxulum\Accessor\Accessors\IsAccessor;
+use Saxulum\Accessor\Accessors\SetterAccessor;
+use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorHelperWithTrait;
 use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
@@ -16,6 +20,8 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetterAccessor()
     {
+        AccessorTrait::addAccessor(new GetterAccessor());
+
         $helper = new GetterAccesorHelper();
         $helper
             ->setName('name')
@@ -28,6 +34,12 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetterSetterIsAccessor()
     {
+        AccessorTrait
+            ::addAccessor(new GetterAccessor())
+            ::addAccessor(new IsAccessor())
+            ::addAccessor(new SetterAccessor())
+        ;
+
         $helper = new GetterSetterIsAccessorHelper();
         $helper
             ->setName('name')

@@ -6,12 +6,14 @@ use Saxulum\Accessor\AbstractAccessor;
 
 class IsAccessor extends AbstractAccessor
 {
+    const PREFIX = 'is';
+
     /**
      * @return string
      */
     public function getPrefix()
     {
-        return 'is';
+        return self::PREFIX;
     }
 
     /**

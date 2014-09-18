@@ -2,7 +2,7 @@
 
 namespace Saxulum\Accessor;
 
-class PropertyConfiguration
+class Property
 {
     /**
      * @var string
@@ -34,7 +34,7 @@ class PropertyConfiguration
      * @param  string $accessorPrefix
      * @return self
      */
-    public function addAccessorPrefix($accessorPrefix)
+    public function add($accessorPrefix)
     {
         if (null === $this->accessorPrefixes) {
             $this->accessorPrefixes = array();
@@ -49,7 +49,7 @@ class PropertyConfiguration
      * @param  string $accessorPrefix
      * @return bool
      */
-    public function hasAccessorPrefix($accessorPrefix)
+    public function has($accessorPrefix)
     {
         if (null === $this->accessorPrefixes) {
             return false;

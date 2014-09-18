@@ -4,7 +4,7 @@ namespace Saxulum\Tests\Accessor\Helpers;
 
 use Saxulum\Accessor\Accessors\SetterAccessor;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\PropertyConfiguration;
+use Saxulum\Accessor\Property;
 
 /**
  * @method $this setName(string $name)
@@ -29,8 +29,8 @@ class SetterAccessorHelper
         $setterAccessor = new SetterAccessor();
         $this->addAccessor($setterAccessor);
         $this
-            ->addPropertyConfiguration((new PropertyConfiguration('name'))->addAccessorPrefix($setterAccessor->getPrefix()))
-            ->addPropertyConfiguration((new PropertyConfiguration('value'))->addAccessorPrefix($setterAccessor->getPrefix()))
+            ->addProperty((new Property('name'))->add($setterAccessor->getPrefix()))
+            ->addProperty((new Property('value'))->add($setterAccessor->getPrefix()))
         ;
     }
 
