@@ -10,19 +10,25 @@ trait AccessorTrait
     private static $accessors = array();
 
     /**
-     * @var Property[]
+     * @var Prop[]
      */
-    private $propertyConfigurations = array();
+    private $properties = array();
 
     final public function __call($name, array $arguments = array())
     {
         foreach (self::$accessors as $accessor) {
             if (strpos($name, $accessor->getPrefix()) === 0) {
                 $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-                if (isset($this->propertyConfigurations[$property])) {
-                    $propertyConfiguration = $this->propertyConfigurations[$property];
-                    if (property_exists(__CLASS__, $property) && $propertyConfiguration->has($accessor->getPrefix())) {
-                        return $accessor->callback($this, $this->$property, $arguments);
+                if (isset($this->properties[$property])) {
+                    $config = $this->properties[$property];
+                    if (property_exists(__CLASS__, $property) && $config->hasMethod($accessor->getPrefix())) {
+                        return $accessor->callback(
+                            $this,
+                            $this->$property,
+                            $arguments,
+                            $property,
+                            $config->getHint()
+                        );
                     }
                 }
             }
@@ -32,29 +38,28 @@ trait AccessorTrait
     }
 
     /**
-     * @param  Property $propertyConfiguration
+     * @param  Prop       $property
      * @return static
      * @throws \Exception
      */
-    final public function addProperty(Property $propertyConfiguration)
+    final public function prop(Prop $property)
     {
-        $property = $propertyConfiguration->getProperty();
+        $name = $property->getName();
 
-        if (isset($this->propertyConfigurations[$property])) {
-            throw new \Exception("Override PropertyConfiuguration is not allowed, to enhance stability!");
+        if (isset($this->properties[$name])) {
+            throw new \Exception("Override Property is not allowed, to enhance stability!");
         }
 
-        $this->propertyConfigurations[$property] = $propertyConfiguration;
+        $this->properties[$name] = $property;
 
         return $this;
     }
 
     /**
      * @param  AbstractAccessor $accessor
-     * @return static
      * @throws \Exception
      */
-    final public static function addAccessor(AbstractAccessor $accessor)
+    final public static function registerAccessor(AbstractAccessor $accessor)
     {
         $prefix = $accessor->getPrefix();
 

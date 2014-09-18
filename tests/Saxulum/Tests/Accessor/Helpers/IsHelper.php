@@ -2,14 +2,15 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\GetterAccessor;
+use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\Property;
+use Saxulum\Accessor\Prop;
 
 /**
- * @method string getValue()
+ * @method bool isName()
+ * @method bool isValue()
  */
-class GetterAccessorOverrideHelper
+class IsHelper
 {
     use AccessorTrait;
 
@@ -25,11 +26,9 @@ class GetterAccessorOverrideHelper
 
     public function __construct()
     {
-        $getterAccessor = new GetterAccessor();
-        $this->addAccessor($getterAccessor);
         $this
-            ->addProperty((new Property('name'))->add($getterAccessor->getPrefix()))
-            ->addProperty((new Property('value'))->add($getterAccessor->getPrefix()))
+            ->prop((new Prop('name'))->method(Is::PREFIX))
+            ->prop((new Prop('value'))->method(Is::PREFIX))
         ;
     }
 
@@ -53,13 +52,5 @@ class GetterAccessorOverrideHelper
         $this->value = $value;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name . '_override';
     }
 }

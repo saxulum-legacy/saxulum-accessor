@@ -2,12 +2,17 @@
 
 namespace Saxulum\Accessor;
 
-class Property
+class Prop
 {
     /**
      * @var string
      */
-    protected $property;
+    protected $name;
+
+    /**
+     * @var string|null
+     */
+    protected $hint;
 
     /**
      * @var array|null
@@ -15,26 +20,35 @@ class Property
     protected $accessorPrefixes;
 
     /**
-     * @param string $property
+     * @param string $name
      */
-    public function __construct($property)
+    public function __construct($name, $hint = null)
     {
-        $this->property = $property;
+        $this->name = $name;
+        $this->hint = $hint;
     }
 
     /**
      * @return string
      */
-    public function getProperty()
+    public function getName()
     {
-        return $this->property;
+        return $this->name;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getHint()
+    {
+        return $this->hint;
     }
 
     /**
      * @param  string $accessorPrefix
      * @return self
      */
-    public function add($accessorPrefix)
+    public function method($accessorPrefix)
     {
         if (null === $this->accessorPrefixes) {
             $this->accessorPrefixes = array();
@@ -49,7 +63,7 @@ class Property
      * @param  string $accessorPrefix
      * @return bool
      */
-    public function has($accessorPrefix)
+    public function hasMethod($accessorPrefix)
     {
         if (null === $this->accessorPrefixes) {
             return false;

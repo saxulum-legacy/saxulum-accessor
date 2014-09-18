@@ -5,7 +5,7 @@ namespace Saxulum\Tests\Accessor\Helpers;
 /**
  * @method $this setValue(string $value)
  */
-class SetterAccessorExtendParentCallHelper extends SetterAccessorHelper
+class SetExtendParentCallHelper extends SetHelper
 {
     /**
      * @param  string $name

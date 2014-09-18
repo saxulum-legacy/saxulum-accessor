@@ -4,24 +4,22 @@ namespace Saxulum\Accessor;
 
 abstract class AbstractAccessor
 {
+    const HINT_STR = 'string';
+    const HINT_INT = 'int';
+    const HINT_FLOAT = 'float';
+    const HINT_BOOL = 'bool';
+    const HINT_ARRAY = 'array';
+
     /**
      * @var array|null
      */
     protected $properties;
 
-    const MODE_BLACKLIST = 0;
-    const MODE_WHITELIST = 1;
-
-    /**
-     * @var int
-     */
-    protected $mode = self::MODE_WHITELIST;
-
     /**
      * @param  string $property
      * @return $this
      */
-    public function addProperty($property)
+    public function prop($property)
     {
         if (!is_string($property)) {
             throw new \InvalidArgumentException("Property must be a string!");
@@ -37,51 +35,26 @@ abstract class AbstractAccessor
     }
 
     /**
-     * @param  int    $mode
-     * @return static
-     */
-    public function mode($mode)
-    {
-        $reflectionClass = new \ReflectionClass(__CLASS__);
-        $modes = array();
-        foreach ($reflectionClass->getConstants() as $name => $value) {
-            if (strpos($name, 'MODE_') === 0) {
-                $modes[$value] = $name;
-            }
-        }
-
-        if (!isset($modes[$mode])) {
-            throw new \InvalidArgumentException("Invalid mode!");
-        }
-
-        $this->mode = $mode;
-
-        return $this;
-    }
-
-    /**
-     * @param  string $property
+     * @param  mixed       $property
+     * @param  string|null $hint
      * @return bool
      */
-    public function isAllowedProperty($property)
+    protected function hint($property, $hint = null)
     {
-        if (!is_string($property)) {
-            throw new \InvalidArgumentException("Property must be a string!");
-        }
+        switch ($hint) {
+            case null:
+                return true;
+            case self::HINT_STR:
+            case self::HINT_INT:
+            case self::HINT_FLOAT:
+            case self::HINT_BOOL:
+            case self::HINT_ARRAY:
+                $function = 'is_' . $hint;
 
-        if (null === $this->properties) {
-            return true;
+                return $function($property);
+            default:
+                return is_object($property) && is_a($property, $hint);
         }
-
-        if ($this->mode === self::MODE_BLACKLIST && !in_array($property, $this->properties)) {
-            return true;
-        }
-
-        if ($this->mode === self::MODE_WHITELIST && in_array($property, $this->properties)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -90,10 +63,12 @@ abstract class AbstractAccessor
     abstract public function getPrefix();
 
     /**
-     * @param  object $object
-     * @param  mixed  $property
-     * @param  array  $arguments
+     * @param  object      $object
+     * @param  mixed       $property
+     * @param  array       $arguments
+     * @param  string      $name
+     * @param  string|null $hint
      * @return mixed
      */
-    abstract public function callback($object, &$property, $arguments);
+    abstract public function callback($object, &$property, array $arguments, $name, $hint);
 }

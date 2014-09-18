@@ -2,24 +2,18 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\AccessorTrait;
-
-trait GetterAccessorTrait
+/**
+ * @method $this setValue(string $value)
+ */
+class SetExtendHelper extends SetHelper
 {
-    use AccessorTrait;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
     /**
      * @param  string $name
      * @return $this
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = $name . '_override';
 
         return $this;
     }

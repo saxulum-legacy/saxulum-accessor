@@ -14,20 +14,28 @@ Features
  * Contains a [is accessor][3], which means you don't have to write simple is anymore
  * Contains a [setter accessor][4], which means you don't have to write simple setters anymore
 
+
 Requirements
 ------------
 
  * PHP 5.4+
+
 
 Installation
 ------------
 
 Through [Composer](http://getcomposer.org) as [saxulum/accessor][5].
 
+Bootstrap:
+
+``` {.php}
+AccessorTrait::registerAccessor(new Get());
+AccessorTrait::registerAccessor(new Is());
+AccessorTrait::registerAccessor(new Set());
+```
+
 Usage
 -----
-
-If you like to allow getter/is/setter on all properties:
 
 ``` {.php}
 /**
@@ -55,9 +63,8 @@ class MyObject
     public function __construct()
     {
         $this
-            ->addAccessor(new GetterAccessor())
-            ->addAccessor(new IsAccessor())
-            ->addAccessor(new SetterAccessor())
+            ->prop((new Prop('name'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
+            ->prop((new Prop('value'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
         ;
     }
 }
@@ -75,92 +82,6 @@ $object->isName();
 $object->isValue();
 ```
 
-If you like to whitelist getter/is/setter for property `name`:
-
-``` {.php}
-/**
- * @method $this setName(string $name)
- * @method string getName()
- * @method boolean isName()
- */
-class MyObject
-{
-    use AccessorTrait;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $value;
-
-    public function __construct()
-    {
-        $this
-            ->addAccessor((new GetterAccessor())->addProperty('name'))
-            ->addAccessor((new IsAccessor())->addProperty('name'))
-            ->addAccessor((new SetterAccessor())->addProperty('name'))
-        ;
-    }
-}
-
-$object = new MyObject();
-
-$object->setName('name');
-$object->getName();
-$object->isName();
-```
-
-If you like to blacklist getter/is/setter for property `value`:
-
-``` {.php}
-/**
- * @method $this setName(string $name)
- * @method string getName()
- * @method boolean isName()
- */
-class MyObject
-{
-    use AccessorTrait;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $value;
-
-    public function __construct()
-    {
-        $this
-            ->addAccessor((new GetterAccessor())
-                ->addProperty('value')
-                ->mode(AbstractAccessor::MODE_BLACKLIST)
-            )
-            ->addAccessor((new IsAccessor())
-                ->addProperty('value')
-                ->mode(AbstractAccessor::MODE_BLACKLIST)
-            )
-            ->addAccessor((new SetterAccessor())
-                ->addProperty('value')
-                ->mode(AbstractAccessor::MODE_BLACKLIST)
-            )
-        ;
-    }
-}
-
-$object = new MyObject();
-
-$object->setName('name');
-$object->getName();
-$object->isName();
-```
 
 Arguments
 ---------
@@ -169,14 +90,15 @@ Pros:
 
 - less code to write
 - less code to debug
-- clearer
+- scalar type hints
 
 Cons:
 
-- no autogeneration of `@method` phpdoc
+- no auto generation of `@method` phpdoc
 - slower (no benchmark)
-- more complex
+- more complex code to debug
 - `method_exists` does not work
+
 
 Copyright
 ---------
@@ -190,7 +112,7 @@ Contributors
 
 
 [1]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php
-[2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/GetterAccessor.php
-[3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/IsAccessor.php
-[4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/SetterAccessor.php
+[2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Get.php
+[3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Is.php
+[4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
 [5]: https://github.com/saxulum/saxulum-accessor

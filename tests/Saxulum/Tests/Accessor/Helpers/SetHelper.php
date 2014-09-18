@@ -2,15 +2,15 @@
 
 namespace Saxulum\Tests\Accessor\Helpers;
 
-use Saxulum\Accessor\Accessors\SetterAccessor;
+use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\Property;
+use Saxulum\Accessor\Prop;
 
 /**
  * @method $this setName(string $name)
  * @method $this setValue(string $value)
  */
-class SetterAccessorHelper
+class SetHelper
 {
     use AccessorTrait;
 
@@ -26,11 +26,9 @@ class SetterAccessorHelper
 
     public function __construct()
     {
-        $setterAccessor = new SetterAccessor();
-        $this->addAccessor($setterAccessor);
         $this
-            ->addProperty((new Property('name'))->add($setterAccessor->getPrefix()))
-            ->addProperty((new Property('value'))->add($setterAccessor->getPrefix()))
+            ->prop((new Prop('name'))->method(Set::PREFIX))
+            ->prop((new Prop('value'))->method(Set::PREFIX))
         ;
     }
 

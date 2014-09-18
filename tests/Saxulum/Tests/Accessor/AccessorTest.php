@@ -2,27 +2,34 @@
 
 namespace Saxulum\Tests\Accessor;
 
-use Saxulum\Accessor\Accessors\GetterAccessor;
-use Saxulum\Accessor\Accessors\IsAccessor;
-use Saxulum\Accessor\Accessors\SetterAccessor;
+use Saxulum\Accessor\Accessors\Get;
+use Saxulum\Accessor\Accessors\Is;
+use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper;
-use Saxulum\Tests\Accessor\Helpers\GetterAccessorHelperWithTrait;
-use Saxulum\Tests\Accessor\Helpers\GetterAccessorOverrideHelper;
-use Saxulum\Tests\Accessor\Helpers\GetterSetterIsAccessorHelper;
-use Saxulum\Tests\Accessor\Helpers\IsAccesorHelper;
-use Saxulum\Tests\Accessor\Helpers\OverridingGetterAccesorHelper;
-use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendHelper;
-use Saxulum\Tests\Accessor\Helpers\SetterAccessorExtendParentCallHelper;
-use Saxulum\Tests\Accessor\Helpers\SetterAccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\GetHelper;
+use Saxulum\Tests\Accessor\Helpers\GetHelperWithTrait;
+use Saxulum\Tests\Accessor\Helpers\GetOverrideHelper;
+use Saxulum\Tests\Accessor\Helpers\GetSetIsHelper;
+use Saxulum\Tests\Accessor\Helpers\IsHelper;
+use Saxulum\Tests\Accessor\Helpers\OverridingGetHelper;
+use Saxulum\Tests\Accessor\Helpers\SetExtendHelper;
+use Saxulum\Tests\Accessor\Helpers\SetExtendParentCallHelper;
+use Saxulum\Tests\Accessor\Helpers\SetHelper;
 
 class AccessorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetterAccessor()
+    public static function setUpBeforeClass()
     {
-        AccessorTrait::addAccessor(new GetterAccessor());
+        parent::setUpBeforeClass();
 
-        $helper = new GetterAccesorHelper();
+        AccessorTrait::registerAccessor(new Get());
+        AccessorTrait::registerAccessor(new Is());
+        AccessorTrait::registerAccessor(new Set());
+    }
+
+    public function testGet()
+    {
+        $helper = new GetHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -32,15 +39,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
-    public function testGetterSetterIsAccessor()
+    public function testGetSetIs()
     {
-        AccessorTrait
-            ::addAccessor(new GetterAccessor())
-            ::addAccessor(new IsAccessor())
-            ::addAccessor(new SetterAccessor())
-        ;
-
-        $helper = new GetterSetterIsAccessorHelper();
+        $helper = new GetSetIsHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -52,9 +53,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($helper->isValue());
     }
 
-    public function testGetterAccessorOverride()
+    public function testGetOverride()
     {
-        $helper = new GetterAccessorOverrideHelper();
+        $helper = new GetOverrideHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -64,9 +65,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
-    public function testGetterAccessorHelperWithTrait()
+    public function testGetHelperWithTrait()
     {
-        $helper = new GetterAccessorHelperWithTrait();
+        $helper = new GetHelperWithTrait();
         $helper
             ->setName('name')
         ;
@@ -74,9 +75,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('name', $helper->getName());
     }
 
-    public function testIsAccessor()
+    public function testIs()
     {
-        $helper = new IsAccesorHelper();
+        $helper = new IsHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -86,9 +87,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($helper->isValue());
     }
 
-    public function testSetterAccessor()
+    public function testSet()
     {
-        $helper = new SetterAccessorHelper();
+        $helper = new SetHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -98,9 +99,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
-    public function testSetterAccessorExtend()
+    public function testSetExtend()
     {
-        $helper = new SetterAccessorExtendHelper();
+        $helper = new SetExtendHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -110,9 +111,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $helper->getValue());
     }
 
-    public function testSetterAccessorExtendParentCall()
+    public function testSetExtendParentCall()
     {
-        $helper = new SetterAccessorExtendParentCallHelper();
+        $helper = new SetExtendParentCallHelper();
         $helper
             ->setName('name')
             ->setValue('value')
@@ -126,27 +127,27 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
 
-        new OverridingGetterAccesorHelper();
+        new OverridingGetHelper();
     }
 
     public function testNoAccessorMethod()
     {
-        $helper = new SetterAccessorHelper();
+        $helper = new SetHelper();
         $helper
             ->setName('name')
             ->setValue('value')
         ;
 
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\SetterAccessorHelper::isName()');
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\SetHelper::isName()');
 
         $helper->isName();
     }
 
     public function testPropertyNotExisting()
     {
-        $helper = new GetterAccesorHelper();
+        $helper = new GetHelper();
 
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetterAccesorHelper::getNotExistingProperty()');
+        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetHelper::getNotExistingProperty()');
 
         $helper->getNotExistingProperty();
     }
