@@ -16,19 +16,21 @@ trait AccessorTrait
 
     final public function __call($name, array $arguments = array())
     {
-        foreach (self::$accessors as $accessor) {
-            if (strpos($name, $accessor->getPrefix()) === 0) {
-                $property = lcfirst(substr($name, strlen($accessor->getPrefix())));
-                if (isset($this->properties[$property])) {
-                    $config = $this->properties[$property];
-                    if (property_exists(__CLASS__, $property) && $config->hasMethod($accessor->getPrefix())) {
-                        return $accessor->callback(
-                            $this,
-                            $this->$property,
-                            $arguments,
-                            $property,
-                            $config->getHint()
-                        );
+        foreach (self::$accessors as $prefix => $accessor) {
+            if (strpos($name, $prefix) === 0) {
+                $property = lcfirst(substr($name, strlen($prefix)));
+                if (property_exists($this, $property)) {
+                    if (isset($this->properties[$property])) {
+                        $config = $this->properties[$property];
+                        if ($config->hasMethod($prefix)) {
+                            return $accessor->callback(
+                                $this,
+                                $this->$property,
+                                $arguments,
+                                $property,
+                                $config->getHint()
+                            );
+                        }
                     }
                 }
             }
