@@ -15,17 +15,25 @@ class Prop
     protected $hint;
 
     /**
+     * @var bool
+     */
+    protected $nullable;
+
+    /**
      * @var array|null
      */
     protected $accessorPrefixes;
 
     /**
-     * @param string $name
+     * @param $name
+     * @param null $hint
+     * @param bool $nullable
      */
-    public function __construct($name, $hint = null)
+    public function __construct($name, $hint = null, $nullable = false)
     {
         $this->name = $name;
         $this->hint = $hint;
+        $this->nullable = $nullable;
     }
 
     /**
@@ -42,6 +50,14 @@ class Prop
     public function getHint()
     {
         return $this->hint;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNullable()
+    {
+        return $this->nullable;
     }
 
     /**

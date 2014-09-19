@@ -38,7 +38,8 @@ trait AccessorTrait
                                 $this->$property,
                                 $arguments,
                                 $property,
-                                $config->getHint()
+                                $config->getHint(),
+                                $config->isNullable()
                             );
                         }
                     }
