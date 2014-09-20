@@ -25,27 +25,23 @@ class Hint
         $method = 'validate' . ucfirst($hint);
 
         if (method_exists(__CLASS__, $method)) {
-            if (null === $nullable) {
-                return static::$method($value);
-            }
-
             return static::$method($value, $nullable);
-        }
-
-        if (null === $nullable) {
-            return static::validateObject($value, $hint);
         }
 
         return static::validateObject($value, $hint, $nullable);
     }
 
     /**
-     * @param  mixed $value
-     * @param  bool  $nullable
+     * @param  mixed     $value
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateBool($value, $nullable = true)
+    public static function validateBool($value, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = true;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
@@ -54,12 +50,16 @@ class Hint
     }
 
     /**
-     * @param  mixed $value
-     * @param  bool  $nullable
+     * @param  mixed     $value
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateInt($value, $nullable = true)
+    public static function validateInt($value, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = true;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
@@ -68,12 +68,16 @@ class Hint
     }
 
     /**
-     * @param  mixed $value
-     * @param  bool  $nullable
+     * @param  mixed     $value
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateFloat($value, $nullable = true)
+    public static function validateFloat($value, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = true;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
@@ -82,12 +86,16 @@ class Hint
     }
 
     /**
-     * @param  mixed $value
-     * @param  bool  $nullable
+     * @param  mixed     $value
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateString($value, $nullable = true)
+    public static function validateString($value, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = true;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
@@ -96,12 +104,16 @@ class Hint
     }
 
     /**
-     * @param  mixed $value
-     * @param  bool  $nullable
+     * @param  mixed     $value
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateArray($value, $nullable = false)
+    public static function validateArray($value, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = false;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
@@ -110,13 +122,17 @@ class Hint
     }
 
     /**
-     * @param  mixed  $value
-     * @param  string $hint
-     * @param  bool   $nullable
+     * @param  mixed     $value
+     * @param  string    $hint
+     * @param  bool|null $nullable
      * @return bool
      */
-    public static function validateObject($value, $hint, $nullable = false)
+    public static function validateObject($value, $hint, $nullable = null)
     {
+        if (null === $nullable) {
+            $nullable = false;
+        }
+
         if (true === $nullable && null === $value) {
             return true;
         }
