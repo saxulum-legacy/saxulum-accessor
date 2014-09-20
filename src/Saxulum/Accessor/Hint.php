@@ -38,7 +38,11 @@ class Hint
      */
     public static function validateBool($value, $nullable = null)
     {
-        return self::validateScalarValue('is_bool', $value, $nullable);
+        return self::validateByCallable(
+            'is_bool',
+            $value,
+            self::isNullableScalar($nullable)
+        );
     }
 
     /**
@@ -48,7 +52,11 @@ class Hint
      */
     public static function validateInt($value, $nullable = null)
     {
-        return self::validateScalarValue('is_int', $value, $nullable);
+        return self::validateByCallable(
+            'is_int',
+            $value,
+            self::isNullableScalar($nullable)
+        );
     }
 
     /**
@@ -58,7 +66,11 @@ class Hint
      */
     public static function validateFloat($value, $nullable = null)
     {
-        return self::validateScalarValue('is_float', $value, $nullable);
+        return self::validateByCallable(
+            'is_float',
+            $value,
+            self::isNullableScalar($nullable)
+        );
     }
 
     /**
@@ -68,26 +80,11 @@ class Hint
      */
     public static function validateString($value, $nullable = null)
     {
-        return self::validateScalarValue('is_string', $value, $nullable);
-    }
-
-    /**
-     * @param  string    $method
-     * @param  string    $value
-     * @param  bool|null $nullable
-     * @return bool
-     */
-    protected static function validateScalarValue($method, $value, $nullable = null)
-    {
-        if (null === $nullable) {
-            $nullable = true;
-        }
-
-        if (true === $nullable && null === $value) {
-            return true;
-        }
-
-        return $method($value);
+        return self::validateByCallable(
+            'is_string',
+            $value,
+            self::isNullableScalar($nullable)
+        );
     }
 
     /**
@@ -97,15 +94,11 @@ class Hint
      */
     public static function validateArray($value, $nullable = null)
     {
-        if (null === $nullable) {
-            $nullable = false;
-        }
-
-        if (true === $nullable && null === $value) {
-            return true;
-        }
-
-        return is_array($value);
+        return self::validateByCallable(
+            'is_array',
+            $value,
+            self::isNullableArrayOrObject($nullable)
+        );
     }
 
     /**
@@ -116,14 +109,45 @@ class Hint
      */
     public static function validateObject($value, $hint, $nullable = null)
     {
-        if (null === $nullable) {
-            $nullable = false;
-        }
+        return self::validateByCallable(
+            function () use ($value, $hint) {
+                return is_object($value) && is_a($value, $hint);
+            },
+            $value,
+            self::isNullableArrayOrObject($nullable)
+        );
+    }
 
-        if (true === $nullable && null === $value) {
+    /**
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function isNullableScalar($nullable = null)
+    {
+        return null === $nullable || true === $nullable;
+    }
+
+    /**
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function isNullableArrayOrObject($nullable = null)
+    {
+        return true === $nullable;
+    }
+
+    /**
+     * @param  string    $method
+     * @param  string    $value
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function validateByCallable($method, $value, $nullable)
+    {
+        if (null === $value && true === $nullable) {
             return true;
         }
 
-        return is_object($value) && is_a($value, $hint);
+        return $method($value);
     }
 }
