@@ -17,15 +17,15 @@ class Is extends AbstractAccessor
     }
 
     /**
-     * @param $object
-     * @param $property
-     * @param  array $arguments
-     * @param $name
-     * @param  null  $hint
-     * @param  bool  $nullable
+     * @param  object      $object
+     * @param  mixed       $property
+     * @param  string      $name
+     * @param  array       $arguments
+     * @param  string|null $hint
+     * @param  bool        $nullable
      * @return mixed
      */
-    public function callback($object, &$property, array $arguments, $name, $hint = null, $nullable = false)
+    public function callback($object, &$property, $name, array $arguments = array(), $hint = null, $nullable = false)
     {
         if (count($arguments) !== 0) {
             throw new \InvalidArgumentException("Get Accessor allows no argument!");

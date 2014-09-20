@@ -13,10 +13,10 @@ class Hint
     /**
      * @param  mixed       $value
      * @param  string|null $hint
-     * @param  bool        $nullable
+     * @param  null|bool   $nullable
      * @return bool
      */
-    public static function validate($value, $hint = null, $nullable = false)
+    public static function validate($value, $hint = null, $nullable = null)
     {
         if (null === $hint) {
             return true;
@@ -25,10 +25,18 @@ class Hint
         $method = 'validate' . ucfirst($hint);
 
         if (method_exists(__CLASS__, $method)) {
-            return self::$method($value, $nullable);
+            if (null === $nullable) {
+                return static::$method($value);
+            }
+
+            return static::$method($value, $nullable);
         }
 
-        return self::validateObject($value, $hint, $nullable);
+        if (null === $nullable) {
+            return static::validateObject($value, $hint);
+        }
+
+        return static::validateObject($value, $hint, $nullable);
     }
 
     /**
@@ -36,7 +44,7 @@ class Hint
      * @param  bool  $nullable
      * @return bool
      */
-    public static function validateBool($value, $nullable = false)
+    public static function validateBool($value, $nullable = true)
     {
         if (true === $nullable && null === $value) {
             return true;
@@ -50,7 +58,7 @@ class Hint
      * @param  bool  $nullable
      * @return bool
      */
-    public static function validateInt($value, $nullable = false)
+    public static function validateInt($value, $nullable = true)
     {
         if (true === $nullable && null === $value) {
             return true;
@@ -64,7 +72,7 @@ class Hint
      * @param  bool  $nullable
      * @return bool
      */
-    public static function validateFloat($value, $nullable = false)
+    public static function validateFloat($value, $nullable = true)
     {
         if (true === $nullable && null === $value) {
             return true;
@@ -78,7 +86,7 @@ class Hint
      * @param  bool  $nullable
      * @return bool
      */
-    public static function validateString($value, $nullable = false)
+    public static function validateString($value, $nullable = true)
     {
         if (true === $nullable && null === $value) {
             return true;

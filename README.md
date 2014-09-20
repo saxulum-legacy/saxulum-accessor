@@ -63,8 +63,8 @@ class MyObject
     protected function initializeProperties()
     {
         $this
-            ->prop((new Prop('name'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
-            ->prop((new Prop('value'))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
+            ->prop((new Prop('name', Hint::HINT_STRING))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
+            ->prop((new Prop('value', Hint::HINT_STRING))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
         ;
     }
 }
@@ -94,7 +94,7 @@ Pros:
 
 Cons:
 
-- no auto generation of `@method` phpdoc
+- no auto generation of `@method` phpdoc (not yet)
 - slower (no benchmark)
 - more complex code to debug
 - `method_exists` does not work

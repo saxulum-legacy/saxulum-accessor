@@ -36,10 +36,10 @@ trait AccessorTrait
                             return $accessor->callback(
                                 $this,
                                 $this->$property,
-                                $arguments,
                                 $property,
+                                $arguments,
                                 $config->getHint(),
-                                $config->isNullable()
+                                $config->getNullable()
                             );
                         }
                     }

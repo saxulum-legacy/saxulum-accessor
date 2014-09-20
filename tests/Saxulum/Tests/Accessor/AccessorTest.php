@@ -5,149 +5,90 @@ namespace Saxulum\Tests\Accessor;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Set;
-use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Tests\Accessor\Helpers\GetHelper;
-use Saxulum\Tests\Accessor\Helpers\GetHelperWithTrait;
-use Saxulum\Tests\Accessor\Helpers\GetOverrideHelper;
-use Saxulum\Tests\Accessor\Helpers\GetSetIsHelper;
-use Saxulum\Tests\Accessor\Helpers\IsHelper;
-use Saxulum\Tests\Accessor\Helpers\SetExtendHelper;
-use Saxulum\Tests\Accessor\Helpers\SetExtendParentCallHelper;
-use Saxulum\Tests\Accessor\Helpers\SetHelper;
 
 class AccessorTest extends \PHPUnit_Framework_TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-
-        AccessorTrait::registerAccessor(new Get());
-        AccessorTrait::registerAccessor(new Is());
-        AccessorTrait::registerAccessor(new Set());
-    }
-
     public function testGet()
     {
-        $helper = new GetHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $get = new Get();
 
-        $this->assertEquals('name', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
+        $this->assertEquals(Get::PREFIX, $get->getPrefix());
 
-    public function testGetSetIs()
-    {
-        $helper = new GetSetIsHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $valueObject = new \stdClass();
 
-        $this->assertEquals('name', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-        $this->assertTrue($helper->isName());
-        $this->assertTrue($helper->isValue());
-    }
+        $object = new \stdClass();
+        $object->null = null;
+        $object->bool = true;
+        $object->integer = 1;
+        $object->float = 1.1;
+        $object->string = 'test';
+        $object->array = array('test');
+        $object->object = $valueObject;
 
-    public function testGetOverride()
-    {
-        $helper = new GetOverrideHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
-
-        $this->assertEquals('name_override', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
-
-    public function testGetHelperWithTrait()
-    {
-        $helper = new GetHelperWithTrait();
-        $helper
-            ->setName('name')
-        ;
-
-        $this->assertEquals('name', $helper->getName());
+        $this->assertEquals(null, $get->callback($object, $object->null, 'null', array()));
+        $this->assertEquals(true, $get->callback($object, $object->bool, 'bool', array()));
+        $this->assertEquals(1, $get->callback($object, $object->integer, 'integer', array()));
+        $this->assertEquals(1.1, $get->callback($object, $object->float, 'float', array()));
+        $this->assertEquals('test', $get->callback($object, $object->string, 'string', array()));
+        $this->assertEquals(array('test'), $get->callback($object, $object->array, 'array', array()));
+        $this->assertEquals($valueObject, $get->callback($object, $object->object, 'object', array()));
     }
 
     public function testIs()
     {
-        $helper = new IsHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $get = new Is();
 
-        $this->assertTrue($helper->isName());
-        $this->assertTrue($helper->isValue());
+        $this->assertEquals(Is::PREFIX, $get->getPrefix());
+
+        $object = new \stdClass();
+        $object->null = null;
+        $object->bool = true;
+        $object->integer = 1;
+        $object->float = 1.1;
+        $object->string = 'test';
+        $object->array = array('test');
+        $object->object = new \stdClass();
+
+        $this->assertFalse($get->callback($object, $object->null, 'null', array()));
+        $this->assertTrue($get->callback($object, $object->bool, 'bool', array()));
+        $this->assertTrue($get->callback($object, $object->integer, 'integer', array()));
+        $this->assertTrue($get->callback($object, $object->float, 'float', array()));
+        $this->assertTrue($get->callback($object, $object->string, 'string', array()));
+        $this->assertTrue($get->callback($object, $object->array, 'array', array()));
+        $this->assertTrue($get->callback($object, $object->object, 'object', array()));
     }
 
     public function testSet()
     {
-        $helper = new SetHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $get = new Set();
 
-        $this->assertEquals('name', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
+        $this->assertEquals(Set::PREFIX, $get->getPrefix());
 
-    public function testSetExtend()
-    {
-        $helper = new SetExtendHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $object = new \stdClass();
+        $object->null = null;
+        $object->bool = null;
+        $object->integer = null;
+        $object->float = null;
+        $object->string = null;
+        $object->array = null;
+        $object->object = null;
 
-        $this->assertEquals('name_override', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
+        $valueObject = new \stdClass();
 
-    public function testSetExtendParentCall()
-    {
-        $helper = new SetExtendParentCallHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
+        $this->assertEquals($object, $get->callback($object, $object->null, 'null', array(null)));
+        $this->assertEquals($object, $get->callback($object, $object->bool, 'bool', array(true)));
+        $this->assertEquals($object, $get->callback($object, $object->integer, 'integer', array(1)));
+        $this->assertEquals($object, $get->callback($object, $object->float, 'float', array(1.1)));
+        $this->assertEquals($object, $get->callback($object, $object->string, 'string', array('test')));
+        $this->assertEquals($object, $get->callback($object, $object->array, 'array', array(array('test'))));
+        $this->assertEquals($object, $get->callback($object, $object->object, 'object', array($valueObject)));
 
-        $this->assertEquals('name_override', $helper->getName());
-        $this->assertEquals('value', $helper->getValue());
-    }
-
-    public function testOverridingAccessor()
-    {
-        $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
-
-        AccessorTrait::registerAccessor(new Get());
-    }
-
-    public function testNoAccessorMethod()
-    {
-        $helper = new SetHelper();
-        $helper
-            ->setName('name')
-            ->setValue('value')
-        ;
-
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\SetHelper::isName()');
-
-        $helper->isName();
-    }
-
-    public function testPropertyNotExisting()
-    {
-        $helper = new GetHelper();
-
-        $this->setExpectedException('Exception', 'Call to undefined method Saxulum\Tests\Accessor\Helpers\GetHelper::getNotExistingProperty()');
-
-        $helper->getNotExistingProperty();
+        $this->assertEquals(null, $object->null);
+        $this->assertEquals(true, $object->bool);
+        $this->assertEquals(1, $object->integer);
+        $this->assertEquals(1.1, $object->float);
+        $this->assertEquals('test', $object->string);
+        $this->assertEquals(array('test'), $object->array);
+        $this->assertEquals($valueObject, $object->object);
     }
 }

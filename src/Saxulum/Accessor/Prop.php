@@ -26,10 +26,10 @@ class Prop
 
     /**
      * @param $name
-     * @param null $hint
-     * @param bool $nullable
+     * @param null      $hint
+     * @param null|bool $nullable
      */
-    public function __construct($name, $hint = null, $nullable = false)
+    public function __construct($name, $hint = null, $nullable = null)
     {
         $this->name = $name;
         $this->hint = $hint;
@@ -53,9 +53,9 @@ class Prop
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isNullable()
+    public function getNullable()
     {
         return $this->nullable;
     }
