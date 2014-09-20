@@ -3,6 +3,7 @@
 namespace Saxulum\Accessor;
 
 use Saxulum\Accessor\Accessors\Get;
+use Saxulum\Accessor\Accessors\Set;
 
 trait AccessorTrait
 {
@@ -21,6 +22,12 @@ trait AccessorTrait
      */
     private $properties = array();
 
+    /**
+     * @param  string     $name
+     * @param  array      $arguments
+     * @return mixed
+     * @throws \Exception
+     */
     final public function __call($name, array $arguments = array())
     {
         if (false === $this->initializedProperties) {
@@ -56,7 +63,28 @@ trait AccessorTrait
         throw new \Exception('Call to undefined method ' . __CLASS__ . '::' . $name . '()');
     }
 
-    abstract protected function initializeProperties();
+    /**
+     * @param  string $name
+     * @return mixed
+     */
+    final public function __get($name)
+    {
+        $method = Get::PREFIX . ucfirst($name);
+
+        return $this->$method();
+    }
+
+    /**
+     * @param  string $name
+     * @param  mixed  $value
+     * @return mixed
+     */
+    final public function __set($name, $value)
+    {
+        $method = Set::PREFIX . ucfirst($name);
+
+        return $this->$method($value);
+    }
 
     /**
      * @param  Prop       $property
@@ -94,4 +122,6 @@ trait AccessorTrait
 
         self::$accessors[$prefix] = $accessor;
     }
+
+    abstract protected function initializeProperties();
 }
