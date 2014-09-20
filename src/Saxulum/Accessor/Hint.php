@@ -137,7 +137,7 @@ class Hint
     }
 
     /**
-     * @param  string    $method
+     * @param  callable  $method
      * @param  string    $value
      * @param  bool|null $nullable
      * @return bool

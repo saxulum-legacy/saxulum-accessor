@@ -15,7 +15,7 @@ class Prop
     protected $hint;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $nullable;
 
