@@ -2,6 +2,8 @@
 
 namespace Saxulum\Accessor;
 
+use Saxulum\Accessor\Accessors\Get;
+
 trait AccessorTrait
 {
     /**
@@ -24,6 +26,12 @@ trait AccessorTrait
         if (false === $this->initializedProperties) {
             $this->initializedProperties = true;
             $this->initializeProperties();
+        }
+
+        if (property_exists($this, $name)) {
+            $method = Get::PREFIX . ucfirst($name);
+
+            return $this->$method();
         }
 
         foreach (self::$accessors as $prefix => $accessor) {
