@@ -41,11 +41,11 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testCallWithoutAccessor()
     {
-        $accessorTrait = new AccessorHelper();
+        $object = new AccessorHelper();
 
         $this->setExpectedException('Exception', self::ACCESSOR_HELPER_NAMESPACE . '::setName()');
 
-        $accessorTrait->setName('test');
+        $object->setName('test');
     }
 
     public function testCall()
@@ -53,11 +53,10 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
         AccessorHelper::registerAccessor(new Get());
         AccessorHelper::registerAccessor(new Set());
 
-        $accessorTrait = new AccessorHelper();
+        $object = new AccessorHelper();
+        $object->setName('test');
 
-        $accessorTrait->setName('test');
-
-        $this->assertEquals('test', $accessorTrait->getName());
+        $this->assertEquals('test', $object->getName());
     }
 
     public function testCallOverride()
@@ -65,10 +64,27 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
         AccessorHelper::registerAccessor(new Get());
         AccessorHelper::registerAccessor(new Set());
 
-        $accessorTrait = new OverrideAccessorHelper();
+        $object = new OverrideAccessorHelper();
+        $object->setName('test');
 
-        $accessorTrait->setName('test');
+        $this->assertEquals('test_override', $object->getName());
+    }
 
-        $this->assertEquals('test_override', $accessorTrait->getName());
+    public function testTwig()
+    {
+        AccessorHelper::registerAccessor(new Get());
+        AccessorHelper::registerAccessor(new Set());
+
+        $object = new AccessorHelper();
+        $object->setName('test');
+
+        $loader = new \Twig_Loader_Filesystem(__DIR__ . '/Resources/views');
+        $twig = new \Twig_Environment($loader);
+
+        $rendered = $twig->loadTemplate('test.html.twig')->render(array(
+            'object' => $object,
+        ));
+
+        $this->assertEquals('test', trim($rendered));
     }
 }
