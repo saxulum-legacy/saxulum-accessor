@@ -2,10 +2,10 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AbstractAccessor;
+use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\Hint;
 
-class Set extends AbstractAccessor
+class Set implements AccessorInterface
 {
     const PREFIX = 'set';
 

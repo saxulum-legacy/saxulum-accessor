@@ -2,9 +2,9 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AbstractAccessor;
+use Saxulum\Accessor\AccessorInterface;
 
-class Is extends AbstractAccessor
+class Is implements AccessorInterface
 {
     const PREFIX = 'is';
 

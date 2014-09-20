@@ -2,9 +2,9 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AbstractAccessor;
+use Saxulum\Accessor\AccessorInterface;
 
-class Get extends AbstractAccessor
+class Get implements AccessorInterface
 {
     const PREFIX = 'get';
 

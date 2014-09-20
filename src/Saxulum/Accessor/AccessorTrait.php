@@ -7,7 +7,7 @@ use Saxulum\Accessor\Accessors\Get;
 trait AccessorTrait
 {
     /**
-     * @var AbstractAccessor[]
+     * @var AccessorInterface[]
      */
     private static $accessors = array();
 
@@ -79,10 +79,10 @@ trait AccessorTrait
     }
 
     /**
-     * @param  AbstractAccessor $accessor
+     * @param  AccessorInterface $accessor
      * @throws \Exception
      */
-    final public static function registerAccessor(AbstractAccessor $accessor)
+    final public static function registerAccessor(AccessorInterface $accessor)
     {
         $prefix = $accessor->getPrefix();
 
