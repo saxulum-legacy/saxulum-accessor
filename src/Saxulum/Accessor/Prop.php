@@ -25,9 +25,9 @@ class Prop
     protected $accessorPrefixes;
 
     /**
-     * @param $name
-     * @param null      $hint
-     * @param null|bool $nullable
+     * @param string      $name
+     * @param string|null $hint
+     * @param bool|null   $nullable
      */
     public function __construct($name, $hint = null, $nullable = null)
     {
@@ -70,7 +70,9 @@ class Prop
             $this->accessorPrefixes = array();
         }
 
-        $this->accessorPrefixes[] = $accessorPrefix;
+        if (!in_array($accessorPrefix, $this->accessorPrefixes)) {
+            $this->accessorPrefixes[] = $accessorPrefix;
+        }
 
         return $this;
     }
