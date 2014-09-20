@@ -25,10 +25,10 @@ class Hint
         $method = 'validate' . ucfirst($hint);
 
         if (method_exists(__CLASS__, $method)) {
-            return static::$method($value, $nullable);
+            return self::$method($value, $nullable);
         }
 
-        return static::validateObject($value, $hint, $nullable);
+        return self::validateObject($value, $hint, $nullable);
     }
 
     /**
