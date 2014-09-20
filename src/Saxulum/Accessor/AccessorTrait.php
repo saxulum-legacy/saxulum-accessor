@@ -37,19 +37,17 @@ trait AccessorTrait
         foreach (self::$accessors as $prefix => $accessor) {
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
-                if (property_exists($this, $property)) {
-                    if (isset($this->properties[$property])) {
-                        $config = $this->properties[$property];
-                        if ($config->hasMethod($prefix)) {
-                            return $accessor->callback(
-                                $this,
-                                $this->$property,
-                                $property,
-                                $arguments,
-                                $config->getHint(),
-                                $config->getNullable()
-                            );
-                        }
+                if (isset($this->properties[$property])) {
+                    $config = $this->properties[$property];
+                    if ($config->hasMethod($prefix)) {
+                        return $accessor->callback(
+                            $this,
+                            $this->$property,
+                            $property,
+                            $arguments,
+                            $config->getHint(),
+                            $config->getNullable()
+                        );
                     }
                 }
             }
@@ -68,6 +66,10 @@ trait AccessorTrait
     final public function prop(Prop $property)
     {
         $name = $property->getName();
+
+        if (!property_exists($this, $name)) {
+            throw new \InvalidArgumentException("Property does not exists");
+        }
 
         if (isset($this->properties[$name])) {
             throw new \Exception("Override Property is not allowed, to enhance stability!");
