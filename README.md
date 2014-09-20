@@ -20,7 +20,7 @@
 
 ## Installation
 
-Through [Composer](http://getcomposer.org) as [saxulum/accessor][5].
+Through [Composer](http://getcomposer.org) as [saxulum/saxulum-accessor][5].
 
 ### Bootstrap:
 
