@@ -8,9 +8,9 @@
 ## Features
 
  * Contains a [accessor trait][1] which allows to register accessors
- * Contains a [getter accessor][2], which means you don't have to write simple getters anymore
+ * Contains a [get accessor][2], which means you don't have to write simple getters anymore
  * Contains a [is accessor][3], which means you don't have to write simple is anymore
- * Contains a [setter accessor][4], which means you don't have to write simple setters anymore
+ * Contains a [set accessor][4], which means you don't have to write simple setters anymore
 
 
 ## Requirements
