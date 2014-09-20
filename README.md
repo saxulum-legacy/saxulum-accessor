@@ -1,13 +1,11 @@
-saxulum-accessor
-================
+# saxulum-accessor
 
 [![Build Status](https://api.travis-ci.org/saxulum/saxulum-accessor.png?branch=master)](https://travis-ci.org/saxulum/saxulum-accessor)
 [![Total Downloads](https://poser.pugx.org/saxulum/saxulum-accessor/downloads.png)](https://packagist.org/packages/saxulum/saxulum-accessor)
 [![Latest Stable Version](https://poser.pugx.org/saxulum/saxulum-accessor/v/stable.png)](https://packagist.org/packages/saxulum/saxulum-accessor)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/saxulum/saxulum-accessor/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/saxulum/saxulum-accessor/?branch=master)
 
-Features
---------
+## Features
 
  * Contains a [accessor trait][1] which allows to register accessors
  * Contains a [getter accessor][2], which means you don't have to write simple getters anymore
@@ -15,18 +13,16 @@ Features
  * Contains a [setter accessor][4], which means you don't have to write simple setters anymore
 
 
-Requirements
-------------
+## Requirements
 
  * PHP 5.4+
 
 
-Installation
-------------
+## Installation
 
 Through [Composer](http://getcomposer.org) as [saxulum/accessor][5].
 
-Bootstrap:
+### Bootstrap:
 
 ``` {.php}
 AccessorTrait::registerAccessor(new Get());
@@ -34,8 +30,7 @@ AccessorTrait::registerAccessor(new Is());
 AccessorTrait::registerAccessor(new Set());
 ```
 
-Usage
------
+## Usage
 
 ``` {.php}
 /**
@@ -83,16 +78,15 @@ $object->isValue();
 ```
 
 
-Arguments
----------
+## Arguments
 
-Pros:
+### Pros:
 
 - less code to write
 - less code to debug
 - scalar type hints
 
-Cons:
+### Cons:
 
 - no auto generation of `@method` phpdoc (not yet)
 - slower (no benchmark)
@@ -100,13 +94,13 @@ Cons:
 - `method_exists` does not work
 
 
-Copyright
----------
+## Copyright
+
 * Dominik Zogg <dominik.zogg@gmail.com>
 
 
-Contributors
-------------
+## Contributors
+
 * Dominik Zogg
 * Patrick Landolt
 
