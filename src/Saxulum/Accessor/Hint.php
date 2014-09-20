@@ -38,15 +38,7 @@ class Hint
      */
     public static function validateBool($value, $nullable = null)
     {
-        if (null === $nullable) {
-            $nullable = true;
-        }
-
-        if (true === $nullable && null === $value) {
-            return true;
-        }
-
-        return is_bool($value);
+        return self::validateScalarValue('is_bool', $value, $nullable);
     }
 
     /**
@@ -56,15 +48,7 @@ class Hint
      */
     public static function validateInt($value, $nullable = null)
     {
-        if (null === $nullable) {
-            $nullable = true;
-        }
-
-        if (true === $nullable && null === $value) {
-            return true;
-        }
-
-        return is_int($value);
+        return self::validateScalarValue('is_int', $value, $nullable);
     }
 
     /**
@@ -74,15 +58,7 @@ class Hint
      */
     public static function validateFloat($value, $nullable = null)
     {
-        if (null === $nullable) {
-            $nullable = true;
-        }
-
-        if (true === $nullable && null === $value) {
-            return true;
-        }
-
-        return is_float($value);
+        return self::validateScalarValue('is_float', $value, $nullable);
     }
 
     /**
@@ -92,6 +68,17 @@ class Hint
      */
     public static function validateString($value, $nullable = null)
     {
+        return self::validateScalarValue('is_string', $value, $nullable);
+    }
+
+    /**
+     * @param  string    $method
+     * @param  string    $value
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function validateScalarValue($method, $value, $nullable = null)
+    {
         if (null === $nullable) {
             $nullable = true;
         }
@@ -100,7 +87,7 @@ class Hint
             return true;
         }
 
-        return is_string($value);
+        return $method($value);
     }
 
     /**
