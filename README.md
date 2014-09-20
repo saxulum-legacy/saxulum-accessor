@@ -58,8 +58,18 @@ class MyObject
     protected function initializeProperties()
     {
         $this
-            ->prop((new Prop('name', Hint::HINT_STRING))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
-            ->prop((new Prop('value', Hint::HINT_STRING))->method(Get::PREFIX)->method(Set::PREFIX)->method(Is::PREFIX))
+            ->prop(
+                (new Prop('name', Hint::HINT_STRING))
+                    ->method(Get::PREFIX)
+                    ->method(Set::PREFIX)
+                    ->method(Is::PREFIX)
+            )
+            ->prop(
+                (new Prop('value', Hint::HINT_STRING))
+                    ->method(Get::PREFIX)
+                    ->method(Set::PREFIX)
+                    ->method(Is::PREFIX)
+            )
         ;
     }
 }
