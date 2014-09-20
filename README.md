@@ -109,4 +109,4 @@ $object->isValue();
 [2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Get.php
 [3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Is.php
 [4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
-[5]: https://github.com/saxulum/saxulum-accessor
+[5]: https://packagist.org/packages/saxulum/saxulum-accessor
