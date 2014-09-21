@@ -28,7 +28,7 @@ trait AccessorTrait
      * @return mixed
      * @throws \Exception
      */
-    final public function __call($name, array $arguments = array())
+    public function __call($name, array $arguments = array())
     {
         if (false === $this->initializedProperties) {
             $this->initializedProperties = true;
