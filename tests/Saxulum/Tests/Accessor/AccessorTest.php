@@ -36,9 +36,9 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
     public function testIs()
     {
-        $get = new Is();
+        $is = new Is();
 
-        $this->assertEquals(Is::PREFIX, $get->getPrefix());
+        $this->assertEquals(Is::PREFIX, $is->getPrefix());
 
         $object = new \stdClass();
         $object->null = null;
@@ -49,20 +49,20 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
         $object->array = array('test');
         $object->object = new \stdClass();
 
-        $this->assertFalse($get->callback($object, $object->null, 'null', array()));
-        $this->assertTrue($get->callback($object, $object->bool, 'bool', array()));
-        $this->assertTrue($get->callback($object, $object->integer, 'integer', array()));
-        $this->assertTrue($get->callback($object, $object->float, 'float', array()));
-        $this->assertTrue($get->callback($object, $object->string, 'string', array()));
-        $this->assertTrue($get->callback($object, $object->array, 'array', array()));
-        $this->assertTrue($get->callback($object, $object->object, 'object', array()));
+        $this->assertFalse($is->callback($object, $object->null, 'null', array()));
+        $this->assertTrue($is->callback($object, $object->bool, 'bool', array()));
+        $this->assertTrue($is->callback($object, $object->integer, 'integer', array()));
+        $this->assertTrue($is->callback($object, $object->float, 'float', array()));
+        $this->assertTrue($is->callback($object, $object->string, 'string', array()));
+        $this->assertTrue($is->callback($object, $object->array, 'array', array()));
+        $this->assertTrue($is->callback($object, $object->object, 'object', array()));
     }
 
     public function testSet()
     {
-        $get = new Set();
+        $set = new Set();
 
-        $this->assertEquals(Set::PREFIX, $get->getPrefix());
+        $this->assertEquals(Set::PREFIX, $set->getPrefix());
 
         $object = new \stdClass();
         $object->null = null;
@@ -75,13 +75,13 @@ class AccessorTest extends \PHPUnit_Framework_TestCase
 
         $valueObject = new \stdClass();
 
-        $this->assertEquals($object, $get->callback($object, $object->null, 'null', array(null)));
-        $this->assertEquals($object, $get->callback($object, $object->bool, 'bool', array(true)));
-        $this->assertEquals($object, $get->callback($object, $object->integer, 'integer', array(1)));
-        $this->assertEquals($object, $get->callback($object, $object->float, 'float', array(1.1)));
-        $this->assertEquals($object, $get->callback($object, $object->string, 'string', array('test')));
-        $this->assertEquals($object, $get->callback($object, $object->array, 'array', array(array('test'))));
-        $this->assertEquals($object, $get->callback($object, $object->object, 'object', array($valueObject)));
+        $this->assertEquals($object, $set->callback($object, $object->null, 'null', array(null)));
+        $this->assertEquals($object, $set->callback($object, $object->bool, 'bool', array(true)));
+        $this->assertEquals($object, $set->callback($object, $object->integer, 'integer', array(1)));
+        $this->assertEquals($object, $set->callback($object, $object->float, 'float', array(1.1)));
+        $this->assertEquals($object, $set->callback($object, $object->string, 'string', array('test')));
+        $this->assertEquals($object, $set->callback($object, $object->array, 'array', array(array('test'))));
+        $this->assertEquals($object, $set->callback($object, $object->object, 'object', array($valueObject)));
 
         $this->assertEquals(null, $object->null);
         $this->assertEquals(true, $object->bool);
