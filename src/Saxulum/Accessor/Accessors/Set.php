@@ -32,10 +32,7 @@ class Set implements AccessorInterface
             throw new \InvalidArgumentException("Set Accessor allows only one argument!");
         }
 
-        if (!Hint::validate($property, $hint, $nullable)) {
-            $type = gettype($arguments[0]);
-            throw new \InvalidArgumentException("Invalid type '{$type}' for hint '{$hint}' on property '{$name}'!");
-        }
+        Hint::validateOrException($name, $property, $hint, $nullable);
 
         $property = $arguments[0];
 
