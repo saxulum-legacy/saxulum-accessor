@@ -2,6 +2,9 @@
 
 namespace Saxulum\Tests\Accessor;
 
+use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
+use Doctrine\Common\Proxy\ProxyGenerator;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Set;
@@ -86,5 +89,41 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals('test', trim($rendered));
+    }
+
+    public function testDoctrineProxy()
+    {
+        AccessorHelper::registerAccessor(new Get());
+        AccessorHelper::registerAccessor(new Set());
+
+        $className = self::ACCESSOR_HELPER_NAMESPACE;
+
+        $proxyDirectory = __DIR__ . '/../../../../proxy/';
+        $proxyNamespace = 'Proxy';
+        $proxyClassName = $proxyNamespace . '\__CG__\\' . $className;
+        $proxyClassFilename = $proxyDirectory . str_replace('\\', '_', $proxyClassName) . '.php';
+
+        if (!is_dir($proxyDirectory)) {
+            mkdir($proxyDirectory, 0777, true);
+        }
+
+        $reflectionService = new RuntimeReflectionService();
+
+        $classMetadata = new ClassMetadata(get_class(new AccessorHelper()));
+        $classMetadata->initializeReflection($reflectionService);
+
+        $proxyGenerator = new ProxyGenerator($proxyDirectory, $proxyNamespace);
+        $proxyGenerator->generateProxyClass($classMetadata, $proxyClassFilename);
+
+        require $proxyClassFilename;
+
+        $proxy = new $proxyClassName();
+
+        $proxy->setName('test');
+
+        $this->assertEquals('test', $proxy->getName());
+
+        unlink($proxyClassFilename);
+        rmdir($proxyDirectory);
     }
 }
