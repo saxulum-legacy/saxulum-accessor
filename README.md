@@ -104,6 +104,17 @@ $object->isValue();
 - `method_exists` does not work
 
 
+## FAQ
+
+#### Does it work with doctrine orm (proxy)
+
+Yes it does, thx to remove final keyword on [__call][6], [__get][7], [__set][8]
+
+#### Does it work with twig
+
+Yes it does, thx to the plain [property method call wrapper][6]
+
+
 ## Copyright
 
 * Dominik Zogg <dominik.zogg@gmail.com>
@@ -120,3 +131,7 @@ $object->isValue();
 [3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Is.php
 [4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
 [5]: https://packagist.org/packages/saxulum/saxulum-accessor
+[6]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
+[7]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L86
+[8]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L109
+[9]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L51
