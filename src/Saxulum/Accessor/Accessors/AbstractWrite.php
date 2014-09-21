@@ -24,10 +24,16 @@ abstract class AbstractWrite implements AccessorInterface
 
         Hint::validateOrException($name, $property, $hint, $nullable);
 
+        $this->propertyDefault($property);
         $this->updateProperty($property, $name, $arguments[0]);
 
         return $object;
     }
+
+    /**
+     * @param mixed $property
+     */
+    abstract protected function propertyDefault(&$property);
 
     /**
      * @param  mixed  $property

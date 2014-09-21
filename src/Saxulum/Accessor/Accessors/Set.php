@@ -26,6 +26,11 @@ class Set extends AbstractWrite
 
     /**
      * @param mixed $property
+     */
+    protected function propertyDefault(&$property) {}
+
+    /**
+     * @param mixed $property
      * @param mixed $value
      */
     protected function set(&$property, $value)

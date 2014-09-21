@@ -7,16 +7,22 @@ use Doctrine\Common\Collections\Collection;
 abstract class AbstractCollection extends AbstractWrite
 {
     /**
+     * @param $property
+     */
+    protected function propertyDefault(&$property)
+    {
+        if (null === $property) {
+            $property = array();
+        }
+    }
+
+    /**
      * @param  mixed  $property
      * @return string
      * @throw \Exception
      */
     protected function getSubType(&$property)
     {
-        if (null === $property) {
-            $property = array();
-        }
-
         if (is_array($property)) {
             return 'array';
         }
