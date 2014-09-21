@@ -2,10 +2,7 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AccessorInterface;
-use Saxulum\Accessor\Hint;
-
-class Set implements AccessorInterface
+class Set extends AbstractWrite
 {
     const PREFIX = 'set';
 
@@ -18,24 +15,21 @@ class Set implements AccessorInterface
     }
 
     /**
-     * @param  object      $object
-     * @param  mixed       $property
-     * @param  string      $name
-     * @param  array       $arguments
-     * @param  string|null $hint
-     * @param  bool        $nullable
-     * @return mixed
+     * @param  mixed  $property
+     * @return string
+     * @throw \Exception
      */
-    public function callback($object, &$property, $name, array $arguments = array(), $hint = null, $nullable = false)
+    protected function getSubType(&$property)
     {
-        if (!array_key_exists(0, $arguments) || count($arguments) !== 1) {
-            throw new \InvalidArgumentException("Set Accessor allows only one argument!");
-        }
+        return '';
+    }
 
-        Hint::validateOrException($name, $property, $hint, $nullable);
-
-        $property = $arguments[0];
-
-        return $object;
+    /**
+     * @param mixed $property
+     * @param mixed $value
+     */
+    protected function set(&$property, $value)
+    {
+        $property = $value;
     }
 }
