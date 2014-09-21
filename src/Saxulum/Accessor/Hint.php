@@ -13,7 +13,7 @@ class Hint
     /**
      * @param  mixed       $value
      * @param  string|null $hint
-     * @param  null|bool   $nullable
+     * @param  bool|null   $nullable
      * @return bool
      */
     public static function validate($value, $hint = null, $nullable = null)
@@ -29,6 +29,21 @@ class Hint
         }
 
         return self::validateObject($value, $hint, $nullable);
+    }
+
+    /**
+     * @param  string      $varname
+     * @param  mixed       $value
+     * @param  string|null $hint
+     * @param  bool|null   $nullable
+     * @throws \Exception
+     */
+    public static function validateOrException($varname, $value, $hint = null, $nullable = null)
+    {
+        if (!self::validate($value, $hint, $nullable)) {
+            $type = gettype($value);
+            throw new \Exception("Invalid type '{$type}' for hint '{$hint}' on property '{$varname}'!");
+        }
     }
 
     /**
