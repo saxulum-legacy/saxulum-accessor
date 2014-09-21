@@ -14,7 +14,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $accessorsProperty = new \ReflectionProperty(self::ACCESSOR_HELPER_NAMESPACE, 'accessors');
+        $accessorsProperty = new \ReflectionProperty(self::ACCESSOR_HELPER_NAMESPACE, '__accessors');
         $accessorsProperty->setAccessible(true);
         $accessorsProperty->setValue(array());
     }
@@ -25,7 +25,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
         AccessorHelper::registerAccessor(new Is());
         AccessorHelper::registerAccessor(new Set());
 
-        $accessors = \PHPUnit_Framework_Assert::readAttribute(self::ACCESSOR_HELPER_NAMESPACE, 'accessors');
+        $accessors = \PHPUnit_Framework_Assert::readAttribute(self::ACCESSOR_HELPER_NAMESPACE, '__accessors');
 
         $this->assertEquals(array(Get::PREFIX, Is::PREFIX, Set::PREFIX), array_keys($accessors));
     }

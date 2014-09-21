@@ -10,19 +10,21 @@ trait AccessorTrait
     /**
      * @var AccessorInterface[]
      */
-    private static $accessors = array();
+    private static $__accessors = array();
 
     /**
      * @var bool
      */
-    private $initializedProperties = false;
+    private $__initializedProperties = false;
 
     /**
      * @var Prop[]
      */
-    private $properties = array();
+    private $__properties = array();
 
     /**
+     * __call can't be final, cause doctrine proxy
+     *
      * @param  string     $name
      * @param  array      $arguments
      * @return mixed
@@ -30,22 +32,34 @@ trait AccessorTrait
      */
     public function __call($name, array $arguments = array())
     {
-        if (false === $this->initializedProperties) {
-            $this->initializedProperties = true;
+        return $this->__handleCall($name, $arguments);
+    }
+
+    /**
+     * @param  string     $name
+     * @param  array      $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    private function __handleCall($name, array $arguments)
+    {
+        if (false === $this->__initializedProperties) {
+            $this->__initializedProperties = true;
             $this->initializeProperties();
         }
 
+        // needed by the symfony/property-access
         if (property_exists($this, $name)) {
             $method = Get::PREFIX . ucfirst($name);
 
             return $this->$method();
         }
 
-        foreach (self::$accessors as $prefix => $accessor) {
+        foreach (self::$__accessors as $prefix => $accessor) {
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
-                if (isset($this->properties[$property])) {
-                    $config = $this->properties[$property];
+                if (isset($this->__properties[$property])) {
+                    $config = $this->__properties[$property];
                     if ($config->hasMethod($prefix)) {
                         return $accessor->callback(
                             $this,
@@ -64,10 +78,21 @@ trait AccessorTrait
     }
 
     /**
+     * __get can't be final, cause doctrine proxy
+     *
      * @param  string $name
      * @return mixed
      */
     public function __get($name)
+    {
+        return $this->__handleGet($name);
+    }
+
+    /**
+     * @param  string $name
+     * @return mixed
+     */
+    private function __handleGet($name)
     {
         $method = Get::PREFIX . ucfirst($name);
 
@@ -75,11 +100,23 @@ trait AccessorTrait
     }
 
     /**
+     * __set can't be final, cause doctrine proxy
+     *
      * @param  string $name
      * @param  mixed  $value
      * @return mixed
      */
     public function __set($name, $value)
+    {
+        return $this->__handleSet($name, $value);
+    }
+
+    /**
+     * @param  string $name
+     * @param  mixed  $value
+     * @return mixed
+     */
+    private function __handleSet($name, $value)
     {
         $method = Set::PREFIX . ucfirst($name);
 
@@ -99,11 +136,11 @@ trait AccessorTrait
             throw new \InvalidArgumentException("Property does not exists");
         }
 
-        if (isset($this->properties[$name])) {
+        if (isset($this->__properties[$name])) {
             throw new \Exception("Override Property is not allowed, to enhance stability!");
         }
 
-        $this->properties[$name] = $property;
+        $this->__properties[$name] = $property;
 
         return $this;
     }
@@ -116,11 +153,11 @@ trait AccessorTrait
     {
         $prefix = $accessor->getPrefix();
 
-        if (isset(self::$accessors[$prefix])) {
+        if (isset(self::$__accessors[$prefix])) {
             throw new \Exception("Override Accessor is not allowed, to enhance stability!");
         }
 
-        self::$accessors[$prefix] = $accessor;
+        self::$__accessors[$prefix] = $accessor;
     }
 
     abstract protected function initializeProperties();
