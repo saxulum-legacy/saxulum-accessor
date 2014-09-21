@@ -67,7 +67,7 @@ trait AccessorTrait
      * @param  string $name
      * @return mixed
      */
-    final public function __get($name)
+    public function __get($name)
     {
         $method = Get::PREFIX . ucfirst($name);
 
@@ -79,7 +79,7 @@ trait AccessorTrait
      * @param  mixed  $value
      * @return mixed
      */
-    final public function __set($name, $value)
+    public function __set($name, $value)
     {
         $method = Set::PREFIX . ucfirst($name);
 
