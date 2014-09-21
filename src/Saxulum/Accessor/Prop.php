@@ -70,7 +70,7 @@ class Prop
             $this->accessorPrefixes = array();
         }
 
-        if (!in_array($accessorPrefix, $this->accessorPrefixes)) {
+        if (!in_array($accessorPrefix, $this->accessorPrefixes, true)) {
             $this->accessorPrefixes[] = $accessorPrefix;
         }
 
@@ -87,6 +87,6 @@ class Prop
             return false;
         }
 
-        return in_array($accessorPrefix, $this->accessorPrefixes);
+        return in_array($accessorPrefix, $this->accessorPrefixes, true);
     }
 }
