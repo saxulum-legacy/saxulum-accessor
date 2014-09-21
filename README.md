@@ -112,7 +112,7 @@ Yes it does, thx to remove final keyword on [__call][6], [__get][7], [__set][8]
 
 #### Does it work with twig
 
-Yes it does, thx to the plain [property method call wrapper][6]
+Yes it does, thx to the plain [property method call wrapper][9]
 
 
 ## Copyright
