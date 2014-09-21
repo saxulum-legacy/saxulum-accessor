@@ -3,12 +3,12 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Doctrine\Common\Collections\Collection;
-use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\Hint;
 
-class Remove implements AccessorInterface
+class Remove extends AbstractCollection
 {
     const PREFIX = 'remove';
+    const METHOD_PREFIX = 'removeFrom';
 
     /**
      * @return string
@@ -35,34 +35,9 @@ class Remove implements AccessorInterface
 
         Hint::validateOrException($name, $property, $hint, $nullable);
 
-        if (null === $property) {
-            $property = array();
-        }
-
-        $this->removeValue($property, $arguments[0]);
+        $this->updateProperty($property, $name, $arguments[0], self::METHOD_PREFIX);
 
         return $object;
-    }
-
-    /**
-     * @param Collection|array|null $property
-     * @param mixed                 $value
-     */
-    protected function removeValue(&$property, $value)
-    {
-        if (is_array($property)) {
-            $this->removeFromArray($property, $value);
-
-            return;
-        }
-
-        if (interface_exists('Doctrine\Common\Collections\Collection') && $property instanceof Collection) {
-            $this->removeFromCollection($property, $value);
-
-            return;
-        }
-
-        throw new \InvalidArgumentException("Property must be an array or a collection!");
     }
 
     /**

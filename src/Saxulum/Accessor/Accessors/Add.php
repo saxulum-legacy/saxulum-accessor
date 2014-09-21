@@ -3,12 +3,12 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Doctrine\Common\Collections\Collection;
-use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\Hint;
 
-class Add implements AccessorInterface
+class Add extends AbstractCollection
 {
     const PREFIX = 'add';
+    const METHOD_PREFIX = 'addTo';
 
     /**
      * @return string
@@ -35,34 +35,9 @@ class Add implements AccessorInterface
 
         Hint::validateOrException($name, $property, $hint, $nullable);
 
-        if (null === $property) {
-            $property = array();
-        }
-
-        $this->addValue($property, $arguments[0]);
+        $this->updateProperty($property, $name, $arguments[0], self::METHOD_PREFIX);
 
         return $object;
-    }
-
-    /**
-     * @param Collection|array|null $property
-     * @param mixed                 $value
-     */
-    protected function addValue(&$property, $value)
-    {
-        if (is_array($property)) {
-            $this->addToArray($property, $value);
-
-            return;
-        }
-
-        if (interface_exists('Doctrine\Common\Collections\Collection') && $property instanceof Collection) {
-            $this->addToCollection($property, $value);
-
-            return;
-        }
-
-        throw new \InvalidArgumentException("Property must be an array or a collection!");
     }
 
     /**
