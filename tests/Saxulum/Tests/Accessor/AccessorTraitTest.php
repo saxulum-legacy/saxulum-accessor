@@ -54,23 +54,27 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
     public function testCall()
     {
         AccessorHelper::registerAccessor(new Get());
+        AccessorHelper::registerAccessor(new Is());
         AccessorHelper::registerAccessor(new Set());
 
         $object = new AccessorHelper();
         $object->setName('test');
 
         $this->assertEquals('test', $object->getName());
+        $this->assertTrue($object->isName());
     }
 
     public function testCallOverride()
     {
         AccessorHelper::registerAccessor(new Get());
+        AccessorHelper::registerAccessor(new Is());
         AccessorHelper::registerAccessor(new Set());
 
         $object = new OverrideAccessorHelper();
         $object->setName('test');
 
         $this->assertEquals('test_override', $object->getName());
+        $this->assertFalse($object->isName());
     }
 
     public function testTwig()
