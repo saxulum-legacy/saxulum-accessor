@@ -22,7 +22,7 @@ abstract class AbstractWrite implements AccessorInterface
             throw new \InvalidArgumentException($this->getPrefix() . ' accessor allows only one argument!');
         }
 
-        Hint::validateOrException($name, $property, $hint, $nullable);
+        Hint::validateOrException($name, $arguments[0], $hint, $nullable);
 
         $this->propertyDefault($property);
         $this->updateProperty($property, $name, $arguments[0]);

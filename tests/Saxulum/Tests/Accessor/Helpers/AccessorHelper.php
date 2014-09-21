@@ -3,8 +3,10 @@
 namespace Saxulum\Tests\Accessor\Helpers;
 
 use Doctrine\ORM\Mapping as ORM;
+use Saxulum\Accessor\Accessors\Add;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
+use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Accessor\Hint;
@@ -18,7 +20,8 @@ use Saxulum\Accessor\Prop;
  * @method $this setName($name)
  * @method string|null getValue()
  * @method bool isValue()
- * @method $this setValue($value)
+ * @method $this addValue($value)
+ * @method $this removeValue($value)
  */
 class AccessorHelper
 {
@@ -39,8 +42,8 @@ class AccessorHelper
     protected $name;
 
     /**
-     * @var string
-     * @ORM\Column(name="value", type="string")
+     * @var array
+     * @ORM\Column(name="value", type="json_array")
      */
     protected $value;
 
@@ -55,8 +58,10 @@ class AccessorHelper
         );
         $this->prop(
             (new Prop('value', Hint::HINT_STRING))
+                ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Is::PREFIX)
-                ->method(Set::PREFIX)
-        );    }
+                ->method(Remove::PREFIX)
+        );
+    }
 }

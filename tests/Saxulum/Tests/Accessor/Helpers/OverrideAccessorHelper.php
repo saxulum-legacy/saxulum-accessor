@@ -17,26 +17,6 @@ class OverrideAccessorHelper extends AccessorHelper
      */
     public function getValue()
     {
-        return parent::getValue() . '_override';
-    }
-
-    /**
-     * @return bool
-     */
-    public function isName()
-    {
-        parent::isName();
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isValue()
-    {
-        parent::isValue();
-
-        return false;
+        return array_merge(parent::getValue(), array('override'));
     }
 }
