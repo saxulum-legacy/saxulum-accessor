@@ -8,9 +8,11 @@
 ## Features
 
  * Contains a [accessor trait][1] which allows to register accessors
- * Contains a [get accessor][2], which means you don't have to write simple getters anymore
- * Contains a [is accessor][3], which means you don't have to write simple is anymore
- * Contains a [set accessor][4], which means you don't have to write simple setters anymore
+ * Contains a [add accessor][2], which means you don't have to write simple adders anymore
+ * Contains a [get accessor][3], which means you don't have to write simple getters anymore
+ * Contains a [is accessor][4], which means you don't have to write simple is anymore
+ * Contains a [remove accessor][5], which means you don't have to write simple removers anymore
+ * Contains a [set accessor][6], which means you don't have to write simple setters anymore
 
 
 ## Requirements
@@ -20,13 +22,15 @@
 
 ## Installation
 
-Through [Composer](http://getcomposer.org) as [saxulum/saxulum-accessor][5].
+Through [Composer](http://getcomposer.org) as [saxulum/saxulum-accessor][7].
 
 ### Bootstrap:
 
 ``` {.php}
+AccessorTrait::registerAccessor(new Add());
 AccessorTrait::registerAccessor(new Get());
 AccessorTrait::registerAccessor(new Is());
+AccessorTrait::registerAccessor(new Remove());
 AccessorTrait::registerAccessor(new Set());
 ```
 
@@ -37,7 +41,8 @@ AccessorTrait::registerAccessor(new Set());
  * @method $this setName(string $name)
  * @method string getName()
  * @method boolean isName()
- * @method $this setValue(string $value)
+ * @method $this addValue(string $value)
+ * @method $this removeValue(string $value)
  * @method string getValue()
  * @method boolean isValue()
  */
@@ -51,33 +56,33 @@ class MyObject
     protected $name;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $value;
+    protected $value = array();
 
     protected function initializeProperties()
     {
-        $this
-            ->prop(
-                (new Prop('name', Hint::HINT_STRING))
-                    ->method(Get::PREFIX)
-                    ->method(Set::PREFIX)
-                    ->method(Is::PREFIX)
-            )
-            ->prop(
-                (new Prop('value', Hint::HINT_STRING))
-                    ->method(Get::PREFIX)
-                    ->method(Set::PREFIX)
-                    ->method(Is::PREFIX)
-            )
-        ;
+        $this->prop(
+            (new Prop('name', Hint::HINT_STRING))
+                ->method(Get::PREFIX)
+                ->method(Is::PREFIX)
+                ->method(Set::PREFIX)
+        );
+        $this->prop(
+            (new Prop('value', Hint::HINT_STRING))
+                ->method(Add::PREFIX)
+                ->method(Get::PREFIX)
+                ->method(Is::PREFIX)
+                ->method(Remove::PREFIX)
+        );
     }
 }
 
 $object = new MyObject();
 $object
     ->setName('name')
-    ->setValue('value')
+    ->addValue('value')
+    ->removeValue('value')
 ;
 
 $object->getName();
@@ -108,11 +113,11 @@ $object->isValue();
 
 #### Does it work with doctrine orm (proxy)
 
-Yes it does, thx to remove final keyword on [__call][6], [__get][7], [__set][8]
+Yes it does, thx to remove final keyword on [__call][8], [__get][9], [__set][10]
 
 #### Does it work with twig
 
-Yes it does, thx to the plain [property method call wrapper][9]
+Yes it does, thx to the plain [property method call wrapper][11]
 
 
 ## Copyright
@@ -127,11 +132,13 @@ Yes it does, thx to the plain [property method call wrapper][9]
 
 
 [1]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php
-[2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Get.php
-[3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Is.php
-[4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
-[5]: https://packagist.org/packages/saxulum/saxulum-accessor
-[6]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
-[7]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L86
-[8]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L109
-[9]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L51
+[2]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Add.php
+[3]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Get.php
+[4]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Is.php
+[5]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Remove.php
+[6]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
+[7]: https://packagist.org/packages/saxulum/saxulum-accessor
+[8]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
+[9]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L86
+[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L109
+[11]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L51
