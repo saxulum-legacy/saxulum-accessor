@@ -12,6 +12,7 @@ use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverrideAccessorHelper;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 {
@@ -114,6 +115,19 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals('test', trim($rendered));
+    }
+
+    public function testSymfonyPropertyAccess()
+    {
+        AccessorHelper::registerAccessor(new Get());
+        AccessorHelper::registerAccessor(new Set());
+
+        $object = new AccessorHelper();
+
+        $accessor = PropertyAccess::createPropertyAccessor();
+        $accessor->setValue($object, 'name', 'test');
+
+        $this->assertEquals('test', $accessor->getValue($object, 'name'));
     }
 
     public function testDoctrineProxy()
