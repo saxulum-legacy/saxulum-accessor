@@ -23,7 +23,7 @@ trait AccessorTrait
     private $__properties = array();
 
     /**
-     * __call can't be final, cause doctrine proxy
+     * can't be final, cause doctrine proxy
      *
      * @param  string     $name
      * @param  array      $arguments
@@ -78,7 +78,8 @@ trait AccessorTrait
     }
 
     /**
-     * __get can't be final, cause doctrine proxy
+     * needed by symfony/property-access
+     * can't be final, cause doctrine proxy
      *
      * @param  string $name
      * @return mixed
@@ -100,7 +101,8 @@ trait AccessorTrait
     }
 
     /**
-     * __set can't be final, cause doctrine proxy
+     * needed by symfony/property-access
+     * can't be final, cause doctrine proxy
      *
      * @param  string $name
      * @param  mixed  $value
