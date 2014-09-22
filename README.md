@@ -111,7 +111,7 @@ $object->isValue();
 
 ## FAQ
 
-#### Does it work with doctrine [__call][8]/[odm][9] (proxy)
+#### Does it work with doctrine [orm][8]/[odm][9] (proxy)
 
 Yes it does, thx to remove final keyword on [__call][10]
 
