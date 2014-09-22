@@ -17,14 +17,17 @@ abstract class AbstractWrite implements AccessorInterface
      */
     public function callback($object, &$property, Prop $prop, array $arguments = array())
     {
-        if (!array_key_exists(0, $arguments) || count($arguments) !== 1) {
-            throw new \InvalidArgumentException($this->getPrefix() . ' accessor allows only one argument!');
+        if (!array_key_exists(0, $arguments)) {
+            throw new \InvalidArgumentException($this->getPrefix() . ' accessor needs at least a value!');
         }
 
-        Hint::validateOrException($prop->getName(), $arguments[0], $prop->getHint(), $prop->getNullable());
+        $value = $arguments[0];
+        $stopPropagation = isset($arguments[1]) ? $arguments[1] : false;
+
+        Hint::validateOrException($prop->getName(), $value, $prop->getHint(), $prop->getNullable());
 
         $this->propertyDefault($property);
-        $this->updateProperty($property, $prop, $arguments[0]);
+        $this->updateProperty($object, $property, $prop, $value, $stopPropagation);
 
         return $object;
     }
@@ -42,20 +45,23 @@ abstract class AbstractWrite implements AccessorInterface
     abstract protected function getSubType(&$property);
 
     /**
+     * @param  object     $object
      * @param  mixed      $property
      * @param  Prop       $prop
      * @param  mixed      $value
+     * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function updateProperty(&$property, Prop $prop, $value)
+    protected function updateProperty($object, &$property, Prop $prop, $value, $stopPropagation = false)
     {
         $type = $this->getSubType($property);
-        $method = $this->getPrefix() . ucfirst($type);
+        $remoteType = (string) $prop->getRemoteType();
+        $method = $this->getPrefix() . ucfirst($type) . ucfirst($remoteType);
 
         if (!is_callable(array($this, $method))) {
             throw new \Exception("Unsupported type '{$type}' for property '{$prop->getName()}' by accessor!");
         }
 
-        $this->$method($property, $value);
+        $this->$method($object, $property, $prop, $value, $stopPropagation);
     }
 }

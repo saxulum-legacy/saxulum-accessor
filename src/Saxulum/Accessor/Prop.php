@@ -25,15 +25,32 @@ class Prop
     protected $accessorPrefixes;
 
     /**
-     * @param string      $name
+     * @var null|string
+     */
+    protected $remoteName;
+
+    /**
+     * @var null|string
+     */
+    protected $remoteType;
+
+    const REMOTE_ONE = 'one';
+    const REMOTE_MANY = 'many';
+
+    /**
+     * @param $name
      * @param string|null $hint
      * @param bool|null   $nullable
+     * @param string|null $remoteName
+     * @param string|null $remoteType
      */
-    public function __construct($name, $hint = null, $nullable = null)
+    public function __construct($name, $hint = null, $nullable = null, $remoteName = null, $remoteType = null)
     {
         $this->name = $name;
         $this->hint = $hint;
         $this->nullable = $nullable;
+        $this->remoteName = $remoteName;
+        $this->remoteType = $remoteType;
     }
 
     /**
@@ -58,6 +75,22 @@ class Prop
     public function getNullable()
     {
         return $this->nullable;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRemoteName()
+    {
+        return $this->remoteName;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRemoteType()
+    {
+        return $this->remoteType;
     }
 
     /**
