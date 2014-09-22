@@ -59,15 +59,13 @@ trait AccessorTrait
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
                 if (isset($this->__properties[$property])) {
-                    $config = $this->__properties[$property];
-                    if ($config->hasMethod($prefix)) {
+                    $prop = $this->__properties[$property];
+                    if ($prop->hasMethod($prefix)) {
                         return $accessor->callback(
                             $this,
                             $this->$property,
-                            $property,
-                            $arguments,
-                            $config->getHint(),
-                            $config->getNullable()
+                            $prop,
+                            $arguments
                         );
                     }
                 }
