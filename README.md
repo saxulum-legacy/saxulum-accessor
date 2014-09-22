@@ -111,13 +111,17 @@ $object->isValue();
 
 ## FAQ
 
-#### Does it work with doctrine orm (proxy)
+#### Does it work with doctrine [__call][8]/[odm][9] (proxy)
 
-Yes it does, thx to remove final keyword on [__call][8], [__get][9], [__set][10]
+Yes it does, thx to remove final keyword on [__call][10]
 
-#### Does it work with twig
+#### Does ist work with [symfony/property-access][11] ([symfony/form][12])
 
-Yes it does, thx to the plain [property method call wrapper][11]
+Yes it does, thx to [__get][13], [__set][14]
+
+#### Does it work with [twig][15]
+
+Yes it does, thx to the plain [property method call wrapper][16]
 
 
 ## Copyright
@@ -138,7 +142,12 @@ Yes it does, thx to the plain [property method call wrapper][11]
 [5]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Remove.php
 [6]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/Accessors/Set.php
 [7]: https://packagist.org/packages/saxulum/saxulum-accessor
-[8]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
-[9]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L86
-[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L109
-[11]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L51
+[8]: https://github.com/doctrine/doctrine2
+[9]: https://github.com/doctrine/mongodb-odm
+[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
+[11]: https://github.com/symfony/PropertyAccess
+[12]: https://github.com/symfony/Form
+[13]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L87
+[14]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L111
+[15]: http://twig.sensiolabs.org
+[16]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L52
