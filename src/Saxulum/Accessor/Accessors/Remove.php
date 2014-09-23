@@ -18,13 +18,10 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param object $object
-     * @param array  $property
-     * @param Prop   $prop
-     * @param mixed  $value
-     * @param bool   $stopPropagation
+     * @param array $property
+     * @param mixed $value
      */
-    protected function removeArray($object, array &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function removeArray(array &$property, $value)
     {
         $key = array_search($value, $property, true);
 
@@ -34,49 +31,46 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param  object     $object
      * @param  array      $property
+     * @param  object     $value
+     * @param  object     $object
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeArrayOne($object, array &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function removeArrayOne(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
-            $this->removeOne($object, $prop, $value, $stopPropagation);
+            $this->removeOne($value, $object, $prop, $stopPropagation);
             unset($property[$key]);
         }
     }
 
     /**
-     * @param  object     $object
      * @param  array      $property
+     * @param  object     $value
+     * @param  object     $object
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeArrayMany($object, array &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function removeArrayMany(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
-            $this->removeMany($object, $prop, $value, $stopPropagation);
+            $this->removeMany($value, $object, $prop, $stopPropagation);
             unset($property[$key]);
         }
     }
 
     /**
-     * @param object     $object
      * @param Collection $property
-     * @param Prop       $prop
      * @param mixed      $value
-     * @param bool       $stopPropagation
      */
-    protected function removeCollection($object, Collection &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function removeCollection(Collection &$property, $value)
     {
         if ($property->contains($value)) {
             $property->removeElement($value);
@@ -84,45 +78,45 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param  object     $object
      * @param  Collection $property
-     * @param  Prop       $prop
-     * @param  mixed      $value
-     * @param  bool       $stopPropagation
-     * @throws \Exception
-     */
-    protected function removeCollectionOne($object, Collection &$property, Prop $prop, $value, $stopPropagation = false)
-    {
-        if ($property->contains($value)) {
-            $this->removeOne($object, $prop, $value, $stopPropagation);
-            $property->removeElement($value);
-        }
-    }
-
-    /**
+     * @param  object     $value
      * @param  object     $object
-     * @param  Collection $property
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeCollectionMany($object, Collection &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function removeCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if ($property->contains($value)) {
-            $this->removeMany($object, $prop, $value, $stopPropagation);
+            $this->removeOne($value, $object, $prop, $stopPropagation);
             $property->removeElement($value);
         }
     }
 
     /**
-     * @param  mixed      $object
+     * @param  Collection $property
+     * @param  object     $value
+     * @param  object     $object
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeOne($object, Prop $prop, $value, $stopPropagation = false)
+    protected function removeCollectionMany(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    {
+        if ($property->contains($value)) {
+            $this->removeMany($value, $object, $prop, $stopPropagation);
+            $property->removeElement($value);
+        }
+    }
+
+    /**
+     * @param  object     $value
+     * @param  object     $object
+     * @param  Prop       $prop
+     * @param  bool       $stopPropagation
+     * @throws \Exception
+     */
+    protected function removeOne($value, $object, Prop $prop, $stopPropagation = false)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
@@ -135,13 +129,13 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param  mixed      $object
+     * @param  object     $value
+     * @param  object     $object
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeMany($object, Prop $prop, $value, $stopPropagation = false)
+    protected function removeMany($value, $object, Prop $prop, $stopPropagation = false)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");

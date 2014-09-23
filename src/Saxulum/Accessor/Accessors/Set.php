@@ -38,7 +38,7 @@ class Set extends AbstractWrite
      * @param mixed  $value
      * @param bool   $stopPropagation
      */
-    protected function set($object, &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function set(&$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         $property = $value;
     }
@@ -51,7 +51,7 @@ class Set extends AbstractWrite
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function setOne($object, &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function setOne(&$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
@@ -79,7 +79,7 @@ class Set extends AbstractWrite
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function setMany($object, &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function setMany(&$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");

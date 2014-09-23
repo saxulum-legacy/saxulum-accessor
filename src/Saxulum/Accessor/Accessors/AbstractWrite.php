@@ -62,6 +62,6 @@ abstract class AbstractWrite implements AccessorInterface
             throw new \Exception("Unsupported type '{$type}' for property '{$prop->getName()}' by accessor!");
         }
 
-        $this->$method($object, $property, $prop, $value, $stopPropagation);
+        $this->$method($property, $value, $object, $prop, $stopPropagation);
     }
 }
