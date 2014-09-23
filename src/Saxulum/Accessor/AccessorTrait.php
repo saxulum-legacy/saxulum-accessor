@@ -8,11 +8,6 @@ use Saxulum\Accessor\Accessors\Set;
 trait AccessorTrait
 {
     /**
-     * @var AccessorInterface[]
-     */
-    private static $__accessors = array();
-
-    /**
      * @var bool
      */
     private $__initializedProperties = false;
@@ -36,6 +31,31 @@ trait AccessorTrait
     }
 
     /**
+     * needed by symfony/property-access
+     * can't be final, cause doctrine proxy
+     *
+     * @param  string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->__handleGet($name);
+    }
+
+    /**
+     * needed by symfony/property-access
+     * can't be final, cause doctrine proxy
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public function __set($name, $value)
+    {
+        return $this->__handleSet($name, $value);
+    }
+
+    /**
      * @param  string     $name
      * @param  array      $arguments
      * @return mixed
@@ -48,14 +68,14 @@ trait AccessorTrait
             $this->initializeProperties();
         }
 
-        // needed by the symfony/property-access
+        // needed by twig, cause it tries to call a method with the property name
         if (property_exists($this, $name)) {
             $method = Get::PREFIX . ucfirst($name);
 
             return $this->$method();
         }
 
-        foreach (self::$__accessors as $prefix => $accessor) {
+        foreach (AccessorRegistry::getAccessors() as $prefix => $accessor) {
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
                 if (isset($this->__properties[$property])) {
@@ -76,18 +96,6 @@ trait AccessorTrait
     }
 
     /**
-     * needed by symfony/property-access
-     * can't be final, cause doctrine proxy
-     *
-     * @param  string $name
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        return $this->__handleGet($name);
-    }
-
-    /**
      * @param  string $name
      * @return mixed
      */
@@ -96,19 +104,6 @@ trait AccessorTrait
         $method = Get::PREFIX . ucfirst($name);
 
         return $this->$method();
-    }
-
-    /**
-     * needed by symfony/property-access
-     * can't be final, cause doctrine proxy
-     *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return mixed
-     */
-    public function __set($name, $value)
-    {
-        return $this->__handleSet($name, $value);
     }
 
     /**
@@ -143,21 +138,6 @@ trait AccessorTrait
         $this->__properties[$name] = $property;
 
         return $this;
-    }
-
-    /**
-     * @param  AccessorInterface $accessor
-     * @throws \Exception
-     */
-    final public static function registerAccessor(AccessorInterface $accessor)
-    {
-        $prefix = $accessor->getPrefix();
-
-        if (isset(self::$__accessors[$prefix])) {
-            throw new \Exception("Override Accessor is not allowed, to enhance stability!");
-        }
-
-        self::$__accessors[$prefix] = $accessor;
     }
 
     abstract protected function initializeProperties();

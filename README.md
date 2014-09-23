@@ -27,11 +27,11 @@ Through [Composer](http://getcomposer.org) as [saxulum/saxulum-accessor][7].
 ### Bootstrap:
 
 ``` {.php}
-AccessorTrait::registerAccessor(new Add());
-AccessorTrait::registerAccessor(new Get());
-AccessorTrait::registerAccessor(new Is());
-AccessorTrait::registerAccessor(new Remove());
-AccessorTrait::registerAccessor(new Set());
+AccessorRegistry::registerAccessor(new Add());
+AccessorRegistry::registerAccessor(new Get());
+AccessorRegistry::registerAccessor(new Is());
+AccessorRegistry::registerAccessor(new Remove());
+AccessorRegistry::registerAccessor(new Set());
 ```
 
 ## Usage
@@ -113,7 +113,7 @@ $object->isValue();
 
 #### Does it work with doctrine [orm][8]/[odm][9] (proxy)
 
-Yes it does, thx to remove final keyword on [__call][10]
+Yes it does, thx to [__call][10]
 
 #### Does ist work with [symfony/property-access][11] ([symfony/form][12])
 
@@ -144,10 +144,10 @@ Yes it does, thx to the plain [property method call wrapper][16]
 [7]: https://packagist.org/packages/saxulum/saxulum-accessor
 [8]: https://github.com/doctrine/doctrine2
 [9]: https://github.com/doctrine/mongodb-odm
-[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
+[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L28
 [11]: https://github.com/symfony/PropertyAccess
 [12]: https://github.com/symfony/Form
-[13]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L87
-[14]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L111
+[13]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L40
+[14]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L53
 [15]: http://twig.sensiolabs.org
-[16]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L52
+[16]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L71

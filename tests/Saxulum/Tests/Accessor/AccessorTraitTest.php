@@ -5,12 +5,12 @@ namespace Saxulum\Tests\Accessor;
 use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Common\Proxy\ProxyGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Saxulum\Accessor\AccessorRegistry;
 use Saxulum\Accessor\Accessors\Add;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
-use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverrideAccessorHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -19,7 +19,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegistry()
     {
-        $accessors = \PHPUnit_Framework_Assert::readAttribute('Saxulum\Tests\Accessor\Helpers\AccessorHelper', '__accessors');
+        $accessors = AccessorRegistry::getAccessors();
 
         $this->assertEquals(array(Add::PREFIX, Get::PREFIX, Is::PREFIX, Remove::PREFIX, Set::PREFIX), array_keys($accessors));
     }
@@ -28,7 +28,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
 
-        AccessorTrait::registerAccessor(new Get());
+        AccessorRegistry::registerAccessor(new Get());
     }
 
     public function testCall()
