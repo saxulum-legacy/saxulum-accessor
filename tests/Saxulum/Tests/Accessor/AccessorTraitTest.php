@@ -16,53 +16,22 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 {
-    const ACCESSOR_HELPER_NAMESPACE = 'Saxulum\Tests\Accessor\Helpers\AccessorHelper';
-
-    protected function tearDown()
-    {
-        $accessorsProperty = new \ReflectionProperty(self::ACCESSOR_HELPER_NAMESPACE, '__accessors');
-        $accessorsProperty->setAccessible(true);
-        $accessorsProperty->setValue(array());
-    }
-
     public function testRegistry()
     {
-        AccessorHelper::registerAccessor(new Add());
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Is());
-        AccessorHelper::registerAccessor(new Remove());
-        AccessorHelper::registerAccessor(new Set());
-        $accessors = \PHPUnit_Framework_Assert::readAttribute(self::ACCESSOR_HELPER_NAMESPACE, '__accessors');
+        $accessors = \PHPUnit_Framework_Assert::readAttribute('Saxulum\Tests\Accessor\Helpers\AccessorHelper', '__accessors');
 
         $this->assertEquals(array(Add::PREFIX, Get::PREFIX, Is::PREFIX, Remove::PREFIX, Set::PREFIX), array_keys($accessors));
     }
 
     public function testRegistryOverride()
     {
-        AccessorHelper::registerAccessor(new Get());
-
         $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
 
         AccessorHelper::registerAccessor(new Get());
     }
 
-    public function testCallWithoutAccessor()
-    {
-        $object = new AccessorHelper();
-
-        $this->setExpectedException('Exception', self::ACCESSOR_HELPER_NAMESPACE . '::setName()');
-
-        $object->setName('test');
-    }
-
     public function testCall()
     {
-        AccessorHelper::registerAccessor(new Add());
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Is());
-        AccessorHelper::registerAccessor(new Remove());
-        AccessorHelper::registerAccessor(new Set());
-
         $object = new AccessorHelper();
         $object->setName('test');
         $object->addValue('test');
@@ -81,11 +50,6 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testCallOverride()
     {
-        AccessorHelper::registerAccessor(new Add());
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Remove());
-        AccessorHelper::registerAccessor(new Set());
-
         $object = new OverrideAccessorHelper();
         $object->setName('test');
         $object->addValue('test');
@@ -101,9 +65,6 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testTwig()
     {
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Set());
-
         $object = new AccessorHelper();
         $object->setName('test');
 
@@ -119,9 +80,6 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testSymfonyPropertyAccess()
     {
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Set());
-
         $object = new AccessorHelper();
 
         $accessor = PropertyAccess::createPropertyAccessor();
@@ -132,10 +90,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testDoctrineProxy()
     {
-        AccessorHelper::registerAccessor(new Get());
-        AccessorHelper::registerAccessor(new Set());
-
-        $className = self::ACCESSOR_HELPER_NAMESPACE;
+        $className = 'Saxulum\Tests\Accessor\Helpers\AccessorHelper';
 
         $proxyDirectory = __DIR__ . '/../../../../proxy/';
         $proxyNamespace = 'Proxy';

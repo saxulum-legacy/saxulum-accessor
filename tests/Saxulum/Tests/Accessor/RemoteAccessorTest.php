@@ -2,11 +2,6 @@
 
 namespace Saxulum\Tests\Accessor;
 
-use Saxulum\Accessor\Accessors\Add;
-use Saxulum\Accessor\Accessors\Get;
-use Saxulum\Accessor\Accessors\Remove;
-use Saxulum\Accessor\Accessors\Set;
-use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Tests\Accessor\Helpers\Many2Many;
 use Saxulum\Tests\Accessor\Helpers\Many2One;
 use Saxulum\Tests\Accessor\Helpers\One2Many;
@@ -14,21 +9,6 @@ use Saxulum\Tests\Accessor\Helpers\One2One;
 
 class RemoteAccessorTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        AccessorTrait::registerAccessor(new Add());
-        AccessorTrait::registerAccessor(new Get());
-        AccessorTrait::registerAccessor(new Remove());
-        AccessorTrait::registerAccessor(new Set());
-    }
-
-    protected function tearDown()
-    {
-        $accessorsProperty = new \ReflectionProperty('Saxulum\Accessor\AccessorTrait', '__accessors');
-        $accessorsProperty->setAccessible(true);
-        $accessorsProperty->setValue(array());
-    }
-
     public function testOne2One()
     {
         $one1 = new One2One();
