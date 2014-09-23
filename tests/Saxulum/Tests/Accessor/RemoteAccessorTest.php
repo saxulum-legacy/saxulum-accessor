@@ -61,6 +61,22 @@ class RemoteAccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $many->getOne());
     }
 
+    public function testMany2OneOne2Many()
+    {
+        $one = new One2Many();
+        $many = new Many2One();
+
+        $many->setOne($one);
+
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2One', $one->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2Many', $many->getOne());
+
+        $one->removeManies($many);
+
+        $this->assertCount(0, $one->getManies());
+        $this->assertEquals(null, $many->getOne());
+    }
+
     public function testMany2Many()
     {
         $many1 = new Many2Many();

@@ -124,7 +124,7 @@ class Remove extends AbstractCollection
 
         if (!$stopPropagation) {
             $setMethod = Set::PREFIX . ucfirst($remoteName);
-            $value->$setMethod($object, true);
+            $value->$setMethod(null, true);
         }
     }
 
