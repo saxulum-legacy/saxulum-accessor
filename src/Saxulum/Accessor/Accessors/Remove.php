@@ -43,7 +43,7 @@ class Remove extends AbstractCollection
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
-            $this->removeRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
+            $this->handleRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
             unset($property[$key]);
         }
     }
@@ -61,7 +61,7 @@ class Remove extends AbstractCollection
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
-            $this->removeRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
             unset($property[$key]);
         }
     }
@@ -88,7 +88,7 @@ class Remove extends AbstractCollection
     protected function removeCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if ($property->contains($value)) {
-            $this->removeRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
+            $this->handleRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
             $property->removeElement($value);
         }
     }
@@ -104,28 +104,8 @@ class Remove extends AbstractCollection
     protected function removeCollectionMany(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if ($property->contains($value)) {
-            $this->removeRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
             $property->removeElement($value);
-        }
-    }
-
-    /**
-     * @param  object      $value
-     * @param  object|null $object
-     * @param  Prop        $prop
-     * @param  string      $prefix
-     * @param  bool        $stopPropagation
-     * @throws \Exception
-     */
-    protected function removeRemote($value, $object, Prop $prop, $prefix, $stopPropagation = false)
-    {
-        if (null === $remoteName = $prop->getRemoteName()) {
-            throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
-        }
-
-        if (!$stopPropagation) {
-            $method = $prefix . ucfirst($remoteName);
-            $value->$method($object, true);
         }
     }
 }

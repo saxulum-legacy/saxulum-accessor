@@ -39,7 +39,7 @@ class Add extends AbstractCollection
     protected function addArrayOne(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (!in_array($value, $property, true)) {
-            $this->addRemote(Set::PREFIX, $value, $object, $prop, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
             $property[] = $value;
         }
     }
@@ -55,7 +55,7 @@ class Add extends AbstractCollection
     protected function addArrayMany(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (!in_array($value, $property, true)) {
-            $this->addRemote(Add::PREFIX, $value, $object, $prop, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);
             $property[] = $value;
         }
     }
@@ -82,7 +82,7 @@ class Add extends AbstractCollection
     protected function addCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (!$property->contains($value)) {
-            $this->addRemote(Set::PREFIX, $value, $object, $prop, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
             $property->add($value);
         }
     }
@@ -98,28 +98,8 @@ class Add extends AbstractCollection
     protected function addCollectionMany(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if (!$property->contains($value)) {
-            $this->addRemote(Add::PREFIX, $value, $object, $prop, $stopPropagation);
+            $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);
             $property->add($value);
-        }
-    }
-
-    /**
-     * @param  string     $type
-     * @param  object     $value
-     * @param  object     $object
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @throws \Exception
-     */
-    protected function addRemote($type, $value, $object, Prop $prop, $stopPropagation = false)
-    {
-        if (null === $remoteName = $prop->getRemoteName()) {
-            throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
-        }
-
-        if (!$stopPropagation) {
-            $method = $type . ucfirst($remoteName);
-            $value->$method($object, true);
         }
     }
 }
