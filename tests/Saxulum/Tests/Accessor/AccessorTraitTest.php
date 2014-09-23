@@ -10,6 +10,7 @@ use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
+use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
 use Saxulum\Tests\Accessor\Helpers\OverrideAccessorHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -27,7 +28,7 @@ class AccessorTraitTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Exception', 'Override Accessor is not allowed, to enhance stability!');
 
-        AccessorHelper::registerAccessor(new Get());
+        AccessorTrait::registerAccessor(new Get());
     }
 
     public function testCall()
