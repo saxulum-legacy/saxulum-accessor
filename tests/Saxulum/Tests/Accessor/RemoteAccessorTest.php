@@ -45,7 +45,7 @@ class RemoteAccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $one2->getOne());
     }
 
-    public function testOne2ManyManyToOne()
+    public function testOne2ManyMany2One()
     {
         $one = new One2Many();
         $many = new Many2One();
