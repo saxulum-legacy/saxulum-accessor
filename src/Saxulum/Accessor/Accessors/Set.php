@@ -32,13 +32,10 @@ class Set extends AbstractWrite
     protected function propertyDefault(&$property) {}
 
     /**
-     * @param object $object
-     * @param mixed  $property
-     * @param Prop   $prop
-     * @param mixed  $value
-     * @param bool   $stopPropagation
+     * @param mixed $property
+     * @param mixed $value
      */
-    protected function set(&$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function set(&$property, $value)
     {
         $property = $value;
     }

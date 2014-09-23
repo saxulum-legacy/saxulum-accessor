@@ -43,7 +43,7 @@ class Remove extends AbstractCollection
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
-            $this->removeOne($value, $object, $prop, $stopPropagation);
+            $this->removeOne($value, $prop, $stopPropagation);
             unset($property[$key]);
         }
     }
@@ -88,7 +88,7 @@ class Remove extends AbstractCollection
     protected function removeCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
     {
         if ($property->contains($value)) {
-            $this->removeOne($value, $object, $prop, $stopPropagation);
+            $this->removeOne($value, $prop, $stopPropagation);
             $property->removeElement($value);
         }
     }
@@ -111,12 +111,11 @@ class Remove extends AbstractCollection
 
     /**
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeOne($value, $object, Prop $prop, $stopPropagation = false)
+    protected function removeOne($value, Prop $prop, $stopPropagation = false)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
