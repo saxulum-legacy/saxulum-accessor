@@ -18,7 +18,8 @@ class ArrayCollection implements CollectionInterface
     }
 
     /**
-     * @param mixed $element
+     * @param  mixed $element
+     * @return void
      */
     public function add($element)
     {
@@ -26,7 +27,8 @@ class ArrayCollection implements CollectionInterface
     }
 
     /**
-     * @param mixed $element
+     * @param  mixed $element
+     * @return void
      */
     public function remove($element)
     {

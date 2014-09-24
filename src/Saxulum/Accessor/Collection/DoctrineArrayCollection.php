@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 class DoctrineArrayCollection implements CollectionInterface
 {
     /**
-     * @var array
+     * @var Collection
      */
     protected $collection;
 
@@ -20,7 +20,8 @@ class DoctrineArrayCollection implements CollectionInterface
     }
 
     /**
-     * @param mixed $element
+     * @param  mixed $element
+     * @return void
      */
     public function add($element)
     {
@@ -28,7 +29,8 @@ class DoctrineArrayCollection implements CollectionInterface
     }
 
     /**
-     * @param mixed $element
+     * @param  mixed $element
+     * @return void
      */
     public function remove($element)
     {

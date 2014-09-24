@@ -2,7 +2,6 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Doctrine\Common\Collections\Collection;
 use Saxulum\Accessor\Prop;
 
 class Add extends AbstractCollection
