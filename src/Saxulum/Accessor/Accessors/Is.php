@@ -21,7 +21,7 @@ class Is extends AbstractRead
      * @param  mixed  $property
      * @param  Prop   $prop
      * @param  array  $arguments
-     * @return mixed
+     * @return bool
      */
     public function callback($object, &$property, Prop $prop, array $arguments = array())
     {
