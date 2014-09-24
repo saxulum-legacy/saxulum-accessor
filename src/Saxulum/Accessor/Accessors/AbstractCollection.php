@@ -36,21 +36,20 @@ abstract class AbstractCollection extends AbstractWrite
     }
 
     /**
-     * @param  object      $value
-     * @param  object|null $object
-     * @param  Prop        $prop
-     * @param  string      $prefix
-     * @param  bool        $stopPropagation
+     * @param  object     $value
+     * @param  Prop       $prop
+     * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function handleRemote($value, $object, Prop $prop, $prefix, $stopPropagation = false)
+    protected function handleRemote($value, Prop $prop, $stopPropagation, $object)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
         }
 
         if (!$stopPropagation) {
-            $method = $prefix . ucfirst($remoteName);
+            $method = self::getPrefixByProp($prop) . ucfirst($remoteName);
             $value->$method($object, true);
         }
     }

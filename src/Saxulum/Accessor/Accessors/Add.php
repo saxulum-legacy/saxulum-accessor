@@ -10,6 +10,14 @@ class Add extends AbstractCollection
     const PREFIX = 'add';
 
     /**
+     * @var array
+     */
+    protected static $remoteToPrefixMapping = array(
+        Prop::REMOTE_ONE => Set::PREFIX,
+        Prop::REMOTE_MANY => Add::PREFIX,
+    );
+
+    /**
      * @return string
      */
     public function getPrefix()
@@ -18,87 +26,37 @@ class Add extends AbstractCollection
     }
 
     /**
-     * @param array $property
-     * @param mixed $value
+     * @param  array       $property
+     * @param  mixed       $value
+     * @param  Prop        $prop
+     * @param  bool        $stopPropagation
+     * @param  object|null $object
+     * @throws \Exception
      */
-    protected function addArray(array &$property, $value)
+    protected function addArray(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!in_array($value, $property, true)) {
+            if (null !== $prop->getRemoteType()) {
+                $this->handleRemote($value, $prop, $stopPropagation, $object);
+            }
             $property[] = $value;
         }
     }
 
     /**
-     * @param  array      $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
+     * @param  Collection  $property
+     * @param  mixed       $value
+     * @param  Prop        $prop
+     * @param  bool        $stopPropagation
+     * @param  object|null $object
      * @throws \Exception
      */
-    protected function addArrayOne(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if (!in_array($value, $property, true)) {
-            $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
-            $property[] = $value;
-        }
-    }
-
-    /**
-     * @param  array      $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
-     * @throws \Exception
-     */
-    protected function addArrayMany(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if (!in_array($value, $property, true)) {
-            $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);
-            $property[] = $value;
-        }
-    }
-
-    /**
-     * @param Collection $property
-     * @param mixed      $value
-     */
-    protected function addCollection(Collection &$property, $value)
+    protected function addCollection(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!$property->contains($value)) {
-            $property->add($value);
-        }
-    }
-
-    /**
-     * @param  Collection $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
-     * @throws \Exception
-     */
-    protected function addCollectionOne(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if (!$property->contains($value)) {
-            $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
-            $property->add($value);
-        }
-    }
-
-    /**
-     * @param  Collection $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
-     * @throws \Exception
-     */
-    protected function addCollectionMany(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if (!$property->contains($value)) {
-            $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);
+            if (null !== $prop->getRemoteType()) {
+                $this->handleRemote($value, $prop, $stopPropagation, $object);
+            }
             $property->add($value);
         }
     }

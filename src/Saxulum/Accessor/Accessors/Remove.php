@@ -10,6 +10,14 @@ class Remove extends AbstractCollection
     const PREFIX = 'remove';
 
     /**
+     * @var array
+     */
+    protected static $remoteToPrefixMapping = array(
+        Prop::REMOTE_ONE => Set::PREFIX,
+        Prop::REMOTE_MANY => Remove::PREFIX,
+    );
+
+    /**
      * @return string
      */
     public function getPrefix()
@@ -18,91 +26,39 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param array $property
-     * @param mixed $value
+     * @param  array       $property
+     * @param  mixed       $value
+     * @param  Prop        $prop
+     * @param  bool        $stopPropagation
+     * @param  object|null $object
+     * @throws \Exception
      */
-    protected function removeArray(array &$property, $value)
+    protected function removeArray(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         $key = array_search($value, $property, true);
 
         if (false !== $key) {
+            if (null !== $prop->getRemoteType()) {
+                $this->handleRemote($value, $prop, $stopPropagation, Set::PREFIX !== self::getPrefixByProp($prop) ? $object : null);
+            }
             unset($property[$key]);
         }
     }
 
     /**
-     * @param  array      $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
+     * @param  Collection  $property
+     * @param  mixed       $value
+     * @param  Prop        $prop
+     * @param  bool        $stopPropagation
+     * @param  object|null $object
      * @throws \Exception
      */
-    protected function removeArrayOne(array &$property, $value, Prop $prop, $stopPropagation = false)
-    {
-        $key = array_search($value, $property, true);
-
-        if (false !== $key) {
-            $this->handleRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
-            unset($property[$key]);
-        }
-    }
-
-    /**
-     * @param  array      $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
-     * @throws \Exception
-     */
-    protected function removeArrayMany(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        $key = array_search($value, $property, true);
-
-        if (false !== $key) {
-            $this->handleRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
-            unset($property[$key]);
-        }
-    }
-
-    /**
-     * @param Collection $property
-     * @param mixed      $value
-     */
-    protected function removeCollection(Collection &$property, $value)
+    protected function removeCollection(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if ($property->contains($value)) {
-            $property->removeElement($value);
-        }
-    }
-
-    /**
-     * @param  Collection $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @throws \Exception
-     */
-    protected function removeCollectionOne(Collection &$property, $value, Prop $prop, $stopPropagation = false)
-    {
-        if ($property->contains($value)) {
-            $this->handleRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
-            $property->removeElement($value);
-        }
-    }
-
-    /**
-     * @param  Collection $property
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
-     * @throws \Exception
-     */
-    protected function removeCollectionMany(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if ($property->contains($value)) {
-            $this->handleRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);
+            if (null !== $prop->getRemoteType()) {
+                $this->handleRemote($value, $prop, $stopPropagation, Set::PREFIX !== self::getPrefixByProp($prop) ? $object : null);
+            }
             $property->removeElement($value);
         }
     }

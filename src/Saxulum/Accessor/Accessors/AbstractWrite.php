@@ -9,6 +9,11 @@ use Saxulum\Accessor\Prop;
 abstract class AbstractWrite implements AccessorInterface
 {
     /**
+     * @var array
+     */
+    protected static $remoteToPrefixMapping = array();
+
+    /**
      * @param  object $object
      * @param  mixed  $property
      * @param  Prop   $prop
@@ -55,13 +60,27 @@ abstract class AbstractWrite implements AccessorInterface
     protected function updateProperty(&$property, $value, Prop $prop, $stopPropagation, $object)
     {
         $type = $this->getSubType($property);
-        $remoteType = (string) $prop->getRemoteType();
-        $method = $this->getPrefix() . ucfirst($type) . ucfirst($remoteType);
+        $method = $this->getPrefix() . ucfirst($type);
 
         if (!is_callable(array($this, $method))) {
             throw new \Exception("Unsupported type '{$type}' for property '{$prop->getName()}' by accessor!");
         }
 
         $this->$method($property, $value, $prop, $stopPropagation, $object);
+    }
+
+    /**
+     * @param  Prop        $prop
+     * @return string|null
+     */
+    protected static function getPrefixByProp(Prop $prop)
+    {
+        if (null !== $remoteType = $prop->getRemoteType()) {
+            if (isset(static::$remoteToPrefixMapping[$prop->getRemoteType()])) {
+                return static::$remoteToPrefixMapping[$prop->getRemoteType()];
+            }
+        }
+
+        return null;
     }
 }
