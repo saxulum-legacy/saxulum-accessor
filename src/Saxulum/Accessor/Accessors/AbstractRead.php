@@ -2,20 +2,11 @@
 
 namespace Saxulum\Accessor\Accessors;
 
+use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\Prop;
 
-class Is extends AbstractRead
+abstract class AbstractRead implements AccessorInterface
 {
-    const PREFIX = 'is';
-
-    /**
-     * @return string
-     */
-    public function getPrefix()
-    {
-        return self::PREFIX;
-    }
-
     /**
      * @param  object $object
      * @param  mixed  $property
@@ -25,6 +16,10 @@ class Is extends AbstractRead
      */
     public function callback($object, &$property, Prop $prop, array $arguments = array())
     {
-        return (bool) parent::callback($object, $property, $prop, $arguments);
+        if (count($arguments) !== 0) {
+            throw new \InvalidArgumentException($this->getPrefix() . ' accessor allows no argumen!');
+        }
+
+        return $property;
     }
 }
