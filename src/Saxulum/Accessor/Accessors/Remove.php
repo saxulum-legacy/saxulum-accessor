@@ -33,12 +33,11 @@ class Remove extends AbstractCollection
     /**
      * @param  array      $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeArrayOne(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function removeArrayOne(array &$property, $value, Prop $prop, $stopPropagation = false)
     {
         $key = array_search($value, $property, true);
 
@@ -51,12 +50,12 @@ class Remove extends AbstractCollection
     /**
      * @param  array      $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function removeArrayMany(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function removeArrayMany(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         $key = array_search($value, $property, true);
 
@@ -80,12 +79,11 @@ class Remove extends AbstractCollection
     /**
      * @param  Collection $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function removeCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function removeCollectionOne(Collection &$property, $value, Prop $prop, $stopPropagation = false)
     {
         if ($property->contains($value)) {
             $this->handleRemote($value, null, $prop, Set::PREFIX, $stopPropagation);
@@ -96,12 +94,12 @@ class Remove extends AbstractCollection
     /**
      * @param  Collection $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function removeCollectionMany(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function removeCollectionMany(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if ($property->contains($value)) {
             $this->handleRemote($value, $object, $prop, Remove::PREFIX, $stopPropagation);

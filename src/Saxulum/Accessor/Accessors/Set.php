@@ -41,14 +41,14 @@ class Set extends AbstractWrite
     }
 
     /**
-     * @param  object     $object
      * @param  mixed      $property
+     * @param  object     $value
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function setOne(&$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function setOne(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
@@ -69,14 +69,14 @@ class Set extends AbstractWrite
     }
 
     /**
-     * @param  object     $object
      * @param  mixed      $property
+     * @param  object     $value
      * @param  Prop       $prop
-     * @param  mixed      $value
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function setMany(&$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function setMany(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");

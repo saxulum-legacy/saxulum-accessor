@@ -31,12 +31,12 @@ class Add extends AbstractCollection
     /**
      * @param  array      $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function addArrayOne(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function addArrayOne(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!in_array($value, $property, true)) {
             $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
@@ -47,12 +47,12 @@ class Add extends AbstractCollection
     /**
      * @param  array      $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function addArrayMany(array &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function addArrayMany(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!in_array($value, $property, true)) {
             $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);
@@ -74,12 +74,12 @@ class Add extends AbstractCollection
     /**
      * @param  Collection $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function addCollectionOne(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function addCollectionOne(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!$property->contains($value)) {
             $this->handleRemote($value, $object, $prop, Set::PREFIX, $stopPropagation);
@@ -90,12 +90,12 @@ class Add extends AbstractCollection
     /**
      * @param  Collection $property
      * @param  object     $value
-     * @param  object     $object
      * @param  Prop       $prop
      * @param  bool       $stopPropagation
+     * @param  object     $object
      * @throws \Exception
      */
-    protected function addCollectionMany(Collection &$property, $value, $object, Prop $prop, $stopPropagation = false)
+    protected function addCollectionMany(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
         if (!$property->contains($value)) {
             $this->handleRemote($value, $object, $prop, Add::PREFIX, $stopPropagation);

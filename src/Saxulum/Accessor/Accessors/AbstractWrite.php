@@ -27,7 +27,7 @@ abstract class AbstractWrite implements AccessorInterface
         Hint::validateOrException($prop->getName(), $value, $prop->getHint(), $prop->getNullable());
 
         $this->propertyDefault($property);
-        $this->updateProperty($object, $property, $prop, $value, $stopPropagation);
+        $this->updateProperty($property, $value, $prop, $stopPropagation, $object);
 
         return $object;
     }
@@ -52,7 +52,7 @@ abstract class AbstractWrite implements AccessorInterface
      * @param  bool       $stopPropagation
      * @throws \Exception
      */
-    protected function updateProperty($object, &$property, Prop $prop, $value, $stopPropagation = false)
+    protected function updateProperty(&$property, $value, Prop $prop, $stopPropagation, $object)
     {
         $type = $this->getSubType($property);
         $remoteType = (string) $prop->getRemoteType();
@@ -62,6 +62,6 @@ abstract class AbstractWrite implements AccessorInterface
             throw new \Exception("Unsupported type '{$type}' for property '{$prop->getName()}' by accessor!");
         }
 
-        $this->$method($property, $value, $object, $prop, $stopPropagation);
+        $this->$method($property, $value, $prop, $stopPropagation, $object);
     }
 }
