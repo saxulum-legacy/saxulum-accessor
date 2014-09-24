@@ -43,13 +43,6 @@ abstract class AbstractWrite implements AccessorInterface
     abstract protected function propertyDefault(&$property);
 
     /**
-     * @param  mixed  $property
-     * @return string
-     * @throw \Exception
-     */
-    abstract protected function getSubType(&$property);
-
-    /**
      * @param  object     $object
      * @param  mixed      $property
      * @param  Prop       $prop
@@ -59,11 +52,10 @@ abstract class AbstractWrite implements AccessorInterface
      */
     protected function updateProperty(&$property, $value, Prop $prop, $stopPropagation, $object)
     {
-        $type = $this->getSubType($property);
-        $method = $this->getPrefix() . ucfirst($type);
+        $method = $this->getPrefix();
 
         if (!is_callable(array($this, $method))) {
-            throw new \Exception("Unsupported type '{$type}' for property '{$prop->getName()}' by accessor!");
+            throw new \Exception("Unsupported method '{$method}' for property '{$prop->getName()}' by accessor!");
         }
 
         $this->$method($property, $value, $prop, $stopPropagation, $object);

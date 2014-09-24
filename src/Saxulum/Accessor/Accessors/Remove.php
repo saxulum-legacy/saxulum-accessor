@@ -26,52 +26,26 @@ class Remove extends AbstractCollection
     }
 
     /**
-     * @param  array       $property
+     * @param  mixed       $property
      * @param  mixed       $value
      * @param  Prop        $prop
      * @param  bool        $stopPropagation
      * @param  object|null $object
      * @throws \Exception
      */
-    protected function removeArray(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
+    protected function remove(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
-        if (false !== $key = array_search($value, $property, true)) {
+        $collection = static::getCollection($property);
+        if ($collection->contains($value)) {
             if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, self::getNewRemoteValue($prop, $object));
+                static::handleRemote(
+                    $value,
+                    $prop,
+                    $stopPropagation,
+                    Set::PREFIX !== static::getPrefixByProp($prop) ? $object : null
+                );
             }
-            unset($property[$key]);
+            $collection->remove($value);
         }
-    }
-
-    /**
-     * @param  Collection  $property
-     * @param  mixed       $value
-     * @param  Prop        $prop
-     * @param  bool        $stopPropagation
-     * @param  object|null $object
-     * @throws \Exception
-     */
-    protected function removeCollection(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if ($property->contains($value)) {
-            if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, self::getNewRemoteValue($prop, $object));
-            }
-            $property->removeElement($value);
-        }
-    }
-
-    /**
-     * @param  Prop        $prop
-     * @param $object
-     * @return object|null
-     */
-    protected static function getNewRemoteValue(Prop $prop, $object)
-    {
-        if (Set::PREFIX !== self::getPrefixByProp($prop)) {
-            return $object;
-        }
-
-        return null;
     }
 }

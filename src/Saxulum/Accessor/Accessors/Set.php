@@ -25,16 +25,6 @@ class Set extends AbstractWrite
     }
 
     /**
-     * @param  mixed  $property
-     * @return string
-     * @throw \Exception
-     */
-    protected function getSubType(&$property)
-    {
-        return '';
-    }
-
-    /**
      * @param mixed $property
      */
     protected function propertyDefault(&$property) {}
@@ -48,7 +38,7 @@ class Set extends AbstractWrite
      */
     protected function set(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
-        $prefixes = self::getPrefixByProp($prop);
+        $prefixes = static::getPrefixByProp($prop);
         if (null !== $prefixes && !$stopPropagation) {
             $remoteName = $prop->getRemoteName();
             $removePrefix = $prefixes[0];

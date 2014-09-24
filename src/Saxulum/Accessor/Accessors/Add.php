@@ -26,38 +26,21 @@ class Add extends AbstractCollection
     }
 
     /**
-     * @param  array       $property
+     * @param  mixed       $property
      * @param  mixed       $value
      * @param  Prop        $prop
      * @param  bool        $stopPropagation
      * @param  object|null $object
      * @throws \Exception
      */
-    protected function addArray(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
+    protected function add(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
-        if (!in_array($value, $property, true)) {
+        $collection = static::getCollection($property);
+        if (false === $collection->contains($value)) {
             if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, $object);
+                static::handleRemote($value, $prop, $stopPropagation, $object);
             }
-            $property[] = $value;
-        }
-    }
-
-    /**
-     * @param  Collection  $property
-     * @param  mixed       $value
-     * @param  Prop        $prop
-     * @param  bool        $stopPropagation
-     * @param  object|null $object
-     * @throws \Exception
-     */
-    protected function addCollection(Collection &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
-    {
-        if (!$property->contains($value)) {
-            if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, $object);
-            }
-            $property->add($value);
+            $collection->add($value);
         }
     }
 }

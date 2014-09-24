@@ -3,6 +3,9 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Doctrine\Common\Collections\Collection;
+use Saxulum\Accessor\Collection\ArrayCollection;
+use Saxulum\Accessor\Collection\CollectionInterface;
+use Saxulum\Accessor\Collection\DoctrineArrayCollection;
 use Saxulum\Accessor\Prop;
 
 abstract class AbstractCollection extends AbstractWrite
@@ -18,18 +21,18 @@ abstract class AbstractCollection extends AbstractWrite
     }
 
     /**
-     * @param  mixed  $property
-     * @return string
+     * @param  mixed               $property
+     * @return CollectionInterface
      * @throw \Exception
      */
-    protected function getSubType(&$property)
+    protected static function getCollection(&$property)
     {
         if (is_array($property)) {
-            return 'array';
+            return new ArrayCollection($property);
         }
 
         if (interface_exists('Doctrine\Common\Collections\Collection') && $property instanceof Collection) {
-            return 'collection';
+            return new DoctrineArrayCollection($property);
         }
 
         throw new \InvalidArgumentException("Property must be an array or a collection!");
@@ -42,14 +45,14 @@ abstract class AbstractCollection extends AbstractWrite
      * @param  object     $object
      * @throws \Exception
      */
-    protected function handleRemote($value, Prop $prop, $stopPropagation, $object)
+    protected static function handleRemote($value, Prop $prop, $stopPropagation, $object)
     {
         if (null === $remoteName = $prop->getRemoteName()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
         }
 
         if (!$stopPropagation) {
-            $method = self::getPrefixByProp($prop) . ucfirst($remoteName);
+            $method = static::getPrefixByProp($prop) . ucfirst($remoteName);
             $value->$method($object, true);
         }
     }
