@@ -35,11 +35,9 @@ class Remove extends AbstractCollection
      */
     protected function removeArray(array &$property, $value, Prop $prop, $stopPropagation = false, $object = null)
     {
-        $key = array_search($value, $property, true);
-
-        if (false !== $key) {
+        if (false !== $key = array_search($value, $property, true)) {
             if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, Set::PREFIX !== self::getPrefixByProp($prop) ? $object : null);
+                $this->handleRemote($value, $prop, $stopPropagation, self::getNewRemoteValue($prop, $object));
             }
             unset($property[$key]);
         }
@@ -57,9 +55,23 @@ class Remove extends AbstractCollection
     {
         if ($property->contains($value)) {
             if (null !== $prop->getRemoteType()) {
-                $this->handleRemote($value, $prop, $stopPropagation, Set::PREFIX !== self::getPrefixByProp($prop) ? $object : null);
+                $this->handleRemote($value, $prop, $stopPropagation, self::getNewRemoteValue($prop, $object));
             }
             $property->removeElement($value);
         }
+    }
+
+    /**
+     * @param  Prop        $prop
+     * @param $object
+     * @return object|null
+     */
+    protected static function getNewRemoteValue(Prop $prop, $object)
+    {
+        if (Set::PREFIX !== self::getPrefixByProp($prop)) {
+            return $object;
+        }
+
+        return null;
     }
 }
