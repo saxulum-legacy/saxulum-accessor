@@ -2,6 +2,7 @@
 
 namespace Saxulum\Accessor\Accessors;
 
+use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Prop;
 
 class Set extends AbstractWrite
@@ -25,33 +26,29 @@ class Set extends AbstractWrite
     }
 
     /**
-     * @param mixed $property
+     * @param CallbackBag $callbackBag
      */
-    protected function propertyDefault(&$property) {}
+    protected function propertyDefault(CallbackBag $callbackBag) {}
 
     /**
-     * @param mixed $property
-     * @param mixed $value
-     * @param Prop  $prop
-     * @param bool  $stopPropagation
-     * @param null  $object
+     * @param CallbackBag $callbackBag
      */
-    protected function set(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
+    protected function updateProperty(CallbackBag $callbackBag)
     {
-        $prefixes = static::getPrefixByProp($prop);
-        if (null !== $prefixes && !$stopPropagation) {
-            $mappedBy = $prop->getMappedBy();
+        $prefixes = $this->getPrefixByProp($callbackBag->getProp());
+        if (null !== $prefixes && !$callbackBag->getArgument(1, false)) {
+            $mappedBy = $callbackBag->getMappedBy();
             $removePrefix = $prefixes[0];
             $removeMethod = $removePrefix. ucfirst($mappedBy);
             $addPrefix = $prefixes[1];
             $addMethod = $addPrefix. ucfirst($mappedBy);
-            if (!is_null($property)) {
-                $property->$removeMethod(Set::PREFIX !== $removePrefix ? $object : null, true);
+            if (!is_null($callbackBag->getProperty())) {
+                $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $removePrefix ? $callbackBag->getObject() : null, true);
             }
-            if (!is_null($value)) {
-                $value->$addMethod($object, true);
+            if (!is_null($callbackBag->getArgument(0))) {
+                $callbackBag->getArgument(0)->$addMethod($callbackBag->getObject(), true);
             }
         }
-        $property = $value;
+        $callbackBag->setProperty($callbackBag->getArgument(0));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Saxulum\Accessor\Accessors;
 
+use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Prop;
 
 class Remove extends AbstractCollection
@@ -24,27 +25,17 @@ class Remove extends AbstractCollection
         return self::PREFIX;
     }
 
-    /**
-     * @param  mixed       $property
-     * @param  mixed       $value
-     * @param  Prop        $prop
-     * @param  bool        $stopPropagation
-     * @param  object|null $object
-     * @throws \Exception
-     */
-    protected function remove(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
+    protected function updateProperty(CallbackBag $callbackBag)
     {
-        $collection = static::getCollection($property);
-        if ($collection->contains($value)) {
-            if (null !== $prop->getMappedType()) {
-                static::handleMappedBy(
-                    $value,
-                    $prop,
-                    $stopPropagation,
-                    Set::PREFIX !== static::getPrefixByProp($prop) ? $object : null
+        $collection = $this->getCollection($callbackBag);
+        if ($collection->contains($callbackBag->getArgument(0))) {
+            if (null !== $callbackBag->getMappedType()) {
+                $this->handleMappedBy(
+                    $callbackBag,
+                    Set::PREFIX === $this->getPrefixByProp($callbackBag->getProp())
                 );
             }
-            $collection->remove($value);
+            $collection->remove($callbackBag->getArgument(0));
         }
     }
 }

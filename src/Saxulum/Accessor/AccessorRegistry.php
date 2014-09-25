@@ -9,10 +9,6 @@ trait AccessorRegistry
      */
     private static $__accessors = array();
 
-    /**
-     * @param  AccessorInterface $accessor
-     * @throws \Exception
-     */
     final public static function registerAccessor(AccessorInterface $accessor)
     {
         $prefix = $accessor->getPrefix();

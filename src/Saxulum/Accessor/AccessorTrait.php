@@ -82,10 +82,7 @@ trait AccessorTrait
                     $prop = $this->__properties[$property];
                     if ($prop->hasMethod($prefix)) {
                         return $accessor->callback(
-                            $this,
-                            $this->$property,
-                            $prop,
-                            $arguments
+                            new CallbackBag($prop, $this, $this->$property, $arguments)
                         );
                     }
                 }

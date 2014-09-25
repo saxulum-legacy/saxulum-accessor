@@ -3,6 +3,7 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Saxulum\Accessor\AccessorInterface;
+use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Hint;
 use Saxulum\Accessor\Prop;
 
@@ -14,58 +15,46 @@ abstract class AbstractWrite implements AccessorInterface
     protected static $remoteToPrefixMapping = array();
 
     /**
-     * @param  object $object
-     * @param  mixed  $property
-     * @param  Prop   $prop
-     * @param  array  $arguments
+     * @param  CallbackBag $callbackBag
      * @return mixed
+     * @throws \Exception
      */
-    public function callback($object, &$property, Prop $prop, array $arguments = array())
+    public function callback(CallbackBag $callbackBag)
     {
-        if (!array_key_exists(0, $arguments)) {
+        if (!$callbackBag->argumentExists(0)) {
             throw new \InvalidArgumentException($this->getPrefix() . ' accessor needs at least a value!');
         }
 
-        $value = $arguments[0];
-        $stopPropagation = isset($arguments[1]) ? $arguments[1] : false;
+        Hint::validateOrException(
+            $callbackBag->getName(),
+            $callbackBag->getArgument(0),
+            $callbackBag->getHint(),
+            $callbackBag->getNullable()
+        );
 
-        Hint::validateOrException($prop->getName(), $value, $prop->getHint(), $prop->getNullable());
+        $this->propertyDefault($callbackBag);
+        $this->updateProperty($callbackBag);
 
-        $this->propertyDefault($property);
-        $this->updateProperty($property, $value, $prop, $stopPropagation, $object);
-
-        return $object;
+        return $callbackBag->getObject();
     }
 
     /**
-     * @param mixed $property
+     * @param  CallbackBag $callbackBag
+     * @return void
      */
-    abstract protected function propertyDefault(&$property);
+    abstract protected function propertyDefault(CallbackBag $callbackBag);
 
     /**
-     * @param  object     $object
-     * @param  mixed      $property
-     * @param  Prop       $prop
-     * @param  mixed      $value
-     * @param  bool       $stopPropagation
-     * @throws \Exception
+     * @param  CallbackBag $callbackBag
+     * @return void
      */
-    protected function updateProperty(&$property, $value, Prop $prop, $stopPropagation, $object)
-    {
-        $method = $this->getPrefix();
-
-        if (!is_callable(array($this, $method))) {
-            throw new \Exception("Unsupported method '{$method}' for property '{$prop->getName()}' by accessor!");
-        }
-
-        $this->$method($property, $value, $prop, $stopPropagation, $object);
-    }
+    abstract protected function updateProperty(CallbackBag $callbackBag);
 
     /**
      * @param  Prop        $prop
      * @return string|null
      */
-    protected static function getPrefixByProp(Prop $prop)
+    protected function getPrefixByProp(Prop $prop)
     {
         if (null !== $mappedType = $prop->getMappedType()) {
             if (isset(static::$remoteToPrefixMapping[$prop->getMappedType()])) {

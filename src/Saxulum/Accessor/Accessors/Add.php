@@ -2,6 +2,7 @@
 
 namespace Saxulum\Accessor\Accessors;
 
+use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Prop;
 
 class Add extends AbstractCollection
@@ -25,20 +26,18 @@ class Add extends AbstractCollection
     }
 
     /**
-     * @param  mixed       $property
-     * @param  mixed       $value
-     * @param  Prop        $prop
-     * @param  bool        $stopPropagation
-     * @param  object|null $object
+     * @param  CallbackBag $callbackBag
      * @throws \Exception
      */
-    protected function add(&$property, $value, Prop $prop, $stopPropagation = false, $object = null)
+    protected function updateProperty(CallbackBag $callbackBag)
     {
-        $collection = static::getCollection($property);
+        $collection = $this->getCollection($callbackBag);
+        $value = $callbackBag->getArgument(0);
         if (false === $collection->contains($value)) {
-            if (null !== $prop->getMappedType()) {
-                static::handleMappedBy($value, $prop, $stopPropagation, $object);
+            if (null !== $callbackBag->getMappedType()) {
+                $this->handleMappedBy($callbackBag);
             }
+
             $collection->add($value);
         }
     }

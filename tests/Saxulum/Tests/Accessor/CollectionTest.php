@@ -18,7 +18,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(2, $array);
 
-        $collection->remove('value2');
+        $index = array_search('value2', $array, true);
+        unset($array[$index]);
 
         $this->assertCount(1, $array);
 
@@ -36,7 +37,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(2, $doctrineArrayCollection);
 
-        $collection->remove('value2');
+        $doctrineArrayCollection->removeElement('value2');
 
         $this->assertCount(1, $doctrineArrayCollection);
 

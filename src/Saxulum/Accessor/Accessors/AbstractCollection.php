@@ -3,57 +3,56 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Doctrine\Common\Collections\Collection;
+use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Collection\ArrayCollection;
 use Saxulum\Accessor\Collection\CollectionInterface;
 use Saxulum\Accessor\Collection\DoctrineArrayCollection;
-use Saxulum\Accessor\Prop;
 
 abstract class AbstractCollection extends AbstractWrite
 {
     /**
-     * @param $property
+     * @param CallbackBag $callbackBag
      */
-    protected function propertyDefault(&$property)
+    protected function propertyDefault(CallbackBag $callbackBag)
     {
-        if (null === $property) {
-            $property = array();
+        if (null === $callbackBag->getProperty()) {
+            $callbackBag->setProperty(array());
         }
     }
 
     /**
-     * @param  mixed               $property
+     * @param  CallbackBag         $callbackBag
      * @return CollectionInterface
-     * @throw \Exception
      */
-    protected static function getCollection(&$property)
+    protected function getCollection(CallbackBag $callbackBag)
     {
-        if (is_array($property)) {
-            return new ArrayCollection($property);
+        if (is_array($callbackBag->getProperty())) {
+            return new ArrayCollection($callbackBag->getProperty());
         }
 
-        if (interface_exists('Doctrine\Common\Collections\Collection') && $property instanceof Collection) {
-            return new DoctrineArrayCollection($property);
+        if (interface_exists('Doctrine\Common\Collections\Collection') && $callbackBag->getProperty() instanceof Collection) {
+            return new DoctrineArrayCollection($callbackBag->getProperty());
         }
 
         throw new \InvalidArgumentException("Property must be an array or a collection!");
     }
 
     /**
-     * @param  object     $value
-     * @param  Prop       $prop
-     * @param  bool       $stopPropagation
-     * @param  object     $object
+     * @param  CallbackBag $callbackBag
+     * @param  bool        $nullValue
      * @throws \Exception
      */
-    protected static function handleMappedBy($value, Prop $prop, $stopPropagation, $object)
+    protected function handleMappedBy(CallbackBag $callbackBag, $nullValue = false)
     {
-        if (null === $mappedBy = $prop->getMappedBy()) {
-            throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
+        if (null === $mappedBy = $callbackBag->getMappedBy()) {
+            throw new \Exception("Remote name needs to be set on '{$callbackBag->getName()}', if remote type is given!");
         }
 
-        if (!$stopPropagation) {
-            $method = static::getPrefixByProp($prop) . ucfirst($mappedBy);
-            $value->$method($object, true);
+        $value = false === $nullValue ? $callbackBag->getObject() : null;
+
+        if (false === $callbackBag->getArgument(1, false)) {
+            $method = $this->getPrefixByProp($callbackBag->getProp()) . ucfirst($mappedBy);
+            $callbackBag->getArgument(0)->$method($value, true);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\Prop;
+use Saxulum\Accessor\CallbackBag;
 
 class Is extends AbstractRead
 {
@@ -17,14 +17,11 @@ class Is extends AbstractRead
     }
 
     /**
-     * @param  object $object
-     * @param  mixed  $property
-     * @param  Prop   $prop
-     * @param  array  $arguments
+     * @param  CallbackBag $callbackBag
      * @return bool
      */
-    public function callback($object, &$property, Prop $prop, array $arguments = array())
+    public function callback(CallbackBag $callbackBag)
     {
-        return (bool) parent::callback($object, $property, $prop, $arguments);
+        return (bool) parent::callback($callbackBag);
     }
 }

@@ -3,23 +3,20 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Saxulum\Accessor\AccessorInterface;
-use Saxulum\Accessor\Prop;
+use Saxulum\Accessor\CallbackBag;
 
 abstract class AbstractRead implements AccessorInterface
 {
     /**
-     * @param  object $object
-     * @param  mixed  $property
-     * @param  Prop   $prop
-     * @param  array  $arguments
+     * @param  CallbackBag $callbackBag
      * @return mixed
      */
-    public function callback($object, &$property, Prop $prop, array $arguments = array())
+    public function callback(CallbackBag $callbackBag)
     {
-        if (count($arguments) !== 0) {
-            throw new \InvalidArgumentException($this->getPrefix() . ' accessor allows no argumen!');
+        if (count($callbackBag->getArguments()) !== 0) {
+            throw new \InvalidArgumentException($this->getPrefix() . ' accessor allows no argument!');
         }
 
-        return $property;
+        return $callbackBag->getProperty();
     }
 }
