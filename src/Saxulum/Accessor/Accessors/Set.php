@@ -12,7 +12,7 @@ class Set extends AbstractWrite
     /**
      * @var array
      */
-    protected static $remoteToPrefixMapping = array(
+    protected static $mappedTypePrefixes = array(
         Prop::REMOTE_ONE => array(Set::PREFIX, Set::PREFIX),
         Prop::REMOTE_MANY => array(Remove::PREFIX, Add::PREFIX),
     );
@@ -35,12 +35,13 @@ class Set extends AbstractWrite
      */
     protected function updateProperty(CallbackBag $callbackBag)
     {
-        $prefixes = $this->getPrefixByProp($callbackBag->getProp());
-        if (null !== $prefixes && !$callbackBag->getArgument(1, false)) {
+        $removePrefix = $this->getPrefixByProp($callbackBag->getProp(), 0);
+        $addPrefix = $this->getPrefixByProp($callbackBag->getProp(), 1);
+        $stopPropagation = $callbackBag->getArgument(1, false);
+
+        if (null !== $removePrefix && null !== $addPrefix && !$stopPropagation) {
             $mappedBy = $callbackBag->getMappedBy();
-            $removePrefix = $prefixes[0];
             $removeMethod = $removePrefix. ucfirst($mappedBy);
-            $addPrefix = $prefixes[1];
             $addMethod = $addPrefix. ucfirst($mappedBy);
             if (!is_null($callbackBag->getProperty())) {
                 $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $removePrefix ? $callbackBag->getObject() : null, true);
