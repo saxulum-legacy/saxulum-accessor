@@ -38,12 +38,10 @@ class Set extends AbstractWrite
         $prefixes = $this->getPrefixByProp($callbackBag->getProp());
         if (null !== $prefixes && !$callbackBag->getArgument(1, false)) {
             $mappedBy = $callbackBag->getMappedBy();
-            $removePrefix = $prefixes[0];
-            $removeMethod = $removePrefix. ucfirst($mappedBy);
-            $addPrefix = $prefixes[1];
-            $addMethod = $addPrefix. ucfirst($mappedBy);
+            $removeMethod = $prefixes[0]. ucfirst($mappedBy);
+            $addMethod = $prefixes[1]. ucfirst($mappedBy);
             if (!is_null($callbackBag->getProperty())) {
-                $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $removePrefix ? $callbackBag->getObject() : null, true);
+                $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $prefixes[0] ? $callbackBag->getObject() : null, true);
             }
             if (!is_null($callbackBag->getArgument(0))) {
                 $callbackBag->getArgument(0)->$addMethod($callbackBag->getObject(), true);
