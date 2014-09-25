@@ -40,11 +40,11 @@ class Set extends AbstractWrite
     {
         $prefixes = static::getPrefixByProp($prop);
         if (null !== $prefixes && !$stopPropagation) {
-            $remoteName = $prop->getRemoteName();
+            $mappedBy = $prop->getMappedBy();
             $removePrefix = $prefixes[0];
-            $removeMethod = $removePrefix. ucfirst($remoteName);
+            $removeMethod = $removePrefix. ucfirst($mappedBy);
             $addPrefix = $prefixes[1];
-            $addMethod = $addPrefix. ucfirst($remoteName);
+            $addMethod = $addPrefix. ucfirst($mappedBy);
             if (!is_null($property)) {
                 $property->$removeMethod(Set::PREFIX !== $removePrefix ? $object : null, true);
             }

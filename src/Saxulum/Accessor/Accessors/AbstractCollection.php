@@ -45,14 +45,14 @@ abstract class AbstractCollection extends AbstractWrite
      * @param  object     $object
      * @throws \Exception
      */
-    protected static function handleRemote($value, Prop $prop, $stopPropagation, $object)
+    protected static function handleMappedBy($value, Prop $prop, $stopPropagation, $object)
     {
-        if (null === $remoteName = $prop->getRemoteName()) {
+        if (null === $mappedBy = $prop->getMappedBy()) {
             throw new \Exception("Remote name needs to be set on '{$prop->getName()}', if remote type is given!");
         }
 
         if (!$stopPropagation) {
-            $method = static::getPrefixByProp($prop) . ucfirst($remoteName);
+            $method = static::getPrefixByProp($prop) . ucfirst($mappedBy);
             $value->$method($object, true);
         }
     }

@@ -27,12 +27,12 @@ class Prop
     /**
      * @var null|string
      */
-    protected $remoteName;
+    protected $mappedBy;
 
     /**
      * @var null|string
      */
-    protected $remoteType;
+    protected $mappedType;
 
     const REMOTE_ONE = 'one';
     const REMOTE_MANY = 'many';
@@ -41,16 +41,16 @@ class Prop
      * @param $name
      * @param string|null $hint
      * @param bool|null   $nullable
-     * @param string|null $remoteName
-     * @param string|null $remoteType
+     * @param string|null $mappedBy
+     * @param string|null $mappedType
      */
-    public function __construct($name, $hint = null, $nullable = null, $remoteName = null, $remoteType = null)
+    public function __construct($name, $hint = null, $nullable = null, $mappedBy = null, $mappedType = null)
     {
         $this->name = $name;
         $this->hint = $hint;
         $this->nullable = $nullable;
-        $this->remoteName = $remoteName;
-        $this->remoteType = $remoteType;
+        $this->mappedBy = $mappedBy;
+        $this->mappedType = $mappedType;
     }
 
     /**
@@ -80,17 +80,17 @@ class Prop
     /**
      * @return null|string
      */
-    public function getRemoteName()
+    public function getMappedBy()
     {
-        return $this->remoteName;
+        return $this->mappedBy;
     }
 
     /**
      * @return null|string
      */
-    public function getRemoteType()
+    public function getMappedType()
     {
-        return $this->remoteType;
+        return $this->mappedType;
     }
 
     /**

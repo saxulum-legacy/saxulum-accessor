@@ -7,7 +7,7 @@ use Saxulum\Tests\Accessor\Helpers\Many2One;
 use Saxulum\Tests\Accessor\Helpers\One2Many;
 use Saxulum\Tests\Accessor\Helpers\One2One;
 
-class RemoteAccessorTest extends \PHPUnit_Framework_TestCase
+class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 {
     public function testOne2One()
     {

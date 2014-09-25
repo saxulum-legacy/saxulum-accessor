@@ -67,9 +67,9 @@ abstract class AbstractWrite implements AccessorInterface
      */
     protected static function getPrefixByProp(Prop $prop)
     {
-        if (null !== $remoteType = $prop->getRemoteType()) {
-            if (isset(static::$remoteToPrefixMapping[$prop->getRemoteType()])) {
-                return static::$remoteToPrefixMapping[$prop->getRemoteType()];
+        if (null !== $mappedType = $prop->getMappedType()) {
+            if (isset(static::$remoteToPrefixMapping[$prop->getMappedType()])) {
+                return static::$remoteToPrefixMapping[$prop->getMappedType()];
             }
         }
 

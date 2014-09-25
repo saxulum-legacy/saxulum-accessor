@@ -36,8 +36,8 @@ class Add extends AbstractCollection
     {
         $collection = static::getCollection($property);
         if (false === $collection->contains($value)) {
-            if (null !== $prop->getRemoteType()) {
-                static::handleRemote($value, $prop, $stopPropagation, $object);
+            if (null !== $prop->getMappedType()) {
+                static::handleMappedBy($value, $prop, $stopPropagation, $object);
             }
             $collection->add($value);
         }

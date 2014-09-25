@@ -36,8 +36,8 @@ class Remove extends AbstractCollection
     {
         $collection = static::getCollection($property);
         if ($collection->contains($value)) {
-            if (null !== $prop->getRemoteType()) {
-                static::handleRemote(
+            if (null !== $prop->getMappedType()) {
+                static::handleMappedBy(
                     $value,
                     $prop,
                     $stopPropagation,
