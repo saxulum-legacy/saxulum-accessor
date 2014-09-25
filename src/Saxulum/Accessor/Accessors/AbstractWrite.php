@@ -12,7 +12,7 @@ abstract class AbstractWrite implements AccessorInterface
     /**
      * @var array
      */
-    protected static $mappedTypePrefixes = array();
+    protected static $remoteToPrefixMapping = array();
 
     /**
      * @param  CallbackBag $callbackBag
@@ -54,18 +54,11 @@ abstract class AbstractWrite implements AccessorInterface
      * @param  Prop        $prop
      * @return string|null
      */
-    protected function getPrefixByProp(Prop $prop, $index = null)
+    protected function getPrefixByProp(Prop $prop)
     {
         if (null !== $mappedType = $prop->getMappedType()) {
-            if (isset(static::$mappedTypePrefixes[$prop->getMappedType()])) {
-                $prefixes = static::$mappedTypePrefixes[$prop->getMappedType()];
-                if (null === $index) {
-                    return $prefixes;
-                }
-
-                if (null !== $index && isset($prefixes[$index])) {
-                    return $prefixes[$index];
-                }
+            if (isset(static::$remoteToPrefixMapping[$prop->getMappedType()])) {
+                return static::$remoteToPrefixMapping[$prop->getMappedType()];
             }
         }
 

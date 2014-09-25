@@ -12,7 +12,7 @@ class Remove extends AbstractCollection
     /**
      * @var array
      */
-    protected static $mappedTypePrefixes = array(
+    protected static $remoteToPrefixMapping = array(
         Prop::REMOTE_ONE => Set::PREFIX,
         Prop::REMOTE_MANY => Remove::PREFIX,
     );
