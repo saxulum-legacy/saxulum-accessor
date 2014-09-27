@@ -40,13 +40,13 @@ AccessorRegistry::registerAccessor(new Set());
 /**
  * @method $this setName(string $name)
  * @method string getName()
- * @method boolean isName()
- * @method $this addValue(string $value)
- * @method $this removeValue(string $value)
- * @method string getValue()
- * @method boolean isValue()
+ * @method $this setActive(bool $active)
+ * @method bool isActive()
+ * @method $this addManies(Many $many)
+ * @method $this removeManies(Many $many)
+ * @method Many[] getManies()
  */
-class MyObject
+class One
 {
     use AccessorTrait;
 
@@ -56,40 +56,89 @@ class MyObject
     protected $name;
 
     /**
-     * @var array
+     * @var bool
      */
-    protected $value = array();
+    protected $active;
+
+    /**
+     * @var Many[]
+     */
+    protected $manies = array();
 
     protected function initializeProperties()
     {
         $this->prop(
             (new Prop('name', Hint::HINT_STRING))
                 ->method(Get::PREFIX)
-                ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
+
         );
         $this->prop(
-            (new Prop('value', Hint::HINT_STRING))
+            (new Prop('active', Hint::HINT_BOOL))
+                ->method(Is::PREFIX)
+                ->method(Set::PREFIX)
+
+        );
+        $this->prop(
+            (new Prop('manies', 'Many', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
-                ->method(Is::PREFIX)
                 ->method(Remove::PREFIX)
         );
     }
 }
 
-$object = new MyObject();
-$object
-    ->setName('name')
-    ->addValue('value')
-    ->removeValue('value')
+/**
+ * @method $this setName(string $name)
+ * @method string getName()
+ * @method $this setOne(One $name)
+ * @method One getOne()
+ */
+class Many
+{
+    use AccessorTrait;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var One
+     */
+    protected $one;
+
+    protected function initializeProperties()
+    {
+        $this->prop(
+            (new Prop('name', Hint::HINT_STRING))
+                ->method(Get::PREFIX)
+                ->method(Set::PREFIX)
+        );
+        $this->prop(
+            (new Prop('one', 'One', true, 'manies', Prop::REMOTE_MANY))
+                ->method(Add::PREFIX)
+                ->method(Get::PREFIX)
+                ->method(Remove::PREFIX)
+        );
+    }
+}
+
+$one = new One();
+$one
+    ->setName('one')
+    ->setActive(true)
 ;
 
-$object->getName();
-$object->getValue();
+$many = new Many();
+$many
+    ->setName('many')
+    ->setOne($one)
+;
 
-$object->isName();
-$object->isValue();
+$one->getName(); // return: string 'one'
+$one->isActive(); // return: bool true
+$one->getManies(); // return: an array with one instance of 'Many'
 ```
 
 
@@ -97,15 +146,16 @@ $object->isValue();
 
 ### Pros:
 
-- less code to write
-- less code to debug
+- less own code to write
+- less owm code to debug
 - scalar type hints
+- handles bidirection relations
 
 ### Cons:
 
 - no auto generation of `@method` phpdoc (not yet)
 - slower (no benchmark)
-- more complex code to debug
+- more complex to debug
 - `method_exists` does not work
 
 
