@@ -67,24 +67,21 @@ class One
 
     protected function initializeProperties()
     {
-        $this->prop(
-            (new Prop('name', Hint::HINT_STRING))
+        $this
+            ->prop((new Prop('name', Hint::HINT_STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
-
-        );
-        $this->prop(
-            (new Prop('active', Hint::HINT_BOOL))
+            )
+            ->prop((new Prop('active', Hint::HINT_BOOL))
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
-
-        );
-        $this->prop(
-            (new Prop('manies', 'Many', true, 'one', Prop::REMOTE_ONE))
+            )
+            ->prop((new Prop('manies', 'Many', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)
-        );
+            )
+        ;
     }
 }
 
@@ -110,17 +107,17 @@ class Many
 
     protected function initializeProperties()
     {
-        $this->prop(
-            (new Prop('name', Hint::HINT_STRING))
+        $this
+            ->prop((new Prop('name', Hint::HINT_STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
-        );
-        $this->prop(
-            (new Prop('one', 'One', true, 'manies', Prop::REMOTE_MANY))
+            )
+            ->prop((new Prop('one', 'One', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)
-        );
+            )
+        ;
     }
 }
 
