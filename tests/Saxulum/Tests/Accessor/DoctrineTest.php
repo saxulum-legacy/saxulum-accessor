@@ -5,13 +5,13 @@ namespace Saxulum\Tests\Accessor;
 use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Common\Proxy\ProxyGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\Entity\Entity;
 
 class DoctrineTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoctrineProxy()
     {
-        $className = 'Saxulum\Tests\Accessor\Helpers\AccessorHelper';
+        $className = 'Saxulum\Tests\Accessor\Helpers\Entity\Entity';
 
         $proxyDirectory = __DIR__ . '/../../../../proxy/';
         $proxyNamespace = 'Proxy';
@@ -24,7 +24,7 @@ class DoctrineTest extends \PHPUnit_Framework_TestCase
 
         $reflectionService = new RuntimeReflectionService();
 
-        $classMetadata = new ClassMetadata(get_class(new AccessorHelper()));
+        $classMetadata = new ClassMetadata(get_class(new Entity()));
         $classMetadata->initializeReflection($reflectionService);
 
         $proxyGenerator = new ProxyGenerator($proxyDirectory, $proxyNamespace);
@@ -32,7 +32,7 @@ class DoctrineTest extends \PHPUnit_Framework_TestCase
 
         require $proxyClassFilename;
 
-        /** @var AccessorHelper $proxy */
+        /** @var Entity $proxy */
         $proxy = new $proxyClassName();
 
         $proxy->setName('test');

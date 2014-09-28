@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers;
+namespace Saxulum\Tests\Accessor\Helpers\Mapping;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,17 +12,17 @@ use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Accessor\Prop;
 
 /**
- * @method Many2Many[] getManies()
- * @method $this addManies(Many2Many $many, $stopPropagation = false)
- * @method $this removeManies(Many2Many $many, $stopPropagation = false)
+ * @method Many2One[] getManies()
+ * @method $this addManies(Many2One $many, $stopPropagation = false)
+ * @method $this removeManies(Many2One $many, $stopPropagation = false)
  * @method $this setManies(array $manies)
  */
-class Many2Many
+class One2Many
 {
     use AccessorTrait;
 
     /**
-     * @var Collection|Many2Many[]
+     * @var Collection|Many2One[]
      */
     protected $manies;
 
@@ -34,7 +34,7 @@ class Many2Many
     protected function initializeProperties()
     {
         $this->prop(
-            (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Many2Many[]', true, 'manies', Prop::REMOTE_MANY))
+            (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Mapping\Many2One[]', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers;
+namespace Saxulum\Tests\Accessor\Helpers\Mapping;
 
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Set;
@@ -8,22 +8,22 @@ use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Accessor\Prop;
 
 /**
- * @method One2One getOne()
- * @method $this setOne(One2One $one, $stopPropagation = false)
+ * @method One2Many getOne()
+ * @method $this setOne(One2Many $one2Many, bool $stopPropagation = false)
  */
-class One2One
+class Many2One
 {
     use AccessorTrait;
 
     /**
-     * @var One2One
+     * @var One2Many
      */
     protected $one;
 
     protected function initializeProperties()
     {
         $this->prop(
-            (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\One2One', true, 'one', Prop::REMOTE_ONE))
+            (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
         );

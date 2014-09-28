@@ -2,10 +2,10 @@
 
 namespace Saxulum\Tests\Accessor;
 
-use Saxulum\Tests\Accessor\Helpers\Many2Many;
-use Saxulum\Tests\Accessor\Helpers\Many2One;
-use Saxulum\Tests\Accessor\Helpers\One2Many;
-use Saxulum\Tests\Accessor\Helpers\One2One;
+use Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many;
+use Saxulum\Tests\Accessor\Helpers\Mapping\Many2One;
+use Saxulum\Tests\Accessor\Helpers\Mapping\One2Many;
+use Saxulum\Tests\Accessor\Helpers\Mapping\One2One;
 
 class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $one1->setOne($one2);
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2One', $one1->getOne());
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2One', $one2->getOne());
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\One2One', $one1->getOne());
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\One2One', $one2->getOne());
 
         $one2->setOne(null);
 
@@ -32,8 +32,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $one->addManies($many);
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2One', $one->getManies()[0]);
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2Many', $many->getOne());
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2One', $one->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', $many->getOne());
 
         $many->setOne(null);
 
@@ -48,8 +48,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $one->setManies(array($many));
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2One', $one->getManies()[0]);
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2Many', $many->getOne());
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2One', $one->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', $many->getOne());
 
         $many->setOne(null);
 
@@ -64,8 +64,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $many->setOne($one);
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2One', $one->getManies()[0]);
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2Many', $many->getOne());
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2One', $one->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', $many->getOne());
 
         $one->removeManies($many);
 
@@ -80,8 +80,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $many1->addManies($many2);
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many1->getManies()[0]);
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many2->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many', $many1->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many', $many2->getManies()[0]);
 
         $many2->removeManies($many1);
 
@@ -96,8 +96,8 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
 
         $many1->setManies(array($many2));
 
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many1->getManies()[0]);
-        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many2->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many', $many1->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many', $many2->getManies()[0]);
 
         $many2->setManies(array());
 
