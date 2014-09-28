@@ -4,7 +4,7 @@ namespace Saxulum\Accessor\Accessors;
 
 use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\CallbackBag;
-use Saxulum\Accessor\Hint;
+use Saxulum\Hint\Hint;
 use Saxulum\Accessor\Prop;
 
 abstract class AbstractWrite implements AccessorInterface

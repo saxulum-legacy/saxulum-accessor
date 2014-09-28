@@ -68,11 +68,11 @@ class One
     protected function initializeProperties()
     {
         $this
-            ->prop((new Prop('name', Hint::HINT_STRING))
+            ->prop((new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
             )
-            ->prop((new Prop('active', Hint::HINT_BOOL))
+            ->prop((new Prop('active', Hint::BOOL))
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
             )
@@ -108,7 +108,7 @@ class Many
     protected function initializeProperties()
     {
         $this
-            ->prop((new Prop('name', Hint::HINT_STRING))
+            ->prop((new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
             )

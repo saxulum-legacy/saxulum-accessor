@@ -5,7 +5,7 @@ namespace Saxulum\Tests\Accessor;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Set;
-use Saxulum\Accessor\Hint;
+use Saxulum\Hint\Hint;
 use Saxulum\Accessor\Prop;
 
 class PropTest extends \PHPUnit_Framework_TestCase
@@ -21,19 +21,19 @@ class PropTest extends \PHPUnit_Framework_TestCase
 
     public function testWithHint()
     {
-        $prop = new Prop('test', Hint::HINT_STRING);
+        $prop = new Prop('test', Hint::STRING);
 
         $this->assertEquals('test', $prop->getName());
-        $this->assertEquals(Hint::HINT_STRING, $prop->getHint());
+        $this->assertEquals(Hint::STRING, $prop->getHint());
         $this->assertEquals(null, $prop->getNullable());
     }
 
     public function testWithHintAndNullableFalse()
     {
-        $prop = new Prop('test', Hint::HINT_STRING, false);
+        $prop = new Prop('test', Hint::STRING, false);
 
         $this->assertEquals('test', $prop->getName());
-        $this->assertEquals(Hint::HINT_STRING, $prop->getHint());
+        $this->assertEquals(Hint::STRING, $prop->getHint());
         $this->assertFalse($prop->getNullable());
     }
 

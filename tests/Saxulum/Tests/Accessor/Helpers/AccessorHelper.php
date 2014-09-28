@@ -9,7 +9,7 @@ use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
-use Saxulum\Accessor\Hint;
+use Saxulum\Hint\Hint;
 use Saxulum\Accessor\Prop;
 
 /**
@@ -51,13 +51,13 @@ class AccessorHelper
     {
         $this->prop((new Prop('id'))->method(Get::PREFIX));
         $this->prop(
-            (new Prop('name', Hint::HINT_STRING))
+            (new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
         );
         $this->prop(
-            (new Prop('value', Hint::HINT_STRING))
+            (new Prop('value', Hint::STRING))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Is::PREFIX)
