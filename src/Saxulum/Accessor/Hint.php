@@ -7,6 +7,7 @@ class Hint
     const HINT_BOOL = 'bool';
     const HINT_INT = 'int';
     const HINT_FLOAT = 'float';
+    const HINT_NUMERIC = 'numeric';
     const HINT_STRING = 'string';
     const HINT_ARRAY = 'array';
 
@@ -149,6 +150,20 @@ class Hint
     {
         return self::validateByCallable(
             'is_float',
+            $value,
+            self::isNullableScalar($nullable)
+        );
+    }
+
+    /**
+     * @param  mixed     $value
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    public static function validateNumeric($value, $nullable = null)
+    {
+        return self::validateByCallable(
+            'is_numeric',
             $value,
             self::isNullableScalar($nullable)
         );

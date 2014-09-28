@@ -30,6 +30,15 @@ class HintTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Hint::validateFloat(null, false));
     }
 
+    public function testValidateNumeric()
+    {
+        $this->assertTrue(Hint::validateNumeric(1));
+        $this->assertTrue(Hint::validateNumeric(1.0));
+        $this->assertTrue(Hint::validateNumeric('1.0'));
+        $this->assertTrue(Hint::validateNumeric(null));
+        $this->assertFalse(Hint::validateNumeric(null, false));
+    }
+
     public function testValidateString()
     {
         $this->assertTrue(Hint::validateString('test'));
@@ -76,6 +85,13 @@ class HintTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Hint::validate(null, Hint::HINT_FLOAT));
         $this->assertFalse(Hint::validate(1, Hint::HINT_FLOAT));
         $this->assertFalse(Hint::validate(null, Hint::HINT_FLOAT, false));
+
+        // numeric
+        $this->assertTrue(Hint::validate(1.0));
+        $this->assertTrue(Hint::validate(1.0, Hint::HINT_NUMERIC));
+        $this->assertTrue(Hint::validate(null, Hint::HINT_NUMERIC));
+        $this->assertFalse(Hint::validate('test', Hint::HINT_NUMERIC));
+        $this->assertFalse(Hint::validate(null, Hint::HINT_NUMERIC, false));
 
         // string
         $this->assertTrue(Hint::validate('test'));
