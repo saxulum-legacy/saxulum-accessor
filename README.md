@@ -76,7 +76,7 @@ class One
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
             )
-            ->prop((new Prop('manies', 'Many', true, 'one', Prop::REMOTE_ONE))
+            ->prop((new Prop('manies', 'Many[]', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)
