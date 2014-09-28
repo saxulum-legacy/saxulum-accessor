@@ -23,8 +23,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $array);
 
-        $this->assertTrue($collection->contains('value1'));
-        $this->assertFalse($collection->contains('value2'));
+        $this->assertTrue(in_array('value1', $array, true));
+        $this->assertFalse(in_array('value2', $array, true));
     }
 
     public function testDoctrineArrayColletion()
@@ -41,7 +41,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $doctrineArrayCollection);
 
-        $this->assertTrue($collection->contains('value1'));
-        $this->assertFalse($collection->contains('value2'));
+        $this->assertTrue($doctrineArrayCollection->contains('value1'));
+        $this->assertFalse($doctrineArrayCollection->contains('value2'));
     }
 }
