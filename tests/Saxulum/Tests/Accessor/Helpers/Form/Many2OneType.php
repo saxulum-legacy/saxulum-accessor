@@ -2,12 +2,12 @@
 
 namespace Saxulum\Tests\Accessor\Helpers\Form;
 
-use Saxulum\Tests\Accessor\Helpers\Mapping\One2Many;
+use Saxulum\Tests\Accessor\Helpers\Mapping\Many2One;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class One2ManyType extends AbstractType
+class Many2OneType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,13 +15,7 @@ class One2ManyType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('manies', 'collection', array(
-                'type' => new Many2OneType(),
-                'allow_add' => true,
-                'by_reference' => false,
-            ))
-        ;
+        $builder->add('name', 'text');
     }
 
     /**
@@ -31,12 +25,12 @@ class One2ManyType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => get_class(new One2Many()),
+            'data_class' => get_class(new Many2One()),
         ));
     }
 
     public function getName()
     {
-        return 'one2many';
+        return 'many2one';
     }
 }

@@ -3,11 +3,14 @@
 namespace Saxulum\Tests\Accessor;
 
 use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
+use Saxulum\Tests\Accessor\Helpers\Form\One2ManyType;
+use Saxulum\Tests\Accessor\Helpers\Mapping\One2Many;
+use Symfony\Component\Form\Forms;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SymfonyTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSymfonyPropertyAccess()
+    public function testPropertyAccess()
     {
         $object = new AccessorHelper();
 
@@ -15,5 +18,27 @@ class SymfonyTest extends \PHPUnit_Framework_TestCase
         $accessor->setValue($object, 'name', 'test');
 
         $this->assertEquals('test', $accessor->getValue($object, 'name'));
+    }
+
+    public function testForm()
+    {
+        $one = new One2Many();
+
+        $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
+
+        $form = $formFactory->createBuilder(new One2ManyType(), $one)->getForm();
+
+        $form->submit(array(
+            'manies' => array(
+                array('name' => 'name1'),
+                array('name' => 'name2')
+            )
+        ));
+
+        $manies = $one->getManies();
+
+        $this->assertCount(2, $manies);
+        $this->assertEquals('name1', $manies[0]->getName());
+        $this->assertEquals('name2', $manies[1]->getName());
     }
 }
