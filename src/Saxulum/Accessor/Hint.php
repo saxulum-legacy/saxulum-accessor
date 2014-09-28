@@ -38,15 +38,13 @@ class Hint
         }
 
         $isIteratableHint = self::isIteratableHint($hint);
-        if ($isIteratableHint) {
-            $hint = self::getHintByIteratableHint($hint);
-        }
+        $hint = self::getHint($hint);
 
         if (!$isIteratableHint || !self::isIteratableValue($value)) {
             return self::validateOne($value, $hint, $nullable);
-        } else {
-            return self::validateMany($value, $hint, $nullable);
         }
+
+        return self::validateMany($value, $hint, $nullable);
     }
 
     /**
@@ -62,9 +60,13 @@ class Hint
      * @param  string $hint
      * @return string
      */
-    protected static function getHintByIteratableHint($hint)
+    protected static function getHint($hint)
     {
-        return substr($hint, 0, -2);
+        if (self::isIteratableHint($hint)) {
+            return substr($hint, 0, -2);
+        }
+
+        return $hint;
     }
 
     /**
