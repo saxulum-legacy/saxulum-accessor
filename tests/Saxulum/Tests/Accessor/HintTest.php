@@ -97,5 +97,11 @@ class HintTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Hint::validate(null, '\stdClass', true));
         $this->assertFalse(Hint::validate('test', '\stdClass'));
         $this->assertFalse(Hint::validate(null, '\stdClass'));
+
+        // many objects
+        $this->assertTrue(Hint::validate(array(new \stdClass()), '\stdClass[]'));
+        $this->assertTrue(Hint::validate(array(new \stdClass(), new \stdClass()), '\stdClass[]'));
+        $this->assertTrue(Hint::validate(array(new \stdClass(), null), '\stdClass[]', true));
+        $this->assertFalse(Hint::validate(array(new \stdClass(), null, 'test'), '\stdClass[]', true));
     }
 }

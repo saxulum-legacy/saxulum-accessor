@@ -11,27 +11,6 @@ class Hint
     const HINT_ARRAY = 'array';
 
     /**
-     * @param  mixed       $value
-     * @param  string|null $hint
-     * @param  bool|null   $nullable
-     * @return bool
-     */
-    public static function validate($value, $hint = null, $nullable = null)
-    {
-        if (null === $hint) {
-            return true;
-        }
-
-        $method = 'validate' . ucfirst($hint);
-
-        if (method_exists(__CLASS__, $method)) {
-            return self::$method($value, $nullable);
-        }
-
-        return self::validateObject($value, $hint, $nullable);
-    }
-
-    /**
      * @param  string      $varname
      * @param  mixed       $value
      * @param  string|null $hint
@@ -44,6 +23,91 @@ class Hint
             $type = gettype($value);
             throw new \Exception("Invalid type '{$type}' for hint '{$hint}' on property '{$varname}'!");
         }
+    }
+
+    /**
+     * @param  mixed       $value
+     * @param  string|null $hint
+     * @param  bool|null   $nullable
+     * @return bool
+     */
+    public static function validate($value, $hint = null, $nullable = null)
+    {
+        if (null === $hint) {
+            return true;
+        }
+
+        $isIteratableHint = self::isIteratableHint($hint);
+        if ($isIteratableHint) {
+            $hint = self::getHintByIteratableHint($hint);
+        }
+
+        if (!$isIteratableHint || !self::isIteratableValue($value)) {
+            return self::validateOne($value, $hint, $nullable);
+        } else {
+            return self::validateMany($value, $hint, $nullable);
+        }
+    }
+
+    /**
+     * @param  string $hint
+     * @return bool
+     */
+    protected static function isIteratableHint($hint)
+    {
+        return substr($hint, -2) === '[]';
+    }
+
+    /**
+     * @param  string $hint
+     * @return string
+     */
+    protected static function getHintByIteratableHint($hint)
+    {
+        return substr($hint, 0, -2);
+    }
+
+    /**
+     * @param  mixed $value
+     * @return bool
+     */
+    protected static function isIteratableValue($value)
+    {
+        return is_array($value) || $value instanceof \Traversable;
+    }
+
+    /**
+     * @param  mixed     $value
+     * @param  string    $hint
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function validateOne($value, $hint, $nullable)
+    {
+        $method = 'validate' . ucfirst($hint);
+
+        if (method_exists(__CLASS__, $method)) {
+            return self::$method($value, $nullable);
+        }
+
+        return self::validateObject($value, $hint, $nullable);
+    }
+
+    /**
+     * @param  mixed     $value
+     * @param  string    $hint
+     * @param  bool|null $nullable
+     * @return bool
+     */
+    protected static function validateMany($value, $hint, $nullable)
+    {
+        foreach ($value as $element) {
+            if (!self::validateOne($element, $hint, $nullable)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
