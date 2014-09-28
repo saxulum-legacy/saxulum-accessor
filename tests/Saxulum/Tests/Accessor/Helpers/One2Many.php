@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Saxulum\Accessor\Accessors\Add;
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Remove;
+use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Accessor\Prop;
 
@@ -14,6 +15,7 @@ use Saxulum\Accessor\Prop;
  * @method Many2One[] getManies()
  * @method $this addManies(Many2One $many, $stopPropagation = false)
  * @method $this removeManies(Many2One $many, $stopPropagation = false)
+ * @method $this setManies(array $manies)
  */
 class One2Many
 {
@@ -32,10 +34,11 @@ class One2Many
     protected function initializeProperties()
     {
         $this->prop(
-            (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Many2One', true, 'one', Prop::REMOTE_ONE))
+            (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Many2One[]', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)
+                ->method(Set::PREFIX)
         );
     }
 }

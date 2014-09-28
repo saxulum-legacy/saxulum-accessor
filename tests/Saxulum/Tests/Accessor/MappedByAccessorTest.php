@@ -41,6 +41,22 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $many->getOne());
     }
 
+    public function testOne2ManyMany2OneWithSet()
+    {
+        $one = new One2Many();
+        $many = new Many2One();
+
+        $one->setManies(array($many));
+
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2One', $one->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\One2Many', $many->getOne());
+
+        $many->setOne(null);
+
+        $this->assertCount(0, $one->getManies());
+        $this->assertEquals(null, $many->getOne());
+    }
+
     public function testMany2OneOne2Many()
     {
         $one = new One2Many();
@@ -68,6 +84,22 @@ class MappedByAccessorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many2->getManies()[0]);
 
         $many2->removeManies($many1);
+
+        $this->assertCount(0, $many1->getManies());
+        $this->assertCount(0, $many2->getManies());
+    }
+
+    public function testMany2ManyWithSet()
+    {
+        $many1 = new Many2Many();
+        $many2 = new Many2Many();
+
+        $many1->setManies(array($many2));
+
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many1->getManies()[0]);
+        $this->assertInstanceOf('Saxulum\Tests\Accessor\Helpers\Many2Many', $many2->getManies()[0]);
+
+        $many2->setManies(array());
 
         $this->assertCount(0, $many1->getManies());
         $this->assertCount(0, $many2->getManies());

@@ -35,18 +35,56 @@ class Set extends AbstractWrite
      */
     protected function updateProperty(CallbackBag $callbackBag)
     {
+        if (!$callbackBag->getProp()->hasMethod(Add::PREFIX) || !$callbackBag->getProp()->hasMethod(Remove::PREFIX)) {
+            $this->updateSimpleProperty($callbackBag);
+        } else {
+            $this->updateCollectionProperty($callbackBag);
+        }
+    }
+
+    /**
+     * @param CallbackBag $callbackBag
+     */
+    protected function updateSimpleProperty(CallbackBag $callbackBag)
+    {
         $prefixes = $this->getPrefixByProp($callbackBag->getProp());
+        $removePrefix = $prefixes[0];
+        $addPrefix = $prefixes[1];
+        $value = $callbackBag->getArgument(0);
+
         if (null !== $prefixes && !$callbackBag->getArgument(1, false)) {
             $mappedBy = $callbackBag->getMappedBy();
-            $removeMethod = $prefixes[0]. ucfirst($mappedBy);
-            $addMethod = $prefixes[1]. ucfirst($mappedBy);
+            $removeMethod = $removePrefix. ucfirst($mappedBy);
+            $addMethod = $addPrefix. ucfirst($mappedBy);
             if (!is_null($callbackBag->getProperty())) {
-                $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $prefixes[0] ? $callbackBag->getObject() : null, true);
+                $callbackBag->getProperty()->$removeMethod(Set::PREFIX !== $removePrefix ? $callbackBag->getObject() : null, true);
             }
-            if (!is_null($callbackBag->getArgument(0))) {
-                $callbackBag->getArgument(0)->$addMethod($callbackBag->getObject(), true);
+            if (!is_null($value)) {
+                $value->$addMethod($callbackBag->getObject(), true);
             }
         }
-        $callbackBag->setProperty($callbackBag->getArgument(0));
+
+        $callbackBag->setProperty($value);
+    }
+
+    /**
+     * @param CallbackBag $callbackBag
+     */
+    protected function updateCollectionProperty(CallbackBag $callbackBag)
+    {
+        $object = $callbackBag->getObject();
+        $propertyName = $callbackBag->getName();
+        $oldValues = $callbackBag->getProperty();
+        $newValues = $callbackBag->getArgument(0);
+        $addMethod = Add::PREFIX . ucfirst($propertyName);
+        $removeMethod = Remove::PREFIX . ucfirst($propertyName);
+
+        foreach ($oldValues as $oldValue) {
+            $object->$removeMethod($oldValue);
+        }
+
+        foreach ($newValues as $newValue) {
+            $object->$addMethod($newValue);
+        }
     }
 }
