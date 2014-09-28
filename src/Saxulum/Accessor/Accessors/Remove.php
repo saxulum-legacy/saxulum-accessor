@@ -28,14 +28,12 @@ class Remove extends AbstractCollection
     protected function updateProperty(CallbackBag $callbackBag)
     {
         $collection = $this->getCollection($callbackBag);
-        if ($collection->contains($callbackBag->getArgument(0))) {
-            if (null !== $callbackBag->getMappedType()) {
-                $this->handleMappedBy(
-                    $callbackBag,
-                    Set::PREFIX === $this->getPrefixByProp($callbackBag->getProp())
-                );
-            }
-            $collection->remove($callbackBag->getArgument(0));
+        if (null !== $callbackBag->getMappedType()) {
+            $this->handleMappedBy(
+                $callbackBag,
+                Set::PREFIX === $this->getPrefixByProp($callbackBag->getProp())
+            );
         }
+        $collection->remove($callbackBag->getArgument(0));
     }
 }

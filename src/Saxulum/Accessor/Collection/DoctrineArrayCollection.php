@@ -36,13 +36,4 @@ class DoctrineArrayCollection implements CollectionInterface
     {
         $this->collection->removeElement($element);
     }
-
-    /**
-     * @param  mixed $element
-     * @return bool
-     */
-    public function contains($element)
-    {
-        return $this->collection->contains($element);
-    }
 }

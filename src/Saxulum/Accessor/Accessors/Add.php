@@ -33,12 +33,10 @@ class Add extends AbstractCollection
     {
         $collection = $this->getCollection($callbackBag);
         $value = $callbackBag->getArgument(0);
-        if (false === $collection->contains($value)) {
-            if (null !== $callbackBag->getMappedType()) {
-                $this->handleMappedBy($callbackBag);
-            }
-
-            $collection->add($value);
+        if (null !== $callbackBag->getMappedType()) {
+            $this->handleMappedBy($callbackBag);
         }
+
+        $collection->add($value);
     }
 }

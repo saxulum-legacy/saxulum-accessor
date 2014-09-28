@@ -36,13 +36,4 @@ class ArrayCollection implements CollectionInterface
             unset($this->array[$index]);
         }
     }
-
-    /**
-     * @param  mixed $element
-     * @return bool
-     */
-    public function contains($element)
-    {
-        return in_array($element, $this->array, true);
-    }
 }

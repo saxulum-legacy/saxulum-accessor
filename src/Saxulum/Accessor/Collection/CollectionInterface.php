@@ -15,10 +15,4 @@ interface CollectionInterface
      * @return void
      */
     public function remove($element);
-
-    /**
-     * @param  mixed $element
-     * @return bool
-     */
-    public function contains($element);
 }
