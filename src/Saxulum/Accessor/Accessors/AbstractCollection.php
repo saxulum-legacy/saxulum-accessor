@@ -7,6 +7,7 @@ use Saxulum\Accessor\CallbackBag;
 use Saxulum\Accessor\Collection\ArrayCollection;
 use Saxulum\Accessor\Collection\CollectionInterface;
 use Saxulum\Accessor\Collection\DoctrineArrayCollection;
+use Saxulum\Accessor\Prop;
 
 abstract class AbstractCollection extends AbstractWrite
 {
@@ -54,5 +55,24 @@ abstract class AbstractCollection extends AbstractWrite
             $method = $this->getPrefixByProp($callbackBag->getProp()) . ucfirst($mappedBy);
             $callbackBag->getArgument(0)->$method($value, true);
         }
+    }
+
+    /**
+     * @param  Prop   $prop
+     * @return string
+     */
+    protected static function getPhpDocHint(Prop $prop)
+    {
+        if (null === $prop->getHint()) {
+            return '';
+        }
+
+        $hint = $prop->getHint();
+
+        if (substr($hint, -2) === '[]') {
+            return substr($hint, 0, -2) . ' ';
+        }
+
+        return $hint . ' ';
     }
 }

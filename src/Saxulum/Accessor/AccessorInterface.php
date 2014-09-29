@@ -14,4 +14,10 @@ interface AccessorInterface
      * @return mixed
      */
     public function callback(CallbackBag $callbackBag);
+
+    /**
+     * @param  Prop        $prop
+     * @return string|null
+     */
+    public static function generatePhpDoc(Prop $prop);
 }

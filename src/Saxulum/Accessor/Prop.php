@@ -20,7 +20,7 @@ class Prop
     protected $nullable;
 
     /**
-     * @var array|null
+     * @var string[]|null
      */
     protected $accessorPrefixes;
 
@@ -121,5 +121,23 @@ class Prop
         }
 
         return in_array($accessorPrefix, $this->accessorPrefixes, true);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function generatePhpDoc()
+    {
+        if (null === $this->accessorPrefixes) {
+            return null;
+        }
+
+        $phpdoc = '';
+        foreach ($this->accessorPrefixes as $accessorPrefix) {
+            $accessor = AccessorRegistry::getAccessor($accessorPrefix);
+            $phpdoc .= $accessor->generatePhpDoc($this). "\n";
+        }
+
+        return $phpdoc;
     }
 }

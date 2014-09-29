@@ -64,4 +64,24 @@ abstract class AbstractWrite implements AccessorInterface
 
         return null;
     }
+
+    /**
+     * @param  Prop        $prop
+     * @return string|null
+     */
+    public static function generatePhpDoc(Prop $prop)
+    {
+        $name = $prop->getName();
+
+        return '@method $this ' . static::PREFIX . ucfirst($name) . '(' .  static::getPhpDocHint($prop) . '$' . $name . ')';
+    }
+
+    /**
+     * @param  Prop   $prop
+     * @return string
+     */
+    protected static function getPhpDocHint(Prop $prop)
+    {
+        return null !== $prop->getHint() ? $prop->getHint() . ' ' : '';
+    }
 }

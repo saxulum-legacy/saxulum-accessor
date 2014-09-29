@@ -27,4 +27,13 @@ trait AccessorRegistry
     {
         return self::$__accessors;
     }
+
+    /**
+     * @param $prefix
+     * @return null|AccessorInterface
+     */
+    final public static function getAccessor($prefix)
+    {
+        return isset(self::$__accessors[$prefix]) ? self::$__accessors[$prefix] : null;
+    }
 }

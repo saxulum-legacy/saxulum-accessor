@@ -4,6 +4,7 @@ namespace Saxulum\Accessor\Accessors;
 
 use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\CallbackBag;
+use Saxulum\Accessor\Prop;
 
 abstract class AbstractRead implements AccessorInterface
 {
@@ -18,5 +19,25 @@ abstract class AbstractRead implements AccessorInterface
         }
 
         return $callbackBag->getProperty();
+    }
+
+    /**
+     * @param  Prop        $prop
+     * @return string|null
+     */
+    public static function generatePhpDoc(Prop $prop)
+    {
+        $name = $prop->getName();
+
+        return '@method ' . static::getPhpDocHint($prop) . static::PREFIX . ucfirst($name) . '()';
+    }
+
+    /**
+     * @param  Prop   $prop
+     * @return string
+     */
+    protected static function getPhpDocHint(Prop $prop)
+    {
+        return null !== $prop->getHint() ? $prop->getHint() . ' ' : '';
     }
 }
