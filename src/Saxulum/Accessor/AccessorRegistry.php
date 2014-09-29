@@ -29,7 +29,7 @@ trait AccessorRegistry
     }
 
     /**
-     * @param $prefix
+     * @param  string                 $prefix
      * @return null|AccessorInterface
      */
     final public static function getAccessor($prefix)
