@@ -49,7 +49,7 @@ class AccessorHelper
 
     protected function initializeProperties()
     {
-        $this->prop((new Prop('id'))->method(Get::PREFIX));
+        $this->prop((new Prop('id', Hint::INT))->method(Get::PREFIX));
         $this->prop(
             (new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
