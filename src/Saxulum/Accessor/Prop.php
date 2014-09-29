@@ -20,11 +20,6 @@ class Prop
     protected $nullable;
 
     /**
-     * @var string[]|null
-     */
-    protected $accessorPrefixes;
-
-    /**
      * @var null|string
      */
     protected $mappedBy;
@@ -36,6 +31,11 @@ class Prop
 
     const REMOTE_ONE = 'one';
     const REMOTE_MANY = 'many';
+
+    /**
+     * @var string[]
+     */
+    protected $accessorPrefixes = array();
 
     /**
      * @param $name
@@ -99,10 +99,6 @@ class Prop
      */
     public function method($accessorPrefix)
     {
-        if (null === $this->accessorPrefixes) {
-            $this->accessorPrefixes = array();
-        }
-
         if (!in_array($accessorPrefix, $this->accessorPrefixes, true)) {
             $this->accessorPrefixes[] = $accessorPrefix;
         }
@@ -116,22 +112,14 @@ class Prop
      */
     public function hasMethod($accessorPrefix)
     {
-        if (null === $this->accessorPrefixes) {
-            return false;
-        }
-
         return in_array($accessorPrefix, $this->accessorPrefixes, true);
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function generatePhpDoc()
     {
-        if (null === $this->accessorPrefixes) {
-            return null;
-        }
-
         $phpdoc = '';
         foreach ($this->accessorPrefixes as $accessorPrefix) {
             $accessor = AccessorRegistry::getAccessor($accessorPrefix);

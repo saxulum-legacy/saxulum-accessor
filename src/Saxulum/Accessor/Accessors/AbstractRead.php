@@ -22,8 +22,8 @@ abstract class AbstractRead implements AccessorInterface
     }
 
     /**
-     * @param  Prop        $prop
-     * @return string|null
+     * @param  Prop   $prop
+     * @return string
      */
     public static function generatePhpDoc(Prop $prop)
     {
