@@ -120,7 +120,7 @@ trait AccessorTrait
      * @return static
      * @throws \Exception
      */
-    final public function _prop(Prop $property)
+    final protected function _prop(Prop $property)
     {
         $name = $property->getName();
 
