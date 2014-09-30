@@ -59,17 +59,18 @@ abstract class AbstractCollection extends AbstractWrite
 
     /**
      * @param  Prop   $prop
+     * @param  string $namespace
      * @return string
      */
-    protected static function getPhpDocHint(Prop $prop)
+    protected static function getPhpDocHint(Prop $prop, $namespace)
     {
-        if (null === $prop->getHint()) {
-            return '';
+        $hint = $prop->getPhpDocHint($namespace);
+
+        if ('' === $hint) {
+            return $hint;
         }
 
-        $hint = $prop->getHint();
-
-        if (substr($hint, -2) === '[]') {
+        if ('[]' === substr($hint, -2)) {
             return substr($hint, 0, -2) . ' ';
         }
 

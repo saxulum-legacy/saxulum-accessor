@@ -17,7 +17,8 @@ interface AccessorInterface
 
     /**
      * @param  Prop   $prop
+     * @param  string $namespace
      * @return string
      */
-    public static function generatePhpDoc(Prop $prop);
+    public static function generatePhpDoc(Prop $prop, $namespace);
 }

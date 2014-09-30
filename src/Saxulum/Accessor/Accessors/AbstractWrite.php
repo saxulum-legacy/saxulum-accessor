@@ -2,12 +2,11 @@
 
 namespace Saxulum\Accessor\Accessors;
 
-use Saxulum\Accessor\AccessorInterface;
 use Saxulum\Accessor\CallbackBag;
 use Saxulum\Hint\Hint;
 use Saxulum\Accessor\Prop;
 
-abstract class AbstractWrite implements AccessorInterface
+abstract class AbstractWrite extends AbstractAccessor
 {
     /**
      * @var array
@@ -67,21 +66,13 @@ abstract class AbstractWrite implements AccessorInterface
 
     /**
      * @param  Prop   $prop
+     * @param  string $namespace
      * @return string
      */
-    public static function generatePhpDoc(Prop $prop)
+    public static function generatePhpDoc(Prop $prop, $namespace)
     {
         $name = $prop->getName();
 
-        return '* @method $this ' . static::PREFIX . ucfirst($name) . '(' .  static::getPhpDocHint($prop) . '$' . $name . ')';
-    }
-
-    /**
-     * @param  Prop   $prop
-     * @return string
-     */
-    protected static function getPhpDocHint(Prop $prop)
-    {
-        return null !== $prop->getHint() ? $prop->getHint() . ' ' : '';
+        return '* @method $this ' . static::PREFIX . ucfirst($name) . '(' .  static::getPhpDocHint($prop, $namespace) . '$' . $name . ')';
     }
 }

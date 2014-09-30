@@ -18,6 +18,11 @@ trait AccessorTrait
     private $__props = array();
 
     /**
+     * @var string
+     */
+    private $__namespace;
+
+    /**
      * can't be final, cause doctrine proxy
      *
      * @param  string     $name
@@ -149,10 +154,24 @@ trait AccessorTrait
 
         $phpDoc = '';
         foreach ($this->__props as $prop) {
-            $phpDoc .= $prop->generatePhpDoc();
+            $phpDoc .= $prop->generatePhpDoc($this->__getNamespace());
         }
 
         return $phpDoc;
+    }
+
+    /**
+     * @return string
+     */
+    private function __getNamespace()
+    {
+        if (null === $this->__namespace) {
+            $namespace = __CLASS__;
+            $pos = strrpos($namespace, '\\');
+            $this->__namespace = (false === $pos || 0 === $pos) ? '' : substr($namespace, 0, $pos);
+        }
+
+        return $this->__namespace;
     }
 
     abstract protected function _initProps();

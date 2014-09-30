@@ -116,16 +116,36 @@ class Prop
     }
 
     /**
+     * @param  string $namespace
      * @return string
      */
-    public function generatePhpDoc()
+    public function generatePhpDoc($namespace)
     {
         $phpdoc = '';
         foreach ($this->accessorPrefixes as $accessorPrefix) {
             $accessor = AccessorRegistry::getAccessor($accessorPrefix);
-            $phpdoc .= $accessor->generatePhpDoc($this). "\n";
+            $phpdoc .= $accessor->generatePhpDoc($this, $namespace). "\n";
         }
 
         return $phpdoc;
+    }
+
+    /**
+     * @param  string $namespace
+     * @return string
+     */
+    public function getPhpDocHint($namespace)
+    {
+        if (null === $hint = $this->getHint()) {
+            return '';
+        }
+
+        $pos = strrpos($hint, '\\');
+
+        if (false !== $pos && 0 !== $pos && substr($hint, 0, $pos) === $namespace) {
+            return substr($hint, $pos + 1);
+        }
+
+        return $hint;
     }
 }

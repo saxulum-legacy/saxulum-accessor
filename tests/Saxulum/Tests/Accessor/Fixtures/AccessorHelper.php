@@ -15,13 +15,13 @@ use Saxulum\Accessor\Prop;
 /**
  * @ORM\Entity
  * @method int getId()
- * @method string|null getName()
+ * @method string getName()
  * @method bool isName()
- * @method $this setName($name)
- * @method string|null getValue()
+ * @method $this setName(string $name)
+ * @method $this addValue(string $value)
+ * @method string getValue()
  * @method bool isValue()
- * @method $this addValue($value)
- * @method $this removeValue($value)
+ * @method $this removeValue(string $value)
  */
 class AccessorHelper
 {
