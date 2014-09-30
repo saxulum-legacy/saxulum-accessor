@@ -136,16 +136,26 @@ class Prop
      */
     public function getPhpDocHint($namespace)
     {
-        if (null === $hint = $this->getHint()) {
+        if (null === $this->getHint()) {
             return '';
         }
 
+        return $this->reduceHint($namespace);
+    }
+
+    /**
+     * @param  string $namespace
+     * @return string
+     */
+    protected function reduceHint($namespace)
+    {
+        $hint = $this->getHint();
         $pos = strrpos($hint, '\\');
 
         if (false !== $pos && 0 !== $pos && substr($hint, 0, $pos) === $namespace) {
             return substr($hint, $pos + 1);
         }
 
-        return $hint;
+        return (string) $hint;
     }
 }

@@ -3,7 +3,6 @@
 namespace Saxulum\Accessor\Accessors;
 
 use Saxulum\Accessor\AccessorInterface;
-use Saxulum\Hint\Hint;
 use Saxulum\Accessor\Prop;
 
 abstract class AbstractAccessor implements AccessorInterface
