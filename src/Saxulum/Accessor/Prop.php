@@ -2,6 +2,8 @@
 
 namespace Saxulum\Accessor;
 
+use Saxulum\Hint\Hint;
+
 class Prop
 {
     /**
@@ -140,16 +142,18 @@ class Prop
             return '';
         }
 
-        return $this->reduceHint($namespace);
+        $hint = Hint::NUMERIC !== $this->getHint() ? $this->getHint() : Hint::FLOAT;
+
+        return $this->reduceHint($hint, $namespace);
     }
 
     /**
+     * @param  string $hint
      * @param  string $namespace
      * @return string
      */
-    protected function reduceHint($namespace)
+    protected function reduceHint($hint, $namespace)
     {
-        $hint = $this->getHint();
         $pos = strrpos($hint, '\\');
 
         if (false !== $pos && 0 !== $pos && substr($hint, 0, $pos) === $namespace) {
