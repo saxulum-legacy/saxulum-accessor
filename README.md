@@ -38,13 +38,13 @@ AccessorRegistry::registerAccessor(new Set());
 
 ``` {.php}
 /**
- * @method $this setName(string $name)
  * @method string getName()
- * @method $this setActive(bool $active)
+ * @method $this setName(string $name)
  * @method bool isActive()
- * @method $this addManies(Many $many)
- * @method $this removeManies(Many $many)
+ * @method $this setActive(bool $active)
+ * @method $this addManies(Many $manies)
  * @method Many[] getManies()
+ * @method $this removeManies(Many $manies)
  */
 class One
 {
@@ -86,10 +86,10 @@ class One
 }
 
 /**
- * @method $this setName(string $name)
  * @method string getName()
- * @method $this setOne(One $name)
+ * @method $this setName(string $name)
  * @method One getOne()
+ * @method $this setOne(One $name)
  */
 class Many
 {
@@ -160,7 +160,7 @@ $one->_generatePhpDoc()
 
 ### Cons:
 
-- no auto generation of `@method` phpdoc (not yet)
+- `@method` phpdoc, needs manually call `_generatePhpDoc()`
 - slower (no benchmark)
 - more complex to debug
 - `method_exists` does not work
@@ -201,10 +201,10 @@ Yes it does, thx to the plain [property method call wrapper][16]
 [7]: https://packagist.org/packages/saxulum/saxulum-accessor
 [8]: https://github.com/doctrine/doctrine2
 [9]: https://github.com/doctrine/mongodb-odm
-[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L28
+[10]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L33
 [11]: https://github.com/symfony/PropertyAccess
 [12]: https://github.com/symfony/Form
-[13]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L40
-[14]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L53
+[13]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L45
+[14]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L58
 [15]: http://twig.sensiolabs.org
-[16]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L71
+[16]: https://github.com/saxulum/saxulum-accessor/blob/master/src/Saxulum/Accessor/AccessorTrait.php#L76
