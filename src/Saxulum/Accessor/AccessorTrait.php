@@ -137,5 +137,23 @@ trait AccessorTrait
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    final public function _generatePhpDoc()
+    {
+        if (false === $this->__initProps) {
+            $this->__initProps = true;
+            $this->_initProps();
+        }
+
+        $phpDoc = '';
+        foreach ($this->__props as $prop) {
+            $phpDoc .= $prop->generatePhpDoc();
+        }
+
+        return $phpDoc;
+    }
+
     abstract protected function _initProps();
 }

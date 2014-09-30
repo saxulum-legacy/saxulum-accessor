@@ -139,6 +139,16 @@ $one->getManies(); // return: an array with one instance of 'Many'
 ```
 
 
+### PhpDoc generation
+
+Call the method `_generatePhpDoc` on the object using it
+
+``` {.php}
+$one = new One();
+$one->_generatePhpDoc()
+```
+
+
 ## Arguments
 
 ### Pros:

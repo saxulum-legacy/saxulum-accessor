@@ -8,10 +8,11 @@ use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\Prop;
+use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
 
 class PhpDocTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGeneration()
+    public function testProp()
     {
         $prop = (new Prop('manies', 'Many2One[]', true, 'one', Prop::REMOTE_ONE))
             ->method(Add::PREFIX)
@@ -27,5 +28,20 @@ class PhpDocTest extends \PHPUnit_Framework_TestCase
 @method $this removeManies(Many2One $manies)
 @method $this setManies(Many2One[] $manies)
 ', $prop->generatePhpDoc());
+    }
+
+    public function testObject()
+    {
+        $object = new AccessorHelper();
+
+        $this->assertEquals('@method int getId()
+@method string getName()
+@method bool isName()
+@method $this setName(string $name)
+@method $this addValue(string $value)
+@method string getValue()
+@method bool isValue()
+@method $this removeValue(string $value)
+', $object->_generatePhpDoc());
     }
 }
