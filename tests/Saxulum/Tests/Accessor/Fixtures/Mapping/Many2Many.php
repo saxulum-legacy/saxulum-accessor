@@ -12,9 +12,9 @@ use Saxulum\Accessor\AccessorTrait;
 use Saxulum\Accessor\Prop;
 
 /**
+ * @method $this addManies(Many2Many $manies)
  * @method Many2Many[] getManies()
- * @method $this addManies(Many2Many $many, $stopPropagation = false)
- * @method $this removeManies(Many2Many $many, $stopPropagation = false)
+ * @method $this removeManies(Many2Many $manies)
  * @method $this setManies(array $manies)
  */
 class Many2Many

@@ -35,7 +35,7 @@ class Set extends AbstractWrite
      */
     protected function updateProperty(CallbackBag $callbackBag)
     {
-        if (!$callbackBag->getProp()->hasMethod(Add::PREFIX) || !$callbackBag->getProp()->hasMethod(Remove::PREFIX)) {
+        if (!$callbackBag->getProp()->hasMethod(Add::PREFIX) && !$callbackBag->getProp()->hasMethod(Remove::PREFIX)) {
             $this->updateSimpleProperty($callbackBag);
         } else {
             $this->updateCollectionProperty($callbackBag);
@@ -86,5 +86,21 @@ class Set extends AbstractWrite
         foreach ($newValues as $newValue) {
             $object->$addMethod($newValue);
         }
+    }
+
+    /**
+     * @param  Prop   $prop
+     * @param  string $namespace
+     * @return string
+     */
+    protected static function getPhpDocHint(Prop $prop, $namespace)
+    {
+        if ($prop->hasMethod(Add::PREFIX) || $prop->hasMethod(Remove::PREFIX)) {
+            return 'array ';
+        }
+
+        $hint = $prop->getPhpDocHint($namespace);
+
+        return '' === $hint ? $hint : $hint . ' ';
     }
 }

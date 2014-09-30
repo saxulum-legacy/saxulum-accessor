@@ -9,9 +9,9 @@ use Saxulum\Accessor\Prop;
 
 /**
  * @method string getName()
- *
+ * @method $this setName(string $name)
  * @method One2Many getOne()
- * @method $this setOne(One2Many $one2Many, bool $stopPropagation = false)
+ * @method $this setOne(One2Many $one)
  */
 class Many2One
 {

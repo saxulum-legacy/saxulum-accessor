@@ -9,7 +9,7 @@ use Saxulum\Accessor\Prop;
 
 /**
  * @method One2One getOne()
- * @method $this setOne(One2One $one, $stopPropagation = false)
+ * @method $this setOne(One2One $one)
  */
 class One2One
 {
