@@ -2,9 +2,9 @@
 
 namespace Saxulum\Tests\Accessor;
 
-use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
-use Saxulum\Tests\Accessor\Helpers\Form\One2ManyType;
-use Saxulum\Tests\Accessor\Helpers\Mapping\One2Many;
+use Saxulum\Tests\Accessor\Fixtures\AccessorHelper;
+use Saxulum\Tests\Accessor\Fixtures\Form\One2ManyType;
+use Saxulum\Tests\Accessor\Fixtures\Mapping\One2Many;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers\Entity;
+namespace Saxulum\Tests\Accessor\Fixtures;
 
 use Doctrine\ORM\Mapping as ORM;
 use Saxulum\Accessor\Accessors\Add;
@@ -23,7 +23,7 @@ use Saxulum\Accessor\Prop;
  * @method $this addValue($value)
  * @method $this removeValue($value)
  */
-class Entity
+class AccessorHelper
 {
     use AccessorTrait;
 
@@ -49,7 +49,7 @@ class Entity
 
     protected function _initProps()
     {
-        $this->_prop((new Prop('id'))->method(Get::PREFIX));
+        $this->_prop((new Prop('id', Hint::INT))->method(Get::PREFIX));
         $this->_prop(
             (new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)

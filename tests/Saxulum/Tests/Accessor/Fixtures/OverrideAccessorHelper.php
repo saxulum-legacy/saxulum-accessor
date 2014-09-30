@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers;
+namespace Saxulum\Tests\Accessor\Fixtures;
 
 class OverrideAccessorHelper extends AccessorHelper
 {

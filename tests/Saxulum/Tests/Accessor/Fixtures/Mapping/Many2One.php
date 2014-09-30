@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers\Mapping;
+namespace Saxulum\Tests\Accessor\Fixtures\Mapping;
 
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Set;
@@ -31,7 +31,7 @@ class Many2One
     {
         $this->_prop((new Prop('name', 'string'))->method(Get::PREFIX)->method(Set::PREFIX));
         $this->_prop(
-            (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', true, 'manies', Prop::REMOTE_MANY))
+            (new Prop('one', 'Saxulum\Tests\Accessor\Fixtures\Mapping\One2Many', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
         );

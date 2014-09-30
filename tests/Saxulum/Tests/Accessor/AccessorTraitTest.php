@@ -8,8 +8,8 @@ use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
-use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
-use Saxulum\Tests\Accessor\Helpers\OverrideAccessorHelper;
+use Saxulum\Tests\Accessor\Fixtures\AccessorHelper;
+use Saxulum\Tests\Accessor\Fixtures\OverrideAccessorHelper;
 
 class AccessorTraitTest extends \PHPUnit_Framework_TestCase
 {

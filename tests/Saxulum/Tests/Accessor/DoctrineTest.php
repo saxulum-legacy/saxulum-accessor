@@ -5,13 +5,13 @@ namespace Saxulum\Tests\Accessor;
 use Doctrine\Common\Persistence\Mapping\RuntimeReflectionService;
 use Doctrine\Common\Proxy\ProxyGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Saxulum\Tests\Accessor\Helpers\Entity\Entity;
+use Saxulum\Tests\Accessor\Fixtures\Entity\Entity;
 
 class DoctrineTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoctrineProxy()
     {
-        $className = 'Saxulum\Tests\Accessor\Helpers\Entity\Entity';
+        $className = 'Saxulum\Tests\Accessor\Fixtures\Entity\Entity';
 
         $proxyDirectory = __DIR__ . '/../../../../proxy/';
         $proxyNamespace = 'Proxy';

@@ -2,7 +2,7 @@
 
 namespace Saxulum\Tests\Accessor;
 
-use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
+use Saxulum\Tests\Accessor\Fixtures\AccessorHelper;
 
 class TwigTests extends \PHPUnit_Framework_TestCase
 {

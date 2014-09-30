@@ -8,7 +8,7 @@ use Saxulum\Accessor\Accessors\Is;
 use Saxulum\Accessor\Accessors\Remove;
 use Saxulum\Accessor\Accessors\Set;
 use Saxulum\Accessor\Prop;
-use Saxulum\Tests\Accessor\Helpers\AccessorHelper;
+use Saxulum\Tests\Accessor\Fixtures\AccessorHelper;
 
 class PhpDocTest extends \PHPUnit_Framework_TestCase
 {

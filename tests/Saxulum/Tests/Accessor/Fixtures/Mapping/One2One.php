@@ -1,6 +1,6 @@
 <?php
 
-namespace Saxulum\Tests\Accessor\Helpers\Mapping;
+namespace Saxulum\Tests\Accessor\Fixtures\Mapping;
 
 use Saxulum\Accessor\Accessors\Get;
 use Saxulum\Accessor\Accessors\Set;
@@ -23,7 +23,7 @@ class One2One
     protected function _initProps()
     {
         $this->_prop(
-            (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\Mapping\One2One', true, 'one', Prop::REMOTE_ONE))
+            (new Prop('one', 'Saxulum\Tests\Accessor\Fixtures\Mapping\One2One', true, 'one', Prop::REMOTE_ONE))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
         );
