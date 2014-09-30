@@ -29,7 +29,7 @@ abstract class AbstractRead implements AccessorInterface
     {
         $name = $prop->getName();
 
-        return '@method ' . static::getPhpDocHint($prop) . static::PREFIX . ucfirst($name) . '()';
+        return '* @method ' . static::getPhpDocHint($prop) . static::PREFIX . ucfirst($name) . '()';
     }
 
     /**

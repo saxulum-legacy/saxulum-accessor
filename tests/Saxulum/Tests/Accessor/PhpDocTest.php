@@ -22,11 +22,11 @@ class PhpDocTest extends \PHPUnit_Framework_TestCase
             ->method(Set::PREFIX)
         ;
 
-        $this->assertEquals('@method $this addManies(Many2One $manies)
-@method Many2One[] getManies()
-@method bool isManies()
-@method $this removeManies(Many2One $manies)
-@method $this setManies(Many2One[] $manies)
+        $this->assertEquals('* @method $this addManies(Many2One $manies)
+* @method Many2One[] getManies()
+* @method bool isManies()
+* @method $this removeManies(Many2One $manies)
+* @method $this setManies(Many2One[] $manies)
 ', $prop->generatePhpDoc());
     }
 
@@ -34,14 +34,14 @@ class PhpDocTest extends \PHPUnit_Framework_TestCase
     {
         $object = new AccessorHelper();
 
-        $this->assertEquals('@method int getId()
-@method string getName()
-@method bool isName()
-@method $this setName(string $name)
-@method $this addValue(string $value)
-@method string getValue()
-@method bool isValue()
-@method $this removeValue(string $value)
+        $this->assertEquals('* @method int getId()
+* @method string getName()
+* @method bool isName()
+* @method $this setName(string $name)
+* @method $this addValue(string $value)
+* @method string getValue()
+* @method bool isValue()
+* @method $this removeValue(string $value)
 ', $object->_generatePhpDoc());
     }
 }

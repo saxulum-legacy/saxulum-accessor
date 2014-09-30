@@ -73,7 +73,7 @@ abstract class AbstractWrite implements AccessorInterface
     {
         $name = $prop->getName();
 
-        return '@method $this ' . static::PREFIX . ucfirst($name) . '(' .  static::getPhpDocHint($prop) . '$' . $name . ')';
+        return '* @method $this ' . static::PREFIX . ucfirst($name) . '(' .  static::getPhpDocHint($prop) . '$' . $name . ')';
     }
 
     /**
