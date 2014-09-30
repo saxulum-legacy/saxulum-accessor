@@ -20,9 +20,9 @@ class One2One
      */
     protected $one;
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
-        $this->prop(
+        $this->_prop(
             (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\Mapping\One2One', true, 'one', Prop::REMOTE_ONE))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)

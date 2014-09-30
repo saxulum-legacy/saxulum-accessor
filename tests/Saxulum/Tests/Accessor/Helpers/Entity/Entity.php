@@ -47,16 +47,16 @@ class Entity
      */
     protected $value;
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
-        $this->prop((new Prop('id'))->method(Get::PREFIX));
-        $this->prop(
+        $this->_prop((new Prop('id'))->method(Get::PREFIX));
+        $this->_prop(
             (new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
         );
-        $this->prop(
+        $this->_prop(
             (new Prop('value', Hint::STRING))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)

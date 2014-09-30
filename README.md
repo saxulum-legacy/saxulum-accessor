@@ -65,18 +65,18 @@ class One
      */
     protected $manies = array();
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
         $this
-            ->prop((new Prop('name', Hint::STRING))
+            ->_prop((new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
             )
-            ->prop((new Prop('active', Hint::BOOL))
+            ->_prop((new Prop('active', Hint::BOOL))
                 ->method(Is::PREFIX)
                 ->method(Set::PREFIX)
             )
-            ->prop((new Prop('manies', 'Many[]', true, 'one', Prop::REMOTE_ONE))
+            ->_prop((new Prop('manies', 'Many[]', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)
@@ -105,14 +105,14 @@ class Many
      */
     protected $one;
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
         $this
-            ->prop((new Prop('name', Hint::STRING))
+            ->_prop((new Prop('name', Hint::STRING))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)
             )
-            ->prop((new Prop('one', 'One', true, 'manies', Prop::REMOTE_MANY))
+            ->_prop((new Prop('one', 'One', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
                 ->method(Remove::PREFIX)

@@ -31,9 +31,9 @@ class Many2Many
         $this->manies = new ArrayCollection();
     }
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
-        $this->prop(
+        $this->_prop(
             (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Mapping\Many2Many[]', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)

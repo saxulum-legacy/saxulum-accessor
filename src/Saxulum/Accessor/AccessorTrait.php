@@ -10,12 +10,12 @@ trait AccessorTrait
     /**
      * @var bool
      */
-    private $__initializedProperties = false;
+    private $__initProps = false;
 
     /**
      * @var Prop[]
      */
-    private $__properties = array();
+    private $__props = array();
 
     /**
      * can't be final, cause doctrine proxy
@@ -63,9 +63,9 @@ trait AccessorTrait
      */
     private function __handleCall($name, array $arguments)
     {
-        if (false === $this->__initializedProperties) {
-            $this->__initializedProperties = true;
-            $this->initializeProperties();
+        if (false === $this->__initProps) {
+            $this->__initProps = true;
+            $this->_initProps();
         }
 
         // needed by twig, cause it tries to call a method with the property name
@@ -78,8 +78,8 @@ trait AccessorTrait
         foreach (AccessorRegistry::getAccessors() as $prefix => $accessor) {
             if (strpos($name, $prefix) === 0) {
                 $property = lcfirst(substr($name, strlen($prefix)));
-                if (isset($this->__properties[$property])) {
-                    $prop = $this->__properties[$property];
+                if (isset($this->__props[$property])) {
+                    $prop = $this->__props[$property];
                     if ($prop->hasMethod($prefix)) {
                         return $accessor->callback(
                             new CallbackBag($prop, $this, $this->$property, $arguments)
@@ -120,7 +120,7 @@ trait AccessorTrait
      * @return static
      * @throws \Exception
      */
-    final public function prop(Prop $property)
+    final public function _prop(Prop $property)
     {
         $name = $property->getName();
 
@@ -128,14 +128,14 @@ trait AccessorTrait
             throw new \InvalidArgumentException("Property does not exists");
         }
 
-        if (isset($this->__properties[$name])) {
+        if (isset($this->__props[$name])) {
             throw new \Exception("Override Property is not allowed, to enhance stability!");
         }
 
-        $this->__properties[$name] = $property;
+        $this->__props[$name] = $property;
 
         return $this;
     }
 
-    abstract protected function initializeProperties();
+    abstract protected function _initProps();
 }

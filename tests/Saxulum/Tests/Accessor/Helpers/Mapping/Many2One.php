@@ -27,10 +27,10 @@ class Many2One
      */
     protected $one;
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
-        $this->prop((new Prop('name', 'string'))->method(Get::PREFIX)->method(Set::PREFIX));
-        $this->prop(
+        $this->_prop((new Prop('name', 'string'))->method(Get::PREFIX)->method(Set::PREFIX));
+        $this->_prop(
             (new Prop('one', 'Saxulum\Tests\Accessor\Helpers\Mapping\One2Many', true, 'manies', Prop::REMOTE_MANY))
                 ->method(Get::PREFIX)
                 ->method(Set::PREFIX)

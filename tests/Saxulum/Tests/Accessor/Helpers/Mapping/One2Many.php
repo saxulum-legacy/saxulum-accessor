@@ -31,9 +31,9 @@ class One2Many
         $this->manies = new ArrayCollection();
     }
 
-    protected function initializeProperties()
+    protected function _initProps()
     {
-        $this->prop(
+        $this->_prop(
             (new Prop('manies', 'Saxulum\Tests\Accessor\Helpers\Mapping\Many2One[]', true, 'one', Prop::REMOTE_ONE))
                 ->method(Add::PREFIX)
                 ->method(Get::PREFIX)
