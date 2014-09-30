@@ -28,9 +28,10 @@ class Is extends AbstractRead
 
     /**
      * @param  Prop   $prop
+     * @param  string $namespace
      * @return string
      */
-    protected static function getPhpDocHint(Prop $prop)
+    protected static function getPhpDocHint(Prop $prop, $namespace)
     {
         return 'bool ';
     }
