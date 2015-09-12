@@ -13,7 +13,7 @@ class DoctrineTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'Saxulum\Tests\Accessor\Fixtures\Entity\Entity';
 
-        $proxyDirectory = __DIR__ . '/../../../../proxy/';
+        $proxyDirectory = __DIR__ . '/../proxy/';
         $proxyNamespace = 'Proxy';
         $proxyClassName = $proxyNamespace . '\__CG__\\' . $className;
         $proxyClassFilename = $proxyDirectory . str_replace('\\', '_', $proxyClassName) . '.php';
@@ -40,6 +40,6 @@ class DoctrineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $proxy->getName());
 
         unlink($proxyClassFilename);
-        rmdir($proxyDirectory);
+        //rmdir($proxyDirectory);
     }
 }

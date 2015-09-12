@@ -21,6 +21,6 @@
         "twig/twig": "~1.12"
     },
     "autoload": {
-        "psr-0": { "Saxulum\\Accessor": "src/" }
+        "psr-4": { "Saxulum\\Accessor\\": "src/" }
     }
 }

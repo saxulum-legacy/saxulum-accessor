@@ -12,7 +12,7 @@
         >
     <testsuites>
         <testsuite name="Saxulum Accessor">
-            <directory>./tests/Saxulum/</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
     <filter>
